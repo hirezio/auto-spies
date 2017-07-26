@@ -1,22 +1,30 @@
 # jasmine-auto-spies
-Create automatic spies from classes in jasmine tests, including method returning Promises and Observables
+Create automatic spies from classes in jasmine tests. 
+If you're using TypeScript it'll also create auto spies for Promise or Observable returning methods and provide type completion. 
 
-## Motivation
+## What is it good for?
 
-Setting up ways to control async objects like promises, or potential async objects like Observables is hard.
+- [x] **Keep you tests Dry** - no more repeated spy setup code, no need for separate spy files
 
-What if there was a short and simple API for setting up automatic async spies in Jasmine?
+- [x] **Type completion** for both the original Class and the spy methods
 
-## Requirements
-
-In your `tsconfig.json` file make sure that you have the following property set to true - 
-`emitDecoratorMetadata: true`
-
-And add `@AsyncSpyable()` before every method which returns a Promise or an Observable
+- [x] **Automatic return type detection** by using a simple decorator
 
 ## Installation
 
 `npm install -D jasmine-auto-spies`
+
+## Setup
+In your `tsconfig.json` set these 2 flags - 
+
+```json
+{
+  "compilerOptions": {
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+  }
+}
+```
 
 ## Usage
 
@@ -50,9 +58,9 @@ it(){
 }
 ```
 
-### 2. Create a spy for a promise
+### 2. Spy on a `Promise` returning method
 
-First, annotate your promise returning method with `@AsyncSpyable` - 
+First, annotate the method with `@AsyncSpyable` - 
 ```ts
 import { AsyncSpyable } from 'jasmine-auto-spies';
 
@@ -85,7 +93,7 @@ it(){
 ```
 
 
-### 3. Create a spy for an Observable
+### 3. Spy on a `Observable` returning method
 
 First, annotate your Observable returning method with `@AsyncSpyable` - 
 ```ts

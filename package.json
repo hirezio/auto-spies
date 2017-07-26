@@ -1,11 +1,11 @@
 {
   "name": "jasmine-auto-spies",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "repository": {
     "type": "git",
     "url": "https://github.com/hirezio/jasmine-auto-spies"
   },
-  "description": "Create automatic spies from classes in jasmine tests",
+  "description": "Create automatic spies from classes in jasmine tests for promises and observables",
   "main": "src/index.js",
   "types": "src/index.d.ts",
   "scripts": {
