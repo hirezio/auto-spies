@@ -7,7 +7,7 @@ export const webpackConfig: webpack.Configuration = {
   devtool: 'inline-source-map',
   entry: './src/index.ts',
   output: {
-    filename: 'jasmine-async-spies.js',
+    filename: 'jasmine-auto-spies.js',
     path: resolve('./dist')
   },
   resolve: {

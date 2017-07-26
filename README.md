@@ -124,3 +124,18 @@ it(){
 }
 
 ```
+
+
+### Manual Setup
+
+If you need to manually configure async methods by names you could pass them as arrays of strings -
+
+```ts
+
+let spy = createSpyFromClass(
+            MyClass, 
+            ['promiseMethod1', 'promiseMethod2'],
+            ['observableMethod1', 'observableMethod2']
+          );
+
+```
