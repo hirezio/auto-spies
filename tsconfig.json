@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "module": "commonjs", 
+    "target": "es5",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "declaration": true, // generate .d.ts files
+    "noImplicitAny": true,
+    "sourceMap": true,
+    "lib": [
+      "es2015",
+      "es2016"
+    ],
+    "pretty": true
+  },
+  "files": [
+    "src/index.ts"
+  ]
+}
