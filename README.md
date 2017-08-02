@@ -8,7 +8,7 @@ If you're using TypeScript it'll also create auto spies for Promise or Observabl
 
 ## What is it good for?
 
-- [x] **Keep you tests Dry** - no more repeated spy setup code, no need for separate spy files
+- [x] **Keep you tests DRY** - no more repeated spy setup code, no need for separate spy files
 
 - [x] **Type completion** for both the original Class and the spy methods
 
@@ -55,11 +55,11 @@ beforeEach( ()=> {
   myServiceSpy = createSpyFromClass( MyService );
 });
 
-it(){
+it( ()=> {
   myServiceSpy.getName.and.returnValue('Fake Name');
   
   ... (the rest of the test) ...
-}
+});
 ```
 
 ### 2. Spy on a `Promise` returning method
@@ -88,11 +88,11 @@ beforeEach( ()=> {
   myServiceSpy = createSpyFromClass( MyService )
 });
 
-it(){
+it( ()=>{
   myServiceSpy.getItems.and.resolveWith( fakeItemsList );
   // OR
   myServiceSpy.getItems.and.rejectWith( fakeError );
-}
+});
 
 ```
 
@@ -123,9 +123,9 @@ beforeEach( ()=> {
   myServiceSpy = createSpyFromClass( MyService )
 });
 
-it(){
+it( ()=>{
   myServiceSpy.getProducts.and.nextWith( fakeProductsList);
-}
+});
 
 ```
 
