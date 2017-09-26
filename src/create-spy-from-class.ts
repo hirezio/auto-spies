@@ -48,6 +48,10 @@ function createObservableSpyFunction(name: string): AsyncSpyFunction {
     subject.next(value);
   }
 
+  spyFunction.and.nextWithError = function nextWithError(value: any) {
+    subject.error(value);
+  }
+
   return spyFunction as AsyncSpyFunction;
 
 }

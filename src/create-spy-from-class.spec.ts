@@ -1,6 +1,7 @@
 import { FakeChildClass, FakeClass } from './fake-classes-to-test';
 
 import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/catch'; 
 import { Spy } from "./spy-types";
 import { createSpyFromClass } from './create-spy-from-class';
 
@@ -96,19 +97,33 @@ describe('createSpyFromClass', () => {
     });
 
     describe('Observable Method', () => {
-      Given(() => {
-        fakeClassSpy.observableMethod.and.nextWith(fakeValue);
-      });
 
       When(() => {
         fakeClassSpy.observableMethod()
+          .catch(error => actualRejection = error)
           .subscribe(result => actualResult = result)
           .unsubscribe();
       });
+      describe('transmit success', () => {
+        Given(() => {
+          fakeClassSpy.observableMethod.and.nextWith(fakeValue);
+        });
 
-      Then(() => {
-        expect(actualResult).toBe(fakeValue);
+        Then(() => {
+          expect(actualResult).toBe(fakeValue);
+        });  
       });
+
+      describe('transmit error', () => {
+        Given(() => {
+          fakeClassSpy.observableMethod.and.nextWithError(fakeValue);
+        });
+
+        Then(() => {
+          expect(actualRejection).toBe(fakeValue);
+        });
+      });
+      
     });
 
     describe('Provided observables list', () => {

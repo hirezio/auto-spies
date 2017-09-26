@@ -19,6 +19,7 @@ export interface AsyncSpyFunction extends jasmine.Spy {
 
 export interface AsyncSpyFunctionAnd extends jasmine.SpyAnd {
   nextWith(value: any): void;
+  nextWithError(value: any): void;
   resolveWith(value: any): void;
   rejectWith(value: any): void;
 }

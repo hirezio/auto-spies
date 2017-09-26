@@ -112,7 +112,7 @@ export class MyService{
 }
 ```
 
-Now you can use the `nextWith` method - 
+Now you can use the `nextWith` or `nextWithError` methods - 
 
 ```ts
 import { Spy, createSpyFromClass } from 'jasmine-auto-spies';
@@ -125,6 +125,7 @@ beforeEach( ()=> {
 
 it( ()=>{
   myServiceSpy.getProducts.and.nextWith( fakeProductsList);
+  myServiceSpy.getProducts.and.nextWithError( fakeError );
 });
 
 ```
