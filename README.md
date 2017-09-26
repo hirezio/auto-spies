@@ -125,6 +125,7 @@ beforeEach( ()=> {
 
 it( ()=>{
   myServiceSpy.getProducts.and.nextWith( fakeProductsList);
+  // OR
   myServiceSpy.getProducts.and.nextWithError( fakeError );
 });
 

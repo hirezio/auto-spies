@@ -1,7 +1,7 @@
 import { AsyncSpyFunction, Spy } from "./spy-types";
 
-import { BehaviorSubject } from "rxjs/BehaviorSubject";
 import { Observable } from "rxjs/Observable";
+import { ReplaySubject } from "rxjs/ReplaySubject";
 
 declare var global: any;
 
@@ -41,7 +41,7 @@ export function createSpyFromClass<T>(
 
 function createObservableSpyFunction(name: string): AsyncSpyFunction {
   const spyFunction: any = jasmine.createSpy(name);
-  const subject: BehaviorSubject<any> = new BehaviorSubject(null);
+  const subject: ReplaySubject<any> = new ReplaySubject(1);
 
   spyFunction.and.returnValue(subject)
   spyFunction.and.nextWith = function nextWith(value: any) {
