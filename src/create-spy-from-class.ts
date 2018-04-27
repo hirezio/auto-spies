@@ -1,4 +1,4 @@
-import { AsyncSpyFunction, Spy } from "./spy-types";
+import { Spy } from "./spy-types";
 
 import { Observable } from "rxjs/Observable";
 import { ReplaySubject } from "rxjs/ReplaySubject";
@@ -39,7 +39,7 @@ export function createSpyFromClass<T>(
 }
 
 
-function createObservableSpyFunction(name: string): AsyncSpyFunction {
+function createObservableSpyFunction(name: string) {
   const spyFunction: any = jasmine.createSpy(name);
   const subject: ReplaySubject<any> = new ReplaySubject(1);
 
@@ -52,11 +52,11 @@ function createObservableSpyFunction(name: string): AsyncSpyFunction {
     subject.error(value);
   }
 
-  return spyFunction as AsyncSpyFunction;
+  return spyFunction;
 
 }
 
-function createPromiseSpyFunction(name: string): AsyncSpyFunction {
+function createPromiseSpyFunction(name: string) {
   const spyFunction: any = jasmine.createSpy(name);
 
   spyFunction.and.returnValue(new Promise<any>((resolveWith, rejectWith) => {
@@ -64,7 +64,7 @@ function createPromiseSpyFunction(name: string): AsyncSpyFunction {
     spyFunction.and.rejectWith = rejectWith;
   }))
 
-  return spyFunction as AsyncSpyFunction;
+  return spyFunction;
 }
 
 function getAllMethodNames(obj: any) {
