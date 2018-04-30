@@ -25,27 +25,27 @@ export interface ObservableSpy<T> {
   nextWithError(value: any): void;
 }
 
-export type AddSpyOnFunction<T extends (...args: any[]) => R, R> = T & {
-  and: jasmine.Spy;
-};
+export type AddSpyOnFunction<T extends (...args: any[]) => any> = T &
+  jasmine.Spy;
 
-export type AddSpyOnPromise<T extends Promise<any>> = T & {
+export type AddSpyOnPromise<T extends Promise<any>> = {
   and: PromiseSpy<Unpacked<T>>;
 };
-export type AddSpyOnObservable<T extends Observable<any>> = T & {
+export type AddSpyOnObservable<T extends Observable<any>> = {
   and: ObservableSpy<Unpacked<T>>;
 };
 
 // Wrap the return type of the given function type with the appropriate spy methods
-export type AddSpyByReturnTypes<
-  TF extends (...args: any[]) => any
-> = TF extends (...args: any[]) => infer TR // returnes a function
-  ? TR extends (...args: any[]) => infer R2
-    ? AddSpyOnFunction<TR, R2> // returnes a Promise
-    : TR extends Promise<any>
-      ? AddSpyOnPromise<TR> // returnes an Observable
-      : TR extends Observable<any> ? AddSpyOnObservable<TR> : TF
-  : never;
+export type AddSpyByReturnTypes<TF extends (...args: any[]) => any> = TF &
+  (TF extends (...args: any[]) => infer TR // returnes a function
+    ? TR extends (...args: any[]) => infer R2
+      ? AddSpyOnFunction<TR> // returnes a Promise
+      : TR extends Promise<any>
+        ? AddSpyOnPromise<TR> // returnes an Observable
+        : TR extends Observable<any>
+          ? AddSpyOnObservable<TR>
+          : AddSpyOnFunction<TF>
+    : never);
 
 // export type AddSpyOnFunctionReturnType<
 //   TF extends (...args: any[]) => any

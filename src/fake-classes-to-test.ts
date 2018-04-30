@@ -12,20 +12,20 @@ export class FakeClass {
   }
 
   @AsyncSpyable()
-  promiseMethod(): Promise<any> { 
+  promiseMethod(): Promise<void> { 
     return Promise.resolve();
   }
 
-  providedPromiseMethod(): Promise<any> {
+  providedPromiseMethod(): Promise<void> {
     return Promise.resolve();
   }
 
   @AsyncSpyable()
-  observableMethod(): Observable<any> {
+  observableMethod(): Observable<void> {
     return Observable.of();
   }
 
-  providedObservableMethod(): Observable<any> {
+  providedObservableMethod(): Observable<void> {
     return Observable.of();
   }
 };

@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "module": "commonjs", 
+    "module": "commonjs",
     "target": "es5",
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
@@ -8,13 +8,8 @@
     "noImplicitAny": true,
     "sourceMap": true,
     "outDir": "lib",
-    "lib": [
-      "es2015",
-      "es2016"
-    ],
+    "lib": ["es2015", "es2016"],
     "pretty": true
   },
-  "files": [
-    "src/index.ts"
-  ]
+  "include": ["src"]
 }
