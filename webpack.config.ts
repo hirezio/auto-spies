@@ -3,7 +3,7 @@ import * as webpack from 'webpack';
 import { resolve } from 'path';
 
 export const webpackConfig: webpack.Configuration = {
-  
+
   devtool: 'inline-source-map',
   entry: './src/index.ts',
   output: {
@@ -23,6 +23,16 @@ export const webpackConfig: webpack.Configuration = {
             declaration: false
           }
         }]
+      },
+      {
+        test: /\.(js|ts)$/, loader: 'istanbul-instrumenter-loader',
+        options: { esModules: true },
+        enforce: 'post',
+        exclude: [
+          /\.(e2e|spec)\.ts$/,
+          /node_modules/,
+          /fake-classes-to-test.ts/
+        ]
       }
     ]
   },

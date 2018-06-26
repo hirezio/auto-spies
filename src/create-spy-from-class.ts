@@ -1,7 +1,7 @@
-import { AsyncSpyFunction, Spy } from "./spy-types";
+import { AsyncSpyFunction, Spy } from './spy-types';
 
-import { Observable } from "rxjs/Observable";
-import { ReplaySubject } from "rxjs/ReplaySubject";
+import { Observable } from 'rxjs/Observable';
+import { ReplaySubject } from 'rxjs/ReplaySubject';
 
 declare var global: any;
 
@@ -15,10 +15,10 @@ export function createSpyFromClass<T>(
   const proto = ObjectClass.prototype;
   const methodNames = getAllMethodNames(proto);
 
-  let autoSpy: any = {};
+  const autoSpy: any = {};
 
   methodNames.forEach((methodName) => {
-    let returnTypeClass = Reflect.getMetadata('design:returntype', proto, methodName);
+    const returnTypeClass = Reflect.getMetadata('design:returntype', proto, methodName);
 
     if ((providedPromiseMethodNames &&
       providedPromiseMethodNames.indexOf(methodName) !== -1) ||
@@ -34,23 +34,22 @@ export function createSpyFromClass<T>(
     } else {
       autoSpy[methodName] = jasmine.createSpy(methodName);
     }
-  })
+  });
   return autoSpy as Spy<T>;
 }
-
 
 function createObservableSpyFunction(name: string): AsyncSpyFunction {
   const spyFunction: any = jasmine.createSpy(name);
   const subject: ReplaySubject<any> = new ReplaySubject(1);
 
-  spyFunction.and.returnValue(subject)
+  spyFunction.and.returnValue(subject);
   spyFunction.and.nextWith = function nextWith(value: any) {
     subject.next(value);
-  }
+  };
 
   spyFunction.and.nextWithError = function nextWithError(value: any) {
     subject.error(value);
-  }
+  };
 
   return spyFunction as AsyncSpyFunction;
 
@@ -62,7 +61,7 @@ function createPromiseSpyFunction(name: string): AsyncSpyFunction {
   spyFunction.and.returnValue(new Promise<any>((resolveWith, rejectWith) => {
     spyFunction.and.resolveWith = resolveWith;
     spyFunction.and.rejectWith = rejectWith;
-  }))
+  }));
 
   return spyFunction as AsyncSpyFunction;
 }
@@ -72,7 +71,9 @@ function getAllMethodNames(obj: any) {
 
   do {
     methods = methods.concat(Object.keys((obj)));
-  } while (obj = Object.getPrototypeOf(obj));
+    obj = Object.getPrototypeOf(obj);
+  } while (obj);
+
   const constructorIndex = methods.indexOf('constructor');
   if (constructorIndex >= 0) {
     methods.splice(constructorIndex, 1);

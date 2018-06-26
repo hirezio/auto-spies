@@ -6,7 +6,7 @@ import 'jasmine';
 
 export type Spy<T> = T & {
   [k in keyof T]: AsyncSpyFunction;
-}
+};
 
 /**
  * Originally in Jasmine, Spy is a function and SpyObj is an Object
@@ -14,7 +14,7 @@ export type Spy<T> = T & {
  */
 export interface AsyncSpyFunction extends jasmine.Spy {
   (...params: any[]): any;
-  and: AsyncSpyFunctionAnd
+  and: AsyncSpyFunctionAnd;
 }
 
 export interface AsyncSpyFunctionAnd extends jasmine.SpyAnd {

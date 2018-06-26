@@ -1,10 +1,9 @@
-import { FakeChildClass, FakeClass } from './fake-classes-to-test';
-
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/operator/catch'; 
-import 'rxjs/add/operator/take'; 
-import { Spy } from "./spy-types";
 import { createSpyFromClass } from './create-spy-from-class';
+import { FakeChildClass, FakeClass } from './fake-classes-to-test';
+import 'rxjs/add/operator/catch';
+import 'rxjs/add/operator/take';
+import { Observable } from 'rxjs/Observable';
+import { Spy } from './spy-types';
 
 let fakeClassSpy: Spy<FakeClass>;
 let fakeChildClassSpy: Spy<FakeChildClass>;
@@ -18,7 +17,7 @@ describe('createSpyFromClass', () => {
     actualResult = null;
     actualRejection = null;
   });
-  
+
   describe('FakeClass', () => {
 
     Given(() => {
@@ -31,7 +30,7 @@ describe('createSpyFromClass', () => {
       });
 
       When(() => {
-        actualResult = fakeClassSpy.syncMethod()
+        actualResult = fakeClassSpy.syncMethod();
       });
 
       Then(() => {
@@ -40,18 +39,18 @@ describe('createSpyFromClass', () => {
     });
 
     describe('Promises Method', () => {
-      When((done) => { 
+      When((done) => {
 
-        fakeClassSpy.promiseMethod() 
+        fakeClassSpy.promiseMethod()
           .then(result => {
             actualResult = result;
             done();
           })
           .catch(error => {
             actualRejection = error;
-            done()
-          })
-      }); 
+            done();
+          });
+      });
 
       describe('should be able to fake resolve', () => {
         Given(() => {
@@ -83,14 +82,14 @@ describe('createSpyFromClass', () => {
       When((done) => {
 
         fakeClassSpy.providedPromiseMethod()
-          .then(result => { 
+          .then(result => {
             actualResult = result;
             done();
           })
           .catch(error => {
             actualRejection = error;
-            done()
-          })
+            done();
+          });
       });
       Then(() => {
         expect(actualResult).toBe(fakeValue);
@@ -103,17 +102,18 @@ describe('createSpyFromClass', () => {
         fakeClassSpy.observableMethod()
           .catch(error => actualRejection = error)
           .take(1)
-          .subscribe(result => actualResult = result)
+          .subscribe(result => actualResult = result);
       });
+
       describe('transmit success', () => {
         Given(() => {
           fakeClassSpy.observableMethod.and.nextWith(fakeValue);
         });
 
         Then(() => {
-          
+
           expect(actualResult).toBe(fakeValue);
-        });  
+        });
       });
 
       describe('transmit error', () => {
@@ -125,7 +125,7 @@ describe('createSpyFromClass', () => {
           expect(actualRejection).toBe(fakeValue);
         });
       });
-      
+
     });
 
     describe('Provided observables list', () => {
