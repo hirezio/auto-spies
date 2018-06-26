@@ -2,6 +2,9 @@
 
 [![npm version](https://img.shields.io/npm/v/jasmine-auto-spies.svg?style=flat-square)](https://www.npmjs.org/package/jasmine-auto-spies)
 [![npm downloads](https://img.shields.io/npm/dm/jasmine-auto-spies.svg?style=flat-square)](http://npm-stat.com/charts.html?package=jasmine-auto-spies&from=2017-07-26)
+[![Build Status](https://travis-ci.org/hirezio/jasmine-auto-spies.svg?branch=master)](https://travis-ci.org/hirezio/jasmine-auto-spies)
+[![codecov](https://codecov.io/gh/hirezio/jasmine-auto-spies/branch/master/graph/badge.svg)](https://codecov.io/gh/hirezio/jasmine-auto-spies)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 Create automatic spies from classes in jasmine tests. 
 If you're using TypeScript it'll also create auto spies for Promise or Observable returning methods and provide type completion. 
