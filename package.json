@@ -15,7 +15,7 @@
     "test": "karma start",
     "test.watch": "karma start --auto-watch --no-single-run",
     "lint": "tslint -p .",
-    "prepublish": "npm run build",
+    "prepare": "npm run build",
     "postpublish": "npm run clean",
     "release": "np",
     "travis-deploy-once": "travis-deploy-once",
