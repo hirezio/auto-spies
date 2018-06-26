@@ -5,7 +5,7 @@
     "type": "git",
     "url": "https://github.com/hirezio/jasmine-auto-spies"
   },
-  "description": "Create automatic spies from classes in jasmine tests for promises and observables",
+  "description": "Create automatic spies from classes in jasmine tests, also for promises and observables",
   "main": "src/index.js",
   "types": "src/index.d.ts",
   "scripts": {
@@ -17,7 +17,6 @@
     "lint": "tslint -p .",
     "prepare": "npm run build",
     "postpublish": "npm run clean",
-    "release": "np",
     "travis-deploy-once": "travis-deploy-once",
     "semantic-release": "semantic-release"
   },
@@ -25,6 +24,9 @@
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
     }
+  },
+  "release": {
+    "branch": "1.x"
   },
   "keywords": [
     "jasmine",
@@ -56,7 +58,6 @@
     "karma-sourcemap-loader": "^0.3.7",
     "karma-typescript": "^3.0.4",
     "karma-webpack": "^2.0.3",
-    "np": "^2.16.0",
     "rimraf": "2.6.1",
     "semantic-release": "^15.6.0",
     "travis-deploy-once": "^5.0.0",
