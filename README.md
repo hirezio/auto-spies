@@ -6,23 +6,110 @@
 [![codecov](https://img.shields.io/codecov/c/github/hirezio/jasmine-auto-spies.svg)](https://codecov.io/gh/hirezio/jasmine-auto-spies)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 
-Create automatic spies from classes in jasmine tests. 
-If you're using TypeScript it'll also create auto spies for Promise or Observable returning methods and provide type completion. 
+
+## Important: RxJS 6 compatibility
+
+For RxJS 6, please use version `2.x` and above. 
+
+
+## What is it?
+
+Creating spies has never been EASIER! 💪👏
+
+If you need to create a spy from any class, just do: 
+
+```js
+const myServiceSpy = createSpyFromClass(MyService);
+```
+
+THAT'S IT!
+
+If you're using TypeScript, you get EVEN MORE BENEFITS:
+
+```ts
+const myServiceSpy: Spy<MyService> = createSpyFromClass(MyService);
+```
+
+Now you can autocomplete AND have an auto spy for each method, returning Observable / Promise specific control methods.
+
 
 ## What is it good for?
 
-- [x] **Keep you tests DRY** - no more repeated spy setup code, no need for separate spy files
+✅ **Keep you tests DRY** - no more repeated spy setup code, no need for separate spy files
 
-- [x] **Type completion** for both the original Class and the spy methods
+✅ **Type completion** for both the original Class and the spy methods
 
-- [x] **Automatic return type detection** by using a simple decorator
+✅ **Automatic return type detection** by using a simple decorator
 
 ## Installation
 
 `npm install -D jasmine-auto-spies`
 
-## Setup
-In your `tsconfig.json` set these 2 flags - 
+
+## Usage (JavaScript)
+
+```js
+
+// my-spec.js 
+
+import { createSpyFromClass } from 'jasmine-auto-spies';
+import { MyService } from './my-service';
+import { MyComponent } from './my-component';
+
+describe('MyComponent', ()=>{
+
+  let myServiceSpy;
+  let componentUnderTest;
+
+  beforeEach(()=>{
+    myServiceSpy = createSpyFromClass(MyService);
+    componentUnderTest = new MyComponent(myServiceSpy);
+  });
+
+  it('should get data on init', ()=>{
+    const fakeData = [{fake: 'data'}];
+    myServiceSpy.getData.and.returnWith(fakeData);
+
+    componentUnderTest.init();
+
+    expect(myServiceSpy.getData).toHaveBeenCalled();
+    expect(componentUnderTest.compData).toEqual(fakeData);
+  });
+
+});
+
+
+// my-component.js
+
+export class MyComponent{
+
+  constructor(myService){
+    this.myService = myService;
+  }
+  init(){
+    this.compData = this.myService.getData();
+  }
+}
+
+// my-service.js
+
+export class MyService{
+
+  getData{
+    return [
+      { ...someRealData... }
+    ]
+  }
+}
+
+```
+
+
+## Usage (TypeScript)
+
+
+### TypeScript Setup
+Set these 2 properties in your `tsconfig.json` - 
 
 ```json
 {
@@ -33,24 +120,15 @@ In your `tsconfig.json` set these 2 flags -
 }
 ```
 
-## Usage
 
 ### 1. Spying on regular sync methods
 
-Let's say you have a class -
-
 ```ts
-class MyService{
-  getName(): string{
-    return 'Bonnie';
-  }
-}
-```
 
-This is how you create an automatic spy for it - 
+// my-spec.ts
 
-```ts
 import { Spy, createSpyFromClass } from 'jasmine-auto-spies';
+import { MyService } from './my-service';
 
 let myServiceSpy: Spy<MyService>;
 
@@ -58,11 +136,21 @@ beforeEach( ()=> {
   myServiceSpy = createSpyFromClass( MyService );
 });
 
-it( ()=> {
+it('should Do something' ()=> {
   myServiceSpy.getName.and.returnValue('Fake Name');
   
   ... (the rest of the test) ...
 });
+
+
+// my-service.ts
+
+class MyService{
+  getName(): string{
+    return 'Bonnie';
+  }
+}
+
 ```
 
 ### 2. Spy on a `Promise` returning method

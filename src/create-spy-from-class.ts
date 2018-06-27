@@ -1,7 +1,6 @@
 import { AsyncSpyFunction, Spy } from './spy-types';
 
-import { Observable } from 'rxjs/Observable';
-import { ReplaySubject } from 'rxjs/ReplaySubject';
+import { Observable, ReplaySubject } from 'rxjs';
 
 declare var global: any;
 
