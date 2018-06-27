@@ -40,7 +40,6 @@ export default function(config: any) {
     },
 
     coverageIstanbulReporter: {
-      // reports can be any that are listed here: https://github.com/istanbuljs/istanbuljs/tree/aae256fb8b9a3d19414dcf069c592e88712c32c6/packages/istanbul-reports/lib
       reports: ['html', 'lcovonly', 'text-summary'],
 
       // base output directory. If you include %browser% in the path it will be replaced with the karma browser name
@@ -75,7 +74,6 @@ export default function(config: any) {
       }
     },
 
-
     reporters: ['progress', 'coverage-istanbul'],
 
     port: 9876,
@@ -91,6 +89,6 @@ export default function(config: any) {
 
     singleRun: true,
 
-    concurrency: Infinity
-  })
+    concurrency: Infinity,
+  });
 }

@@ -14,6 +14,7 @@
     "build": "tsc",
     "test": "karma start",
     "test.watch": "karma start --auto-watch --no-single-run",
+    "test.full": "yarn run lint&& yarn run test",
     "lint": "tslint -p .",
     "prepare": "npm run build",
     "postpublish": "npm run clean",
@@ -27,6 +28,9 @@
   },
   "release": {
     "branch": "1.x"
+  },
+  "publishConfig": {
+    "tag": "legacy1"
   },
   "keywords": [
     "jasmine",

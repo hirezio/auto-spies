@@ -13,6 +13,8 @@
         "no-empty": false,
         "no-empty-interface": true,
         "only-arrow-functions": false,
+        "object-literal-sort-keys": false,
+        "trailing-comma": false,
         "ordered-imports": false,
         "quotemark": [
             true,

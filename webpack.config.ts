@@ -42,6 +42,6 @@ export const webpackConfig: webpack.Configuration = {
       test: /\.(ts|js)($|\?)/i // process .js and .ts files only
     })
   ]
-}
+};
 
 export default webpackConfig;
