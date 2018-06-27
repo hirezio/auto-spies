@@ -26,12 +26,6 @@
       "path": "./node_modules/cz-conventional-changelog"
     }
   },
-  "release": {
-    "branch": "1.x"
-  },
-  "publishConfig": {
-    "tag": "legacy1"
-  },
   "keywords": [
     "jasmine",
     "jasmine-given",
