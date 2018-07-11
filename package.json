@@ -62,9 +62,12 @@
     "ts-node": "^3.0.6",
     "tslint": "5.10.0",
     "typescript": "^2.3.4",
-    "webpack": "^2.6.1"
+    "webpack": "^2.6.1",
+    "core-js": "^2.4.1",
+    "jasmine": "^2.6.0",
+    "rxjs": "^6.0.0"
   },
-  "dependencies": {
+  "peerDependencies": {
     "core-js": "^2.4.1",
     "jasmine": "^2.6.0",
     "rxjs": "^6.0.0"

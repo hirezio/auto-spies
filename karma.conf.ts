@@ -54,17 +54,17 @@ export default function(config: any) {
         emitWarning: false, // set to `true` to not fail the test command when thresholds are not met
         // thresholds for all files
         global: {
-          statements: 100,
-          lines: 100,
-          branches: 100,
-          functions: 100
+          statements: 90,
+          lines: 90,
+          branches: 90,
+          functions: 90
         },
         // thresholds per file
         each: {
-          statements: 100,
-          lines: 100,
-          branches: 100,
-          functions: 100,
+          statements: 90,
+          lines: 90,
+          branches: 90,
+          functions: 90,
           // overrides: {
           //   'baz/component/**/*.js': {
           //     statements: 98

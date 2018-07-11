@@ -3,6 +3,11 @@ import { AsyncSpyFunction, Spy } from './spy-types';
 import { Observable, ReplaySubject } from 'rxjs';
 
 declare var global: any;
+declare var window: any;
+
+if (!global) {
+  (window as any).global = window;
+}
 
 const Reflect = global['Reflect'];
 
