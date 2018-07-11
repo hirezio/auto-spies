@@ -2,14 +2,9 @@ import { AsyncSpyFunction, Spy } from './spy-types';
 
 import { Observable, ReplaySubject } from 'rxjs';
 
-declare var global: any;
 declare var window: any;
 
-if (global === undefined) {
-  window.global = window;
-}
-
-const Reflect = global['Reflect'];
+const Reflect = window['Reflect'];
 
 export function createSpyFromClass<T>(
   ObjectClass: { new (...args: any[]): T, [key: string]: any; },
