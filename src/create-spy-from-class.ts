@@ -5,8 +5,8 @@ import { Observable, ReplaySubject } from 'rxjs';
 declare var global: any;
 declare var window: any;
 
-if (!global) {
-  (window as any).global = window;
+if (global === undefined) {
+  window.global = window;
 }
 
 const Reflect = global['Reflect'];
