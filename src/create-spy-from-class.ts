@@ -1,4 +1,4 @@
-import { Spy } from "./spy-types";
+import { Spy } from './spy-types';
 
 import { Observable, ReplaySubject } from 'rxjs';
 

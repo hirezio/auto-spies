@@ -10,23 +10,23 @@ export class FakeClass {
   }
 
   @AsyncSpyable()
-  promiseMethod(): Promise<void> { 
+  public promiseMethod(): Promise<void> {
     return Promise.resolve();
   }
 
-  providedPromiseMethod(): Promise<void> {
+  public providedPromiseMethod(): Promise<void> {
     return Promise.resolve();
   }
 
   @AsyncSpyable()
-  observableMethod(): Observable<void> {
+  public observableMethod(): Observable<void> {
     return of();
   }
 
-  providedObservableMethod(): Observable<void> {
+  public providedObservableMethod(): Observable<void> {
     return of();
   }
-};
+}
 
 // tslint:disable-next-line:max-classes-per-file
 export class FakeChildClass extends FakeClass {
