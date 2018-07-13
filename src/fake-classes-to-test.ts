@@ -10,20 +10,20 @@ export class FakeClass {
   }
 
   @AsyncSpyable()
-  public promiseMethod(): Promise<any> {
+  promiseMethod(): Promise<void> { 
     return Promise.resolve();
   }
 
-  public providedPromiseMethod(): Promise<any> {
+  providedPromiseMethod(): Promise<void> {
     return Promise.resolve();
   }
 
   @AsyncSpyable()
-  public observableMethod(): Observable<any> {
+  observableMethod(): Observable<void> {
     return of();
   }
 
-  public providedObservableMethod(): Observable<any> {
+  providedObservableMethod(): Observable<void> {
     return of();
   }
 };
