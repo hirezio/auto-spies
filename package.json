@@ -16,8 +16,8 @@
     "test.watch": "karma start --auto-watch --no-single-run",
     "test.full": "yarn run lint&& yarn run test",
     "lint": "tslint -p .",
-    "prepare": "npm run build",
-    "postpublish": "npm run clean",
+    "prepare": "yarn run build",
+    "postpublish": "yarn run clean",
     "travis-deploy-once": "travis-deploy-once",
     "semantic-release": "semantic-release"
   },
@@ -70,6 +70,7 @@
   "peerDependencies": {
     "core-js": "^2.4.1",
     "jasmine": "^2.6.0",
-    "rxjs": "^6.0.0"
+    "rxjs": "^6.0.0",
+    "typescript": "^2.8.1"
   }
 }
