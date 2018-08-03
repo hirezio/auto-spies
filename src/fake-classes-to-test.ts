@@ -1,41 +1,38 @@
-import 'rxjs/add/observable/of';
-
-import { AsyncSpyable } from "./async-spyable-decorator";
-import { Observable } from 'rxjs/Observable';
+import { AsyncSpyable } from './async-spyable-decorator';
+import { Observable, of } from 'rxjs';
 
 export class FakeClass {
 
-  someProp: number = 1;
+  public someProp: number = 1;
 
-  syncMethod() {
+  public syncMethod() {
     return '';
   }
 
   @AsyncSpyable()
-  promiseMethod(): Promise<void> { 
+  public promiseMethod(): Promise<void> {
     return Promise.resolve();
   }
 
-  providedPromiseMethod(): Promise<void> {
+  public providedPromiseMethod(): Promise<void> {
     return Promise.resolve();
   }
 
   @AsyncSpyable()
-  observableMethod(): Observable<void> {
-    return Observable.of();
+  public observableMethod(): Observable<void> {
+    return of();
   }
 
-  providedObservableMethod(): Observable<void> {
-    return Observable.of();
+  public providedObservableMethod(): Observable<void> {
+    return of();
   }
-};
+}
 
-
-
+// tslint:disable-next-line:max-classes-per-file
 export class FakeChildClass extends FakeClass {
-  
+
   @AsyncSpyable()
-  anotherObservableMethod(): Observable<any> {
-    return Observable.of();
+  public anotherObservableMethod(): Observable<any> {
+    return of();
   }
 }
