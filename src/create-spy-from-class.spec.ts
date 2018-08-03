@@ -121,7 +121,7 @@ describe('createSpyFromClass', () => {
 
       describe('transmit error', () => {
         Given(() => {
-          fakeClassSpy.observableMethod.and.nextWithError(fakeValue);
+          fakeClassSpy.observableMethod.and.throwWith(fakeValue);
         });
 
         Then(() => {

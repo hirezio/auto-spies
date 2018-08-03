@@ -7,9 +7,11 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 
 
-## Important: RxJS 6 compatibility
+## IMPORTANT: compatibility
 
-For RxJS 6, please use version `2.x` and above. 
+* Version `2.x` and above requires **RxJS 6.0** and above. 
+* Version `3.x` and above requires **TypeScript 2.8** and above. 
+
 
 
 ## What is it?
@@ -203,7 +205,7 @@ export class MyService{
 }
 ```
 
-Now you can use the `nextWith` or `nextWithError` methods - 
+Now you can use the `nextWith` or `throwWith` methods - 
 
 ```ts
 import { Spy, createSpyFromClass } from 'jasmine-auto-spies';
@@ -217,7 +219,7 @@ beforeEach( ()=> {
 it( ()=>{
   myServiceSpy.getProducts.and.nextWith( fakeProductsList);
   // OR
-  myServiceSpy.getProducts.and.nextWithError( fakeError );
+  myServiceSpy.getProducts.and.throwWith( fakeError );
 });
 
 ```

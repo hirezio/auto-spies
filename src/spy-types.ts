@@ -22,7 +22,7 @@ export interface PromiseSpy<T> {
 
 export interface ObservableSpy<T> {
   nextWith(value: T): void;
-  nextWithError(value: any): void;
+  throwWith(value: any): void;
 }
 
 export type AddSpyOnFunction<T extends (...args: any[]) => any> = T &

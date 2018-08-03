@@ -10,12 +10,14 @@ export default function(config: any) {
 
     plugins: [
       require('karma-jasmine'),
+      require('karma-jasmine-given'),
       require('karma-sourcemap-loader'),
       require('karma-chrome-launcher'),
       require('karma-typescript'),
       require('karma-webpack'),
-      require('karma-jasmine-given'),
       require('karma-coverage-istanbul-reporter'),
+      require('karma-mocha-reporter'),
+      require('karma-jasmine-diff-reporter'),
     ],
 
     preprocessors: {
@@ -37,6 +39,22 @@ export default function(config: any) {
     webpack: webpackConfig,
     webpackMiddleware: {
       stats: 'errors-only'
+    },
+
+    reporters: ['jasmine-diff', 'mocha', 'coverage-istanbul'],
+
+    jasmineDiffReporter: {
+      color: {
+        expectedBg: 'bgMagenta',
+        expectedWhitespaceBg: 'bgMagenta',
+        actualBg: 'bgBlue',
+        actualWhitespaceBg: 'bgBlue'
+      },
+      legacy: true
+    },
+
+    mochaReporter: {
+      output: 'minimal'
     },
 
     coverageIstanbulReporter: {
@@ -73,8 +91,6 @@ export default function(config: any) {
         }
       }
     },
-
-    reporters: ['progress', 'coverage-istanbul'],
 
     port: 9876,
 

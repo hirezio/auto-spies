@@ -46,7 +46,7 @@ function createObservableSpyFunction(name: string) {
     subject.next(value);
   };
 
-  spyFunction.and.nextWithError = function nextWithError(value: any) {
+  spyFunction.and.throwWith = function throwWith(value: any) {
     subject.error(value);
   };
 
