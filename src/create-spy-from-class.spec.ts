@@ -38,7 +38,7 @@ describe('createSpyFromClass', () => {
     });
 
     describe('Promises Method', () => {
-      When((done) => {
+      When((done = () => {}) => {
 
         fakeClassSpy.promiseMethod()
           .then(result => {
@@ -78,7 +78,7 @@ describe('createSpyFromClass', () => {
         fakeClassSpy.providedPromiseMethod.and.resolveWith(fakeValue);
       });
 
-      When((done) => {
+      When((done = () => {}) => {
 
         fakeClassSpy.providedPromiseMethod()
           .then(result => {
@@ -134,7 +134,7 @@ describe('createSpyFromClass', () => {
     describe('Provided observables list', () => {
 
       Given(() => {
-        fakeClassSpy = createSpyFromClass(FakeClass, null, ['providedObservableMethod']);
+        fakeClassSpy = createSpyFromClass(FakeClass, undefined, ['providedObservableMethod']);
         fakeClassSpy.providedObservableMethod.and.nextWith(fakeValue);
       });
       When(() => {
