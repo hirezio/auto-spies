@@ -3,3 +3,4 @@ dist
 coverage
 src/*.js* 
 **/*.d.ts
+.vscode
