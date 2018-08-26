@@ -2,33 +2,38 @@ import { Spy } from './spy-types';
 
 import { Observable, ReplaySubject } from 'rxjs';
 
-declare var window: any;
+import root from 'window-or-global';
 
-const Reflect = window['Reflect'];
+const Reflect = root.Reflect;
 
 export function createSpyFromClass<T>(
-  ObjectClass: { new (...args: any[]): T, [key: string]: any; },
+  ObjectClass: { new (...args: any[]): T; [key: string]: any },
   providedPromiseMethodNames?: string[],
-  providedObservableMethodNames?: string[]): Spy<T> {
-
+  providedObservableMethodNames?: string[]
+): Spy<T> {
   const proto = ObjectClass.prototype;
   const methodNames = getAllMethodNames(proto);
 
   const autoSpy: any = {};
 
-  methodNames.forEach((methodName) => {
-    const returnTypeClass = Reflect.getMetadata('design:returntype', proto, methodName);
+  methodNames.forEach(methodName => {
+    const returnTypeClass = Reflect.getMetadata(
+      'design:returntype',
+      proto,
+      methodName
+    );
 
-    if ((providedPromiseMethodNames &&
-      providedPromiseMethodNames.indexOf(methodName) !== -1) ||
-      returnTypeClass === Promise) {
-
+    if (
+      (providedPromiseMethodNames &&
+        providedPromiseMethodNames.indexOf(methodName) !== -1) ||
+      returnTypeClass === Promise
+    ) {
       autoSpy[methodName] = createPromiseSpyFunction(methodName);
-
-    } else if ((providedObservableMethodNames &&
-      providedObservableMethodNames.indexOf(methodName) !== -1) ||
-      returnTypeClass === Observable) {
-
+    } else if (
+      (providedObservableMethodNames &&
+        providedObservableMethodNames.indexOf(methodName) !== -1) ||
+      returnTypeClass === Observable
+    ) {
       autoSpy[methodName] = createObservableSpyFunction(methodName);
     } else {
       autoSpy[methodName] = jasmine.createSpy(methodName);
@@ -51,16 +56,17 @@ function createObservableSpyFunction(name: string) {
   };
 
   return spyFunction;
-
 }
 
 function createPromiseSpyFunction(name: string) {
   const spyFunction: any = jasmine.createSpy(name);
 
-  spyFunction.and.returnValue(new Promise<any>((resolveWith, rejectWith) => {
-    spyFunction.and.resolveWith = resolveWith;
-    spyFunction.and.rejectWith = rejectWith;
-  }));
+  spyFunction.and.returnValue(
+    new Promise<any>((resolveWith, rejectWith) => {
+      spyFunction.and.resolveWith = resolveWith;
+      spyFunction.and.rejectWith = rejectWith;
+    })
+  );
 
   return spyFunction;
 }
@@ -69,7 +75,7 @@ function getAllMethodNames(obj: any) {
   let methods: string[] = [];
 
   do {
-    methods = methods.concat(Object.keys((obj)));
+    methods = methods.concat(Object.keys(obj));
     obj = Object.getPrototypeOf(obj);
   } while (obj);
 
@@ -80,5 +86,4 @@ function getAllMethodNames(obj: any) {
 
   // .filter(methodName => typeof proto[methodName] == 'function')
   return methods;
-
 }

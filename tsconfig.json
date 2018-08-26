@@ -6,6 +6,7 @@
     "emitDecoratorMetadata": true,
     "declaration": true, // generate .d.ts files
     "noImplicitAny": true,
+    "esModuleInterop": true,
     "sourceMap": true,
     "lib": ["es2015", "es2016"],
     "pretty": true,
