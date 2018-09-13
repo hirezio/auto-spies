@@ -28,13 +28,13 @@ export interface ObservableSpy<T> {
 export type AddSpyOnFunction<T extends (...args: any[]) => any> = T &
   jasmine.Spy;
 
-export interface AddSpyOnPromise<T extends Promise<any>> {
+export type AddSpyOnPromise<T extends Promise<any>> = {
   and: PromiseSpy<Unpacked<T>>;
-}
+} & jasmine.Spy;
 
-export interface AddSpyOnObservable<T extends Observable<any>> {
+export type AddSpyOnObservable<T extends Observable<any>> = {
   and: ObservableSpy<Unpacked<T>>;
-}
+} & jasmine.Spy;
 
 // Wrap the return type of the given function type with the appropriate spy methods
 export type AddSpyByReturnTypes<TF extends (...args: any[]) => any> = TF &
@@ -55,7 +55,10 @@ export type AddSpyByReturnTypes<TF extends (...args: any[]) => any> = TF &
 //   : never;
 
 // https://github.com/Microsoft/TypeScript/issues/21705#issue-294964744
-export type Unpacked<T> = T extends Array<(infer U1)>
-  ? U1: T extends (...args: any[]) => infer U2
+export type Unpacked<T> = T extends Array<infer U1>
+  ? U1
+  : T extends (...args: any[]) => infer U2
     ? U2
-    : T extends Promise<infer U3> ? U3 : T extends Observable<infer U4> ? U4 : T;
+    : T extends Promise<infer U3>
+      ? U3
+      : T extends Observable<infer U4> ? U4 : T;
