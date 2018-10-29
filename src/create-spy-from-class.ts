@@ -55,6 +55,10 @@ function createObservableSpyFunction(name: string) {
     subject.error(value);
   };
 
+  spyFunction.and.complete = function complete() {
+    subject.complete();
+  };
+
   return spyFunction;
 }
 

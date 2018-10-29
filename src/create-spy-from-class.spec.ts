@@ -9,16 +9,17 @@ let fakeChildClassSpy: Spy<FakeChildClass>;
 let fakeValue: any;
 let actualResult: any;
 let actualRejection: any;
+let completed: boolean;
 
 describe('createSpyFromClass', () => {
   Given(() => {
     fakeValue = 'BOOM!';
     actualResult = null;
     actualRejection = null;
+    completed = false;
   });
 
   describe('FakeClass', () => {
-
     Given(() => {
       fakeClassSpy = createSpyFromClass(FakeClass);
     });
@@ -39,8 +40,8 @@ describe('createSpyFromClass', () => {
 
     describe('Promises Method', () => {
       When((done = () => {}) => {
-
-        fakeClassSpy.promiseMethod()
+        fakeClassSpy
+          .promiseMethod()
           .then(result => {
             actualResult = result;
             done();
@@ -68,19 +69,17 @@ describe('createSpyFromClass', () => {
           expect(actualRejection).toBe(fakeValue);
         });
       });
-
     });
 
     describe('Provided promises list', () => {
-
       Given(() => {
         fakeClassSpy = createSpyFromClass(FakeClass, ['providedPromiseMethod']);
         fakeClassSpy.providedPromiseMethod.and.resolveWith(fakeValue);
       });
 
       When((done = () => {}) => {
-
-        fakeClassSpy.providedPromiseMethod()
+        fakeClassSpy
+          .providedPromiseMethod()
           .then(result => {
             actualResult = result;
             done();
@@ -96,15 +95,14 @@ describe('createSpyFromClass', () => {
     });
 
     describe('Observable Method', () => {
-
       When(() => {
-        fakeClassSpy.observableMethod()
-          .pipe(
-            take(1)
-          )
+        fakeClassSpy
+          .observableMethod()
+          .pipe(take(1))
           .subscribe(
-            result => actualResult = result,
-            error => actualRejection = error
+            result => (actualResult = result),
+            error => (actualRejection = error),
+            () => (completed = true)
           );
       });
 
@@ -114,7 +112,6 @@ describe('createSpyFromClass', () => {
         });
 
         Then(() => {
-
           expect(actualResult).toBe(fakeValue);
         });
       });
@@ -129,24 +126,34 @@ describe('createSpyFromClass', () => {
         });
       });
 
+      describe('transmit complete', () => {
+        Given(() => {
+          fakeClassSpy.observableMethod.and.complete();
+        });
+
+        Then(() => {
+          expect(completed).toBe(true);
+        });
+      });
     });
 
     describe('Provided observables list', () => {
-
       Given(() => {
-        fakeClassSpy = createSpyFromClass(FakeClass, undefined, ['providedObservableMethod']);
+        fakeClassSpy = createSpyFromClass(FakeClass, undefined, [
+          'providedObservableMethod'
+        ]);
         fakeClassSpy.providedObservableMethod.and.nextWith(fakeValue);
       });
       When(() => {
-        fakeClassSpy.providedObservableMethod()
-          .subscribe(result => actualResult = result)
+        fakeClassSpy
+          .providedObservableMethod()
+          .subscribe(result => (actualResult = result))
           .unsubscribe();
       });
       Then(() => {
         expect(actualResult).toBe(fakeValue);
       });
     });
-
   });
 
   describe('Fake Child Class', () => {
@@ -159,8 +166,9 @@ describe('createSpyFromClass', () => {
       });
 
       When(() => {
-        fakeChildClassSpy.anotherObservableMethod()
-          .subscribe(result => actualResult = result)
+        fakeChildClassSpy
+          .anotherObservableMethod()
+          .subscribe(result => (actualResult = result))
           .unsubscribe();
       });
 
@@ -175,8 +183,9 @@ describe('createSpyFromClass', () => {
       });
 
       When(() => {
-        fakeChildClassSpy.observableMethod()
-          .subscribe(result => actualResult = result)
+        fakeChildClassSpy
+          .observableMethod()
+          .subscribe(result => (actualResult = result))
           .unsubscribe();
       });
 
@@ -185,5 +194,4 @@ describe('createSpyFromClass', () => {
       });
     });
   });
-
 });
