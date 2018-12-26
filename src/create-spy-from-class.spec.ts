@@ -228,6 +228,17 @@ describe('createSpyFromClass', () => {
         });
       });
 
+      describe('GIVEN nextOneTimeWith is configured THEN emit the next event', () => {
+        Given(() => {
+          fakeClassSpy.observableMethod.and.nextOneTimeWith(fakeValue);
+        });
+
+        Then(() => {
+          expect(actualResult).toBe(fakeValue);
+          expect(completed).toBeTruthy();
+        });
+      });
+
       describe('GIVEN throwWith is configured THEN emit an error', () => {
         Given(() => {
           fakeClassSpy.observableMethod.and.throwWith(fakeValue);
@@ -282,6 +293,34 @@ describe('createSpyFromClass', () => {
           fakeClassSpy.observableMethod
             .calledWith(WRONG_VALUE)
             .nextWith(fakeValue);
+        });
+
+        Then(() => {
+          expect(throwArgumentsErrorSpyFunction).toHaveBeenCalledWith(
+            ['WRONG VALUE'],
+            fakeArgs
+          );
+        });
+      });
+
+      describe('GIVEN calledWith of nextOneTimeWith configured with the right params THEN emit the next event', () => {
+        Given(() => {
+          fakeClassSpy.observableMethod
+            .calledWith(...fakeArgs)
+            .nextOneTimeWith(fakeValue);
+        });
+
+        Then(() => {
+          expect(actualResult).toBe(fakeValue);
+          expect(completed).toBeTruthy();
+        });
+      });
+
+      describe('GIVEN calledWith of nextOneTimeWith is configured with the wrong params THEN throw an error', () => {
+        Given(() => {
+          fakeClassSpy.observableMethod
+            .calledWith(WRONG_VALUE)
+            .nextOneTimeWith(fakeValue);
         });
 
         Then(() => {

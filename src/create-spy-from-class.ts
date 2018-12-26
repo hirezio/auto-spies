@@ -53,6 +53,11 @@ function createObservableSpyFunction(spyFunction: any) {
     subject.next(value);
   };
 
+  spyFunction.and.nextOneTimeWith = function nextOneTimeWith(value: any) {
+    subject.next(value);
+    subject.complete();
+  };
+
   spyFunction.and.throwWith = function throwWith(value: any) {
     subject.error(value);
   };
@@ -69,6 +74,16 @@ function createObservableSpyFunction(spyFunction: any) {
             throwArgumentsError(calledWithArgs, actualArgs);
           }
           subject.next(value);
+          return subject;
+        });
+      },
+      nextOneTimeWith(value: any) {
+        spyFunction.and.callFake((...actualArgs: any[]) => {
+          if (!deepEqual(calledWithArgs, actualArgs)) {
+            throwArgumentsError(calledWithArgs, actualArgs);
+          }
+          subject.next(value);
+          subject.complete();
           return subject;
         });
       },

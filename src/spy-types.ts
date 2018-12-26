@@ -22,7 +22,7 @@ export interface PromiseSpyMethod<T> {
 
 export interface ObservableSpyMethod<T> {
   nextWith(value: T): void;
-  nextOneWith(value: T): void; // emit one value and completes
+  nextOneTimeWith(value: T): void; // emit one value and completes
   throwWith(value: any): void;
   complete(): void;
 }
