@@ -46,6 +46,11 @@ function createObservableSpyFunction(name: string): AsyncSpyFunction {
     subject.next(value);
   };
 
+  spyFunction.and.nextOneTimeWith = function nextOneTimeWith(value: any) {
+    subject.next(value);
+    subject.complete();
+  };
+
   spyFunction.and.nextWithError = function nextWithError(value: any) {
     subject.error(value);
   };

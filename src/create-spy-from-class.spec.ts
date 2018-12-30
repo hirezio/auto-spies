@@ -122,6 +122,17 @@ describe('createSpyFromClass', () => {
         });
       });
 
+      describe('GIVEN nextOneTimeWith is configured THEN emit the next event', () => {
+        Given(() => {
+          fakeClassSpy.observableMethod.and.nextOneTimeWith(fakeValue);
+        });
+
+        Then(() => {
+          expect(actualResult).toBe(fakeValue);
+          expect(completed).toBeTruthy();
+        });
+      });
+
       describe('GIVEN nextWithError is configured THEN emit an error', () => {
         Given(() => {
           fakeClassSpy.observableMethod.and.nextWithError(fakeValue);
