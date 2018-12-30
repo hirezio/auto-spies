@@ -50,6 +50,10 @@ function createObservableSpyFunction(name: string): AsyncSpyFunction {
     subject.error(value);
   };
 
+  spyFunction.and.complete = function complete() {
+    subject.complete();
+  };
+
   return spyFunction as AsyncSpyFunction;
 
 }

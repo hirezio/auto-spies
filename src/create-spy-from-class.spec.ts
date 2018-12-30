@@ -9,21 +9,23 @@ let fakeChildClassSpy: Spy<FakeChildClass>;
 let fakeValue: any;
 let actualResult: any;
 let actualRejection: any;
+let completed: boolean;
 
 describe('createSpyFromClass', () => {
   Given(() => {
     fakeValue = 'BOOM!';
     actualResult = null;
     actualRejection = null;
+    completed = false;
   });
 
-  describe('FakeClass', () => {
+  describe('GIVEN a fake Class', () => {
 
     Given(() => {
       fakeClassSpy = createSpyFromClass(FakeClass);
     });
 
-    describe('fake sync values', () => {
+    describe('GIVEN a synchronous method is being configured THEN return the value configured', () => {
       Given(() => {
         fakeClassSpy.syncMethod.and.returnValue(fakeValue);
       });
@@ -37,7 +39,7 @@ describe('createSpyFromClass', () => {
       });
     });
 
-    describe('Promises Method', () => {
+    describe('WHEN promise returning method is called', () => {
       When((done) => {
 
         fakeClassSpy.promiseMethod()
@@ -71,7 +73,7 @@ describe('createSpyFromClass', () => {
 
     });
 
-    describe('Provided promises list', () => {
+    describe('GIVEN promise method names list configured', () => {
 
       Given(() => {
         fakeClassSpy = createSpyFromClass(FakeClass, ['providedPromiseMethod']);
@@ -95,7 +97,7 @@ describe('createSpyFromClass', () => {
       });
     });
 
-    describe('Observable Method', () => {
+    describe('WHEN calling an observable returning method', () => {
 
       When(() => {
         fakeClassSpy.observableMethod()
@@ -104,11 +106,12 @@ describe('createSpyFromClass', () => {
           )
           .subscribe(
             result => actualResult = result,
-            error => actualRejection = error
+            error => actualRejection = error,
+            () => (completed = true)
           );
       });
 
-      describe('transmit success', () => {
+      describe('GIVEN nextWith is configured THEN emit the next event', () => {
         Given(() => {
           fakeClassSpy.observableMethod.and.nextWith(fakeValue);
         });
@@ -119,13 +122,23 @@ describe('createSpyFromClass', () => {
         });
       });
 
-      describe('transmit error', () => {
+      describe('GIVEN nextWithError is configured THEN emit an error', () => {
         Given(() => {
           fakeClassSpy.observableMethod.and.nextWithError(fakeValue);
         });
 
         Then(() => {
           expect(actualRejection).toBe(fakeValue);
+        });
+      });
+
+      describe('GIVEN complete is configured THEN complete the Observable', () => {
+        Given(() => {
+          fakeClassSpy.observableMethod.and.complete();
+        });
+
+        Then(() => {
+          expect(completed).toBe(true);
         });
       });
 
