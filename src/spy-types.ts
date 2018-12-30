@@ -15,6 +15,17 @@ export type Spy<T> = T & {
 export interface AsyncSpyFunction extends jasmine.Spy {
   (...params: any[]): any;
   and: AsyncSpyFunctionAnd;
+  calledWith(
+    ...args: any[]
+  ): {
+      returnValue: (value: any) => void;
+      nextWith(value: any): void;
+      nextOneTimeWith(value: any): void; // emit one value and completes
+      nextWithError(value: any): void;
+      complete(): void;
+      resolveWith(value: any): void;
+      rejectWith(value: any): void;
+  };
 }
 
 export interface AsyncSpyFunctionAnd extends jasmine.SpyAnd {

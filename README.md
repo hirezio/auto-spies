@@ -217,9 +217,43 @@ beforeEach( ()=> {
 it( ()=>{
   myServiceSpy.getProducts.and.nextWith( fakeProductsList);
   // OR
+  myServiceSpy.getProducts.and.nextOneTimeWith( fakeProductsList);
+  // OR
   myServiceSpy.getProducts.and.nextWithError( fakeError );
+  // OR
+  myServiceSpy.getProducts.and.complete();
 });
 
+```
+
+### Use `calledWith()` to configure mocks easily
+
+You can setup the expected arguments ahead of time
+by using `calledWith` like so:
+
+```ts
+myServiceSpy.getProducts.calledWith(1).returnValue(true)
+
+```
+
+is equal to:
+
+```ts
+myServiceSpy.getProducts.and.returnValue(true)
+
+expect(myServiceSpy.getProducts).toHaveBeenCalledWith(1);
+```
+
+You can also use it with async method:
+
+```ts
+myServiceSpy.getProducts.calledWith(1).resolveWith(true)
+
+// OR
+
+myServiceSpy.getProducts.calledWith(1).nextWith(true)
+
+// OR ANY OTHER ASYNC CONFIGURATION METHOD...
 ```
 
 

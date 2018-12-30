@@ -1,10 +1,11 @@
 import { AsyncSpyFunction, Spy } from './spy-types';
-
+import deepEqual from 'deep-equal';
+import { throwArgumentsError } from './error-handling';
 import { Observable, ReplaySubject } from 'rxjs';
 
-declare var window: any;
+import root from 'window-or-global';
 
-const Reflect = window['Reflect'];
+const Reflect = root.Reflect;
 
 export function createSpyFromClass<T>(
   ObjectClass: { new (...args: any[]): T, [key: string]: any; },
@@ -19,26 +20,27 @@ export function createSpyFromClass<T>(
   methodNames.forEach((methodName) => {
     const returnTypeClass = Reflect.getMetadata('design:returntype', proto, methodName);
 
+    const spyMethod = createSpyFunction(methodName);
+
     if ((providedPromiseMethodNames &&
       providedPromiseMethodNames.indexOf(methodName) !== -1) ||
       returnTypeClass === Promise) {
 
-      autoSpy[methodName] = createPromiseSpyFunction(methodName);
+      autoSpy[methodName] = createPromiseSpyFunction(spyMethod);
 
     } else if ((providedObservableMethodNames &&
       providedObservableMethodNames.indexOf(methodName) !== -1) ||
       returnTypeClass === Observable) {
 
-      autoSpy[methodName] = createObservableSpyFunction(methodName);
+      autoSpy[methodName] = createObservableSpyFunction(spyMethod);
     } else {
-      autoSpy[methodName] = jasmine.createSpy(methodName);
+      autoSpy[methodName] = spyMethod;
     }
   });
   return autoSpy as Spy<T>;
 }
 
-function createObservableSpyFunction(name: string): AsyncSpyFunction {
-  const spyFunction: any = jasmine.createSpy(name);
+function createObservableSpyFunction(spyFunction: any): AsyncSpyFunction {
   const subject: ReplaySubject<any> = new ReplaySubject(1);
 
   spyFunction.and.returnValue(subject);
@@ -59,19 +61,99 @@ function createObservableSpyFunction(name: string): AsyncSpyFunction {
     subject.complete();
   };
 
+  spyFunction.calledWith = (...calledWithArgs: any[]) => {
+    return {
+      nextWith(value: any) {
+        spyFunction.and.callFake((...actualArgs: any[]) => {
+          if (!deepEqual(calledWithArgs, actualArgs)) {
+            throwArgumentsError(calledWithArgs, actualArgs);
+          }
+          subject.next(value);
+          return subject;
+        });
+      },
+      nextOneTimeWith(value: any) {
+        spyFunction.and.callFake((...actualArgs: any[]) => {
+          if (!deepEqual(calledWithArgs, actualArgs)) {
+            throwArgumentsError(calledWithArgs, actualArgs);
+          }
+          subject.next(value);
+          subject.complete();
+          return subject;
+        });
+      },
+      nextWithError(value: any) {
+        spyFunction.and.callFake((...actualArgs: any[]) => {
+          if (!deepEqual(calledWithArgs, actualArgs)) {
+            throwArgumentsError(calledWithArgs, actualArgs);
+          }
+          subject.error(value);
+          return subject;
+        });
+      },
+      complete() {
+        spyFunction.and.callFake((...actualArgs: any[]) => {
+          if (!deepEqual(calledWithArgs, actualArgs)) {
+            throwArgumentsError(calledWithArgs, actualArgs);
+          }
+          subject.complete();
+          return subject;
+        });
+      }
+    };
+  };
+
   return spyFunction as AsyncSpyFunction;
 
 }
 
-function createPromiseSpyFunction(name: string): AsyncSpyFunction {
-  const spyFunction: any = jasmine.createSpy(name);
+function createPromiseSpyFunction(spyFunction: any): AsyncSpyFunction {
 
   spyFunction.and.returnValue(new Promise<any>((resolveWith, rejectWith) => {
     spyFunction.and.resolveWith = resolveWith;
     spyFunction.and.rejectWith = rejectWith;
   }));
 
+  spyFunction.calledWith = (...calledWithArgs: any[]) => {
+    return {
+      resolveWith(value?: any) {
+        spyFunction.and.callFake((...actualArgs: any[]) => {
+          if (!deepEqual(calledWithArgs, actualArgs)) {
+            throwArgumentsError(calledWithArgs, actualArgs);
+          }
+          return Promise.resolve(value);
+        });
+      },
+      rejectWith(value?: any) {
+        spyFunction.and.callFake((...actualArgs: any[]) => {
+          if (!deepEqual(calledWithArgs, actualArgs)) {
+            throwArgumentsError(calledWithArgs, actualArgs);
+          }
+          return Promise.reject(value);
+        });
+      }
+    };
+  };
+
   return spyFunction as AsyncSpyFunction;
+}
+
+function createSpyFunction(name: string) {
+  const spyFunction: any = jasmine.createSpy(name);
+
+  spyFunction.calledWith = (...calledWithArgs: any[]) => {
+    return {
+      returnValue(value: any) {
+        spyFunction.and.callFake((...actualArgs: any[]) => {
+          if (!deepEqual(calledWithArgs, actualArgs)) {
+            throwArgumentsError(calledWithArgs, actualArgs);
+          }
+          return value;
+        });
+      }
+    };
+  };
+  return spyFunction;
 }
 
 function getAllMethodNames(obj: any) {
