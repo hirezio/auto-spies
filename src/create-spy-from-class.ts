@@ -1,4 +1,4 @@
-import { Spy } from './spy-types';
+import { ObservableMethodKey, PromiseMethodKey, Spy } from './spy-types';
 import deepEqual from 'deep-equal';
 import { throwArgumentsError } from './error-handling';
 import { Observable, ReplaySubject } from 'rxjs';
@@ -9,11 +9,16 @@ const Reflect = root.Reflect;
 
 export function createSpyFromClass<T>(
   ObjectClass: { new (...args: any[]): T; [key: string]: any },
-  providedPromiseMethodNames?: string[],
-  providedObservableMethodNames?: string[]
+  providedPromiseMethodKeys?: Array<PromiseMethodKey<T>>,
+  providedObservableMethodKeys?: Array<ObservableMethodKey<T>>
 ): Spy<T> {
   const proto = ObjectClass.prototype;
   const methodNames = getAllMethodNames(proto);
+
+  const promiseMethodKeys: Array<string | number | symbol> =
+    providedPromiseMethodKeys || [];
+  const observableMethodKeys: Array<string | number | symbol> =
+    providedObservableMethodKeys || [];
 
   const autoSpy: any = {};
 
@@ -27,14 +32,12 @@ export function createSpyFromClass<T>(
     const spyMethod = createSpyFunction(methodName);
 
     if (
-      (providedPromiseMethodNames &&
-        providedPromiseMethodNames.indexOf(methodName) !== -1) ||
+      promiseMethodKeys.indexOf(methodName) !== -1 ||
       returnTypeClass === Promise
     ) {
       autoSpy[methodName] = createPromiseSpyFunction(spyMethod);
     } else if (
-      (providedObservableMethodNames &&
-        providedObservableMethodNames.indexOf(methodName) !== -1) ||
+      observableMethodKeys.indexOf(methodName) !== -1 ||
       returnTypeClass === Observable
     ) {
       autoSpy[methodName] = createObservableSpyFunction(spyMethod);
