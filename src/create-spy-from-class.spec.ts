@@ -28,7 +28,6 @@ describe('createSpyFromClass', () => {
   });
 
   describe('GIVEN a fake Class', () => {
-
     Given(() => {
       fakeClassSpy = createSpyFromClass(FakeClass);
     });
@@ -78,9 +77,9 @@ describe('createSpyFromClass', () => {
     });
 
     describe('WHEN promise returning method is called', () => {
-      When((done) => {
-
-        fakeClassSpy.promiseMethod()
+      When(done => {
+        fakeClassSpy
+          .promiseMethod()
           .then(result => {
             actualResult = result;
             done();
@@ -108,7 +107,6 @@ describe('createSpyFromClass', () => {
           expect(actualError).toBe(fakeValue);
         });
       });
-
     });
 
     describe('WHEN promise returning method is called with exact params ', () => {
@@ -185,15 +183,14 @@ describe('createSpyFromClass', () => {
     });
 
     describe('GIVEN promise method names list configured', () => {
-
       Given(() => {
         fakeClassSpy = createSpyFromClass(FakeClass, ['providedPromiseMethod']);
         fakeClassSpy.providedPromiseMethod.and.resolveWith(fakeValue);
       });
 
-      When((done) => {
-
-        fakeClassSpy.providedPromiseMethod()
+      When(done => {
+        fakeClassSpy
+          .providedPromiseMethod()
           .then(result => {
             actualResult = result;
             done();
@@ -209,15 +206,13 @@ describe('createSpyFromClass', () => {
     });
 
     describe('WHEN calling an observable returning method', () => {
-
       When(() => {
-        fakeClassSpy.observableMethod()
-          .pipe(
-            take(1)
-          )
+        fakeClassSpy
+          .observableMethod()
+          .pipe(take(1))
           .subscribe(
-            result => actualResult = result,
-            error => actualError = error,
+            result => (actualResult = result),
+            error => (actualError = error),
             () => (completed = true)
           );
       });
@@ -228,7 +223,6 @@ describe('createSpyFromClass', () => {
         });
 
         Then(() => {
-
           expect(actualResult).toBe(fakeValue);
         });
       });
@@ -263,7 +257,6 @@ describe('createSpyFromClass', () => {
           expect(completed).toBe(true);
         });
       });
-
     });
 
     describe('WHEN Observable returning method is called with exact params', () => {
@@ -389,14 +382,16 @@ describe('createSpyFromClass', () => {
     });
 
     describe('GIVEN Observable method names list configured', () => {
-
       Given(() => {
-        fakeClassSpy = createSpyFromClass(FakeClass, null, ['providedObservableMethod']);
+        fakeClassSpy = createSpyFromClass(FakeClass, null, [
+          'providedObservableMethod'
+        ]);
         fakeClassSpy.providedObservableMethod.and.nextWith(fakeValue);
       });
       When(() => {
-        fakeClassSpy.providedObservableMethod()
-          .subscribe(result => actualResult = result)
+        fakeClassSpy
+          .providedObservableMethod()
+          .subscribe(result => (actualResult = result))
           .unsubscribe();
       });
       Then(() => {
@@ -404,6 +399,22 @@ describe('createSpyFromClass', () => {
       });
     });
 
+    describe('WHEN calling a Subject returning method', () => {
+      Given(() => {
+        fakeClassSpy.subjectMethod.and.nextWith(fakeValue);
+      });
+
+      When(() => {
+        fakeClassSpy
+          .subjectMethod()
+          .pipe(take(1))
+          .subscribe(result => (actualResult = result));
+      });
+
+      Then(() => {
+        expect(actualResult).toBe(fakeValue);
+      });
+    });
   });
 
   describe('GIVEN a fake child Class', () => {
@@ -416,8 +427,9 @@ describe('createSpyFromClass', () => {
       });
 
       When(() => {
-        fakeChildClassSpy.anotherObservableMethod()
-          .subscribe(result => actualResult = result)
+        fakeChildClassSpy
+          .anotherObservableMethod()
+          .subscribe(result => (actualResult = result))
           .unsubscribe();
       });
 
@@ -432,8 +444,9 @@ describe('createSpyFromClass', () => {
       });
 
       When(() => {
-        fakeChildClassSpy.observableMethod()
-          .subscribe(result => actualResult = result)
+        fakeChildClassSpy
+          .observableMethod()
+          .subscribe(result => (actualResult = result))
           .unsubscribe();
       });
 
@@ -442,5 +455,4 @@ describe('createSpyFromClass', () => {
       });
     });
   });
-
 });

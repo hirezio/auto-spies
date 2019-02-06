@@ -8,30 +8,27 @@ import root from 'window-or-global';
 const Reflect = root.Reflect;
 
 export function createSpyFromClass<T>(
-  ObjectClass: { new (...args: any[]): T, [key: string]: any; },
+  ObjectClass: { new (...args: any[]): T; [key: string]: any },
   providedPromiseMethodNames?: string[],
-  providedObservableMethodNames?: string[]): Spy<T> {
-
+  providedObservableMethodNames?: string[]
+): Spy<T> {
   const proto = ObjectClass.prototype;
   const methodNames = getAllMethodNames(proto);
 
   const autoSpy: any = {};
 
-  methodNames.forEach((methodName) => {
+  methodNames.forEach(methodName => {
     const returnTypeClass = Reflect.getMetadata('design:returntype', proto, methodName);
 
     const spyMethod = createSpyFunction(methodName);
 
-    if ((providedPromiseMethodNames &&
-      providedPromiseMethodNames.indexOf(methodName) !== -1) ||
-      returnTypeClass === Promise) {
-
+    if (
+      doesMethodReturnPromise(providedPromiseMethodNames, methodName, returnTypeClass )
+    ) {
       autoSpy[methodName] = createPromiseSpyFunction(spyMethod);
-
-    } else if ((providedObservableMethodNames &&
-      providedObservableMethodNames.indexOf(methodName) !== -1) ||
-      returnTypeClass === Observable) {
-
+    } else if (
+      doesMethodReturnObservable(providedObservableMethodNames, methodName, returnTypeClass)
+    ) {
       autoSpy[methodName] = createObservableSpyFunction(spyMethod);
     } else {
       autoSpy[methodName] = spyMethod;
@@ -104,15 +101,15 @@ function createObservableSpyFunction(spyFunction: any): AsyncSpyFunction {
   };
 
   return spyFunction as AsyncSpyFunction;
-
 }
 
 function createPromiseSpyFunction(spyFunction: any): AsyncSpyFunction {
-
-  spyFunction.and.returnValue(new Promise<any>((resolveWith, rejectWith) => {
-    spyFunction.and.resolveWith = resolveWith;
-    spyFunction.and.rejectWith = rejectWith;
-  }));
+  spyFunction.and.returnValue(
+    new Promise<any>((resolveWith, rejectWith) => {
+      spyFunction.and.resolveWith = resolveWith;
+      spyFunction.and.rejectWith = rejectWith;
+    })
+  );
 
   spyFunction.calledWith = (...calledWithArgs: any[]) => {
     return {
@@ -156,11 +153,36 @@ function createSpyFunction(name: string) {
   return spyFunction;
 }
 
+function doesMethodReturnPromise(
+  promiseMethodsList: string[],
+  methodName: string,
+  returnTypeClass: any
+): boolean {
+  return (
+    (promiseMethodsList && promiseMethodsList.indexOf(methodName) !== -1) ||
+    returnTypeClass === Promise
+  );
+}
+
+function doesMethodReturnObservable(
+  observableMethodsList: string[],
+  methodName: string,
+  returnTypeClass: any
+): boolean {
+  return (
+    (observableMethodsList &&
+      observableMethodsList.indexOf(methodName) !== -1) ||
+    returnTypeClass === Observable ||
+    (returnTypeClass && returnTypeClass.prototype instanceof Observable)
+  );
+}
+
+
 function getAllMethodNames(obj: any) {
   let methods: string[] = [];
 
   do {
-    methods = methods.concat(Object.keys((obj)));
+    methods = methods.concat(Object.keys(obj));
     obj = Object.getPrototypeOf(obj);
   } while (obj);
 
@@ -171,5 +193,4 @@ function getAllMethodNames(obj: any) {
 
   // .filter(methodName => typeof proto[methodName] == 'function')
   return methods;
-
 }

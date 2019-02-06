@@ -1,5 +1,5 @@
 import { AsyncSpyable } from './async-spyable-decorator';
-import { Observable, of } from 'rxjs';
+import { Observable, of, Subject } from 'rxjs';
 
 export class FakeClass {
 
@@ -21,6 +21,11 @@ export class FakeClass {
   @AsyncSpyable()
   public observableMethod(): Observable<any> {
     return of();
+  }
+
+  @AsyncSpyable()
+  public subjectMethod(): Subject<any> {
+    return new Subject();
   }
 
   public providedObservableMethod(): Observable<any> {
