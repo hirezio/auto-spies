@@ -22,10 +22,7 @@ describe('createSpyFromClass', () => {
     completed = false;
     fakeArgs = [];
 
-    throwArgumentsErrorSpyFunction = spyOn(
-      errorHandling,
-      'throwArgumentsError'
-    );
+    throwArgumentsErrorSpyFunction = spyOn(errorHandling, 'throwArgumentsError');
   });
 
   describe('GIVEN a fake Class', () => {
@@ -69,10 +66,9 @@ describe('createSpyFromClass', () => {
         });
 
         Then(() => {
-          expect(throwArgumentsErrorSpyFunction).toHaveBeenCalledWith(
-            fakeArgs,
-            [WRONG_VALUE]
-          );
+          expect(throwArgumentsErrorSpyFunction).toHaveBeenCalledWith(fakeArgs, [
+            WRONG_VALUE
+          ]);
         });
       });
     });
@@ -130,9 +126,7 @@ describe('createSpyFromClass', () => {
 
       describe('GIVEN calledWith of resolveWith is configured with exact params THEN resolve with value', () => {
         Given(() => {
-          fakeClassSpy.promiseMethod
-            .calledWith(...fakeArgs)
-            .resolveWith(fakeValue);
+          fakeClassSpy.promiseMethod.calledWith(...fakeArgs).resolveWith(fakeValue);
         });
 
         Then(() => {
@@ -142,9 +136,7 @@ describe('createSpyFromClass', () => {
 
       describe('GIVEN calledWith of resolveWith is configured with different params THEN throw an error', () => {
         Given(() => {
-          fakeClassSpy.promiseMethod
-            .calledWith(WRONG_VALUE)
-            .resolveWith(fakeValue);
+          fakeClassSpy.promiseMethod.calledWith(WRONG_VALUE).resolveWith(fakeValue);
         });
 
         Then(() => {
@@ -157,9 +149,7 @@ describe('createSpyFromClass', () => {
 
       describe('GIVEN calledWith of rejectWith is configured with exact params THEN reject with value', () => {
         Given(() => {
-          fakeClassSpy.promiseMethod
-            .calledWith(...fakeArgs)
-            .rejectWith(fakeValue);
+          fakeClassSpy.promiseMethod.calledWith(...fakeArgs).rejectWith(fakeValue);
         });
 
         Then(() => {
@@ -169,9 +159,7 @@ describe('createSpyFromClass', () => {
 
       describe('GIVEN calledWith of rejectWith is configured with different params THEN should throw an error', () => {
         Given(() => {
-          fakeClassSpy.promiseMethod
-            .calledWith(WRONG_VALUE)
-            .rejectWith(fakeValue);
+          fakeClassSpy.promiseMethod.calledWith(WRONG_VALUE).rejectWith(fakeValue);
         });
 
         Then(() => {
@@ -278,9 +266,7 @@ describe('createSpyFromClass', () => {
 
       describe('GIVEN calledWith of nextWith is configured with the right params THEN emit the next event', () => {
         Given(() => {
-          fakeClassSpy.observableMethod
-            .calledWith(...fakeArgs)
-            .nextWith(fakeValue);
+          fakeClassSpy.observableMethod.calledWith(...fakeArgs).nextWith(fakeValue);
         });
 
         Then(() => {
@@ -290,9 +276,7 @@ describe('createSpyFromClass', () => {
 
       describe('GIVEN calledWith of nextWith is configured with the wrong params THEN throw an error', () => {
         Given(() => {
-          fakeClassSpy.observableMethod
-            .calledWith(WRONG_VALUE)
-            .nextWith(fakeValue);
+          fakeClassSpy.observableMethod.calledWith(WRONG_VALUE).nextWith(fakeValue);
         });
 
         Then(() => {
@@ -333,9 +317,7 @@ describe('createSpyFromClass', () => {
 
       describe('GIVEN calledWith of throwWith is configured with the right params THEN emit an error', () => {
         Given(() => {
-          fakeClassSpy.observableMethod
-            .calledWith(...fakeArgs)
-            .throwWith(fakeValue);
+          fakeClassSpy.observableMethod.calledWith(...fakeArgs).throwWith(fakeValue);
         });
 
         Then(() => {
@@ -345,9 +327,7 @@ describe('createSpyFromClass', () => {
 
       describe('GIVEN calledWith of throwWith is configured with the wrong params THEN throw an error', () => {
         Given(() => {
-          fakeClassSpy.observableMethod
-            .calledWith(WRONG_VALUE)
-            .throwWith(fakeValue);
+          fakeClassSpy.observableMethod.calledWith(WRONG_VALUE).throwWith(fakeValue);
         });
 
         Then(() => {
@@ -395,6 +375,22 @@ describe('createSpyFromClass', () => {
           .subscribe(result => (actualResult = result))
           .unsubscribe();
       });
+      Then(() => {
+        expect(actualResult).toBe(fakeValue);
+      });
+    });
+    describe('WHEN calling a Subject returning method', () => {
+      Given(() => {
+        fakeClassSpy.subjectMethod.and.nextWith(fakeValue);
+      });
+
+      When(() => {
+        fakeClassSpy
+          .subjectMethod()
+          .pipe(take(1))
+          .subscribe(result => (actualResult = result));
+      });
+
       Then(() => {
         expect(actualResult).toBe(fakeValue);
       });

@@ -18,24 +18,20 @@ export function createSpyFromClass<T>(
   const autoSpy: any = {};
 
   methodNames.forEach(methodName => {
-    const returnTypeClass = Reflect.getMetadata(
-      'design:returntype',
-      proto,
-      methodName
-    );
+    const returnTypeClass = Reflect.getMetadata('design:returntype', proto, methodName);
 
     const spyMethod = createSpyFunction(methodName);
 
     if (
-      (providedPromiseMethodNames &&
-        providedPromiseMethodNames.indexOf(methodName) !== -1) ||
-      returnTypeClass === Promise
+      doesMethodReturnPromise(providedPromiseMethodNames, methodName, returnTypeClass)
     ) {
       autoSpy[methodName] = createPromiseSpyFunction(spyMethod);
     } else if (
-      (providedObservableMethodNames &&
-        providedObservableMethodNames.indexOf(methodName) !== -1) ||
-      returnTypeClass === Observable
+      doesMethodReturnObservable(
+        providedObservableMethodNames,
+        methodName,
+        returnTypeClass
+      )
     ) {
       autoSpy[methodName] = createObservableSpyFunction(spyMethod);
     } else {
@@ -158,6 +154,29 @@ function createSpyFunction(name: string) {
     };
   };
   return spyFunction;
+}
+
+function doesMethodReturnPromise(
+  promiseMethodsList: string[] | undefined,
+  methodName: string,
+  returnTypeClass: any
+): boolean {
+  return (
+    (promiseMethodsList && promiseMethodsList.indexOf(methodName) !== -1) ||
+    returnTypeClass === Promise
+  );
+}
+
+function doesMethodReturnObservable(
+  observableMethodsList: string[] | undefined,
+  methodName: string,
+  returnTypeClass: any
+): boolean {
+  return (
+    (observableMethodsList && observableMethodsList.indexOf(methodName) !== -1) ||
+    returnTypeClass === Observable ||
+    (returnTypeClass && returnTypeClass.prototype instanceof Observable)
+  );
 }
 
 function getAllMethodNames(obj: any): string[] {
