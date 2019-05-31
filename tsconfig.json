@@ -8,6 +8,7 @@
     "noImplicitAny": true,
     "esModuleInterop": true,
     "sourceMap": true,
+    "downlevelIteration": true,
     "lib": ["es2015", "es2016"],
     "pretty": true,
     "strict": true

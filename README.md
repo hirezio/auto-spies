@@ -6,19 +6,16 @@
 [![codecov](https://img.shields.io/codecov/c/github/hirezio/jasmine-auto-spies.svg)](https://codecov.io/gh/hirezio/jasmine-auto-spies)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 
-
 ## IMPORTANT: compatibility
 
-* Version `2.x` and above requires **RxJS 6.0** and above. 
-* Version `3.x` and above requires **TypeScript 2.8** and above. 
-
-
+- Version `2.x` and above requires **RxJS 6.0** and above.
+- Version `3.x` and above requires **TypeScript 2.8** and above.
 
 ## What is it?
 
 Creating spies has never been EASIER! 💪👏
 
-If you need to create a spy from any class, just do: 
+If you need to create a spy from any class, just do:
 
 ```js
 const myServiceSpy = createSpyFromClass(MyService);
@@ -34,7 +31,6 @@ const myServiceSpy: Spy<MyService> = createSpyFromClass(MyService);
 
 Now you can autocomplete AND have an auto spy for each method, returning Observable / Promise specific control methods.
 
-
 ## What is it good for?
 
 ✅ **Keep you tests DRY** - no more repeated spy setup code, no need for separate spy files
@@ -47,12 +43,10 @@ Now you can autocomplete AND have an auto spy for each method, returning Observa
 
 `npm install -D jasmine-auto-spies`
 
-
 ## Usage (JavaScript)
 
 ```js
-
-// my-spec.js 
+// my-spec.js
 
 import { createSpyFromClass } from 'jasmine-auto-spies';
 import { MyService } from './my-service';
@@ -103,30 +97,26 @@ export class MyService{
     ]
   }
 }
-
 ```
-
 
 ## Usage (TypeScript)
 
-
 ### TypeScript Setup
-Set these 2 properties in your `tsconfig.json` - 
+
+Set these 2 properties in your `tsconfig.json` -
 
 ```json
 {
   "compilerOptions": {
     "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
+    "emitDecoratorMetadata": true
   }
 }
 ```
 
-
 ### 1. Spying on regular sync methods
 
 ```ts
-
 // my-spec.ts
 
 import { Spy, createSpyFromClass } from 'jasmine-auto-spies';
@@ -140,7 +130,7 @@ beforeEach( ()=> {
 
 it('should Do something' ()=> {
   myServiceSpy.getName.and.returnValue('Fake Name');
-  
+
   ... (the rest of the test) ...
 });
 
@@ -152,122 +142,110 @@ class MyService{
     return 'Bonnie';
   }
 }
-
 ```
 
 ### 2. Spy on a `Promise` returning method
 
-First, annotate the method with `@AsyncSpyable` - 
-```ts
-import { AsyncSpyable } from 'jasmine-auto-spies';
-
-export class MyService{
-
-   @AsyncSpyable() // <-- MUST ADD THIS
-   getItems(): Promise<any> {
-      return Promise.resolve( itemsList );
-   } 
-}
-```
-
-Now you can use the `resolveWith` or `rejectWith` methods - 
+Use the `resolveWith` or `rejectWith` methods -
 
 ```ts
 import { Spy, createSpyFromClass } from 'jasmine-auto-spies';
 
 let myServiceSpy: Spy<MyService>;
 
-beforeEach( ()=> {
-  myServiceSpy = createSpyFromClass( MyService )
+beforeEach(() => {
+  myServiceSpy = createSpyFromClass(MyService);
 });
 
-it( ()=>{
-  myServiceSpy.getItems.and.resolveWith( fakeItemsList );
+it(() => {
+  myServiceSpy.getItems.and.resolveWith(fakeItemsList);
   // OR
-  myServiceSpy.getItems.and.rejectWith( fakeError );
+  myServiceSpy.getItems.and.rejectWith(fakeError);
 });
-
 ```
-
 
 ### 3. Spy on a `Observable` returning method
 
-First, annotate your Observable returning method with `@AsyncSpyable` - 
-```ts
-import { AsyncSpyable } from 'jasmine-auto-spies';
-
-export class MyService{
-
-   @AsyncSpyable() // <-- MUST ADD THIS
-   getProducts(): Observable<any> {
-    return Observable.of( productsList );
-   }
-}
-```
-
-Now you can use the `nextWith` or `throwWith` and other methods - 
+Use the `nextWith` or `throwWith` and other methods -
 
 ```ts
 import { Spy, createSpyFromClass } from 'jasmine-auto-spies';
 
 let myServiceSpy: Spy<MyService>;
 
-beforeEach( ()=> {
-  myServiceSpy = createSpyFromClass( MyService )
+beforeEach(() => {
+  myServiceSpy = createSpyFromClass(MyService);
 });
 
-it( ()=>{
-  myServiceSpy.getProducts.and.nextWith( fakeProductsList );
+it(() => {
+  myServiceSpy.getProducts.and.nextWith(fakeProductsList);
   // OR
-  myServiceSpy.getProducts.and.nextOneTimeWith( fakeProductsList ); // emits one value and completes
+  myServiceSpy.getProducts.and.nextOneTimeWith(fakeProductsList); // emits one value and completes
   // OR
-  myServiceSpy.getProducts.and.throwWith( fakeError );
+  myServiceSpy.getProducts.and.throwWith(fakeError);
   // OR
   myServiceSpy.getProducts.and.complete();
 });
-
 ```
 
-### Use `calledWith()` to configure mocks easily
+### Use `calledWith()` to configure conditional return values
 
 You can setup the expected arguments ahead of time
 by using `calledWith` like so:
 
 ```ts
-myServiceSpy.getProducts.calledWith(1).returnValue(true)
+myServiceSpy.getProducts.calledWith(1).returnValue(true);
+```
 
+and it will only return this value if your subject was called with `getProducts(1)`.
+
+#### Oh, and it also works with Promises / Observables:
+
+```ts
+myServiceSpy.getProductsPromise.calledWith(1).resolveWith(true);
+
+// OR
+
+myServiceSpy.getProducts$.calledWith(1).nextWith(true);
+
+// OR ANY OTHER ASYNC CONFIGURATION METHOD...
+```
+
+### Use `throwOnMismatch()` to turn a conditional stub into a mock
+
+```ts
+myServiceSpy.getProducts
+  .calledWith(1)
+  .returnValue(true)
+  .throwOnMismatch();
 ```
 
 is equal to:
 
 ```ts
-myServiceSpy.getProducts.and.returnValue(true)
+myServiceSpy.getProducts.and.returnValue(true);
 
 expect(myServiceSpy.getProducts).toHaveBeenCalledWith(1);
 ```
 
-You can also use it with async method:
-
-```ts
-myServiceSpy.getProducts.calledWith(1).resolveWith(true)
-
-// OR
-
-myServiceSpy.getProducts.calledWith(1).nextWith(true)
-
-// OR ANY OTHER ASYNC CONFIGURATION METHOD...
-```
+But the difference is that the error is being thrown during `getProducts()` call and not in the `expect(...)` call.
 
 ### Manual Setup
 
-If you need to manually configure async methods by names you could pass them as arrays of strings -
+If you need to manually add methods that you want to be spies by passing an array of names as the second param of the `createSpyFromClass` function:
 
 ```ts
+let spy = createSpyFromClass(MyClass, ['customMethod1', 'customMethod2']);
+```
 
-let spy = createSpyFromClass(
-            MyClass, 
-            ['promiseMethod1', 'promiseMethod2'],
-            ['observableMethod1', 'observableMethod2']
-          );
+This is good for times where a method is not part of the `prototype` of the Class but instead being defined in its constructor.
 
+```ts
+class MyClass {
+  constructor() {
+    this.customMethod1 = function() {
+      // This definition is not part of MyClass' prototype
+    };
+  }
+}
 ```

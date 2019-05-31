@@ -1,4 +1,3 @@
-import { AsyncSpyable } from './async-spyable-decorator';
 import { Observable, of, Subject } from 'rxjs';
 
 export class FakeClass {
@@ -8,7 +7,6 @@ export class FakeClass {
     return '';
   }
 
-  @AsyncSpyable()
   public promiseMethod(): Promise<void> {
     return Promise.resolve();
   }
@@ -17,12 +15,10 @@ export class FakeClass {
     return Promise.resolve();
   }
 
-  @AsyncSpyable()
   public observableMethod(): Observable<void> {
     return of();
   }
 
-  @AsyncSpyable()
   public subjectMethod(): Subject<any> {
     return new Subject();
   }
@@ -34,7 +30,6 @@ export class FakeClass {
 
 // tslint:disable-next-line:max-classes-per-file
 export class FakeChildClass extends FakeClass {
-  @AsyncSpyable()
   public anotherObservableMethod(): Observable<any> {
     return of();
   }

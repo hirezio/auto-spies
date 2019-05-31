@@ -1,182 +1,108 @@
-import { Spy } from './spy-types';
+import { Spy } from './spy.types';
 import deepEqual from 'deep-equal';
-import { throwArgumentsError } from './error-handling';
-import { Observable, ReplaySubject } from 'rxjs';
+import { throwArgumentsError } from './errors/error-handling';
+import {
+  observablifySpyFunction,
+  addObservableHandlingToCalledWith
+} from './observables/observable-spy-utils';
 
-import root from 'window-or-global';
-
-const Reflect = root.Reflect;
+import {
+  promisifySpyFunction,
+  addPromiseHandlingToCalledWith
+} from './promises/promises-spy-utils';
+import {
+  CalledWithObject,
+  SpyFunctionReturnValueContainer
+} from './create-spy-from-class.types';
 
 export function createSpyFromClass<T>(
   ObjectClass: { new (...args: any[]): T; [key: string]: any },
-  providedPromiseMethodNames?: string[],
-  providedObservableMethodNames?: string[]
+  providedMethodNames?: string[]
 ): Spy<T> {
   const proto = ObjectClass.prototype;
-  const methodNames = getAllMethodNames(proto);
+  let methodNames = getAllMethodNames(proto);
+  if (providedMethodNames && providedMethodNames.length > 0) {
+    methodNames.push(...providedMethodNames);
+  }
 
   const autoSpy: any = {};
 
   methodNames.forEach(methodName => {
-    const returnTypeClass = Reflect.getMetadata('design:returntype', proto, methodName);
-
-    const spyMethod = createSpyFunction(methodName);
-
-    if (
-      doesMethodReturnPromise(providedPromiseMethodNames, methodName, returnTypeClass)
-    ) {
-      autoSpy[methodName] = createPromiseSpyFunction(spyMethod);
-    } else if (
-      doesMethodReturnObservable(
-        providedObservableMethodNames,
-        methodName,
-        returnTypeClass
-      )
-    ) {
-      autoSpy[methodName] = createObservableSpyFunction(spyMethod);
-    } else {
-      autoSpy[methodName] = spyMethod;
-    }
+    autoSpy[methodName] = createSpyFunction(methodName);
   });
   return autoSpy as Spy<T>;
-}
-
-function createObservableSpyFunction(spyFunction: any) {
-  const subject: ReplaySubject<any> = new ReplaySubject(1);
-
-  spyFunction.and.returnValue(subject);
-  spyFunction.and.nextWith = function nextWith(value: any) {
-    subject.next(value);
-  };
-
-  spyFunction.and.nextOneTimeWith = function nextOneTimeWith(value: any) {
-    subject.next(value);
-    subject.complete();
-  };
-
-  spyFunction.and.throwWith = function throwWith(value: any) {
-    subject.error(value);
-  };
-
-  spyFunction.and.complete = function complete() {
-    subject.complete();
-  };
-
-  spyFunction.calledWith = (...calledWithArgs: any[]) => {
-    return {
-      nextWith(value: any) {
-        spyFunction.and.callFake((...actualArgs: any[]) => {
-          if (!deepEqual(calledWithArgs, actualArgs)) {
-            throwArgumentsError(calledWithArgs, actualArgs);
-          }
-          subject.next(value);
-          return subject;
-        });
-      },
-      nextOneTimeWith(value: any) {
-        spyFunction.and.callFake((...actualArgs: any[]) => {
-          if (!deepEqual(calledWithArgs, actualArgs)) {
-            throwArgumentsError(calledWithArgs, actualArgs);
-          }
-          subject.next(value);
-          subject.complete();
-          return subject;
-        });
-      },
-      throwWith(value: any) {
-        spyFunction.and.callFake((...actualArgs: any[]) => {
-          if (!deepEqual(calledWithArgs, actualArgs)) {
-            throwArgumentsError(calledWithArgs, actualArgs);
-          }
-          subject.error(value);
-          return subject;
-        });
-      },
-      complete() {
-        spyFunction.and.callFake((...actualArgs: any[]) => {
-          if (!deepEqual(calledWithArgs, actualArgs)) {
-            throwArgumentsError(calledWithArgs, actualArgs);
-          }
-          subject.complete();
-          return subject;
-        });
-      }
-    };
-  };
-
-  return spyFunction;
-}
-
-function createPromiseSpyFunction(spyFunction: any) {
-  spyFunction.and.returnValue(
-    new Promise<any>((resolveWith, rejectWith) => {
-      spyFunction.and.resolveWith = resolveWith;
-      spyFunction.and.rejectWith = rejectWith;
-    })
-  );
-  spyFunction.calledWith = (...calledWithArgs: any[]) => {
-    return {
-      resolveWith(value?: any) {
-        spyFunction.and.callFake((...actualArgs: any[]) => {
-          if (!deepEqual(calledWithArgs, actualArgs)) {
-            throwArgumentsError(calledWithArgs, actualArgs);
-          }
-          return Promise.resolve(value);
-        });
-      },
-      rejectWith(value?: any) {
-        spyFunction.and.callFake((...actualArgs: any[]) => {
-          if (!deepEqual(calledWithArgs, actualArgs)) {
-            throwArgumentsError(calledWithArgs, actualArgs);
-          }
-          return Promise.reject(value);
-        });
-      }
-    };
-  };
-
-  return spyFunction;
 }
 
 function createSpyFunction(name: string) {
   const spyFunction: any = jasmine.createSpy(name);
 
-  spyFunction.calledWith = (...calledWithArgs: any[]) => {
-    return {
-      returnValue(value: any) {
-        spyFunction.and.callFake((...actualArgs: any[]) => {
-          if (!deepEqual(calledWithArgs, actualArgs)) {
-            throwArgumentsError(calledWithArgs, actualArgs);
-          }
-          return value;
-        });
-      }
-    };
+  let calledWithObject: CalledWithObject = {
+    calledWithMethodWasCalled: false,
+    shouldThrow: false,
+    calledWithMap: new Map()
   };
+
+  let valueContainer: SpyFunctionReturnValueContainer = {
+    value: undefined
+  };
+
+  promisifySpyFunction(spyFunction, valueContainer);
+  observablifySpyFunction(spyFunction, valueContainer);
+
+  spyFunction.and.callFake((...actualArgs: any[]) => {
+    return spyFunctionCallFakeImplementation(
+      calledWithObject,
+      valueContainer,
+      actualArgs
+    );
+  });
+
+  spyFunction.calledWith = (...calledWithArgs: any[]) => {
+    calledWithObject.calledWithMethodWasCalled = true;
+    calledWithObject = addSyncHandlingToCalledWith(calledWithObject, calledWithArgs);
+    calledWithObject = addPromiseHandlingToCalledWith(calledWithObject, calledWithArgs);
+    calledWithObject = addObservableHandlingToCalledWith(
+      calledWithObject,
+      calledWithArgs
+    );
+    return calledWithObject;
+  };
+
   return spyFunction;
 }
 
-function doesMethodReturnPromise(
-  promiseMethodsList: string[] | undefined,
-  methodName: string,
-  returnTypeClass: any
-): boolean {
-  return (
-    (promiseMethodsList && promiseMethodsList.indexOf(methodName) !== -1) ||
-    returnTypeClass === Promise
-  );
+function spyFunctionCallFakeImplementation(
+  calledWithObject: CalledWithObject,
+  valueContainer: SpyFunctionReturnValueContainer,
+  actualArgs: any[]
+) {
+  if (calledWithObject.calledWithMethodWasCalled) {
+    for (let storedCalledWithArgs of calledWithObject.calledWithMap.keys()) {
+      if (deepEqual(storedCalledWithArgs, actualArgs)) {
+        return calledWithObject.calledWithMap.get(storedCalledWithArgs);
+      }
+    }
+    if (calledWithObject.shouldThrow) {
+      throwArgumentsError(actualArgs);
+    }
+  }
+  return valueContainer.value;
 }
 
-function doesMethodReturnObservable(
-  observableMethodsList: string[] | undefined,
-  methodName: string,
-  returnTypeClass: any
-): boolean {
-  return (
-    (observableMethodsList && observableMethodsList.indexOf(methodName) !== -1) ||
-    returnTypeClass === Observable ||
-    (returnTypeClass && returnTypeClass.prototype instanceof Observable)
-  );
+function addSyncHandlingToCalledWith(
+  calledWithObject: CalledWithObject,
+  calledWithArgs: any[]
+): CalledWithObject {
+  calledWithObject.returnValue = (value: any) => {
+    calledWithObject.calledWithMap.set(calledWithArgs, value);
+
+    return {
+      throwOnMismatch() {
+        calledWithObject.shouldThrow = true;
+      }
+    };
+  };
+  return calledWithObject;
 }
 
 function getAllMethodNames(obj: any): string[] {
@@ -191,7 +117,5 @@ function getAllMethodNames(obj: any): string[] {
   if (constructorIndex >= 0) {
     methods.splice(constructorIndex, 1);
   }
-
-  // .filter(methodName => typeof proto[methodName] == 'function')
   return methods;
 }
