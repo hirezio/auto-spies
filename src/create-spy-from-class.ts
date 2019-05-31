@@ -20,7 +20,7 @@ export function createSpyFromClass<T>(
   providedMethodNames?: string[]
 ): Spy<T> {
   const proto = ObjectClass.prototype;
-  let methodNames = getAllMethodNames(proto);
+  const methodNames = getAllMethodNames(proto);
   if (providedMethodNames && providedMethodNames.length > 0) {
     methodNames.push(...providedMethodNames);
   }
@@ -42,7 +42,7 @@ function createSpyFunction(name: string) {
     calledWithMap: new Map()
   };
 
-  let valueContainer: SpyFunctionReturnValueContainer = {
+  const valueContainer: SpyFunctionReturnValueContainer = {
     value: undefined
   };
 
@@ -77,7 +77,7 @@ function spyFunctionCallFakeImplementation(
   actualArgs: any[]
 ) {
   if (calledWithObject.calledWithMethodWasCalled) {
-    for (let storedCalledWithArgs of calledWithObject.calledWithMap.keys()) {
+    for (const storedCalledWithArgs of calledWithObject.calledWithMap.keys()) {
       if (deepEqual(storedCalledWithArgs, actualArgs)) {
         return calledWithObject.calledWithMap.get(storedCalledWithArgs);
       }

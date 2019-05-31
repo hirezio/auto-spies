@@ -1,5 +1,6 @@
 /// <reference types="jasmine" />
 import { Observable } from 'rxjs';
+import { MockTransformer } from './create-spy-from-class.types';
 
 export type Spy<T> = { [k in keyof T]: AddSpyTypes<T[k]> };
 
@@ -16,22 +17,22 @@ export type AddSpyTypes<T> = T extends (...args: any[]) => any
 //     : T extends Observable<any> ? AddSpyOnObservable<T> : T;
 
 export interface PromiseSpyMethod<T> {
-  resolveWith(value: T): void;
-  rejectWith(value: any): void;
+  resolveWith(value: T): MockTransformer;
+  rejectWith(value: any): MockTransformer;
 }
 
 export interface ObservableSpyMethod<T> {
-  nextWith(value: T): void;
-  nextOneTimeWith(value: T): void; // emit one value and completes
-  throwWith(value: any): void;
-  complete(): void;
+  nextWith(value: T): MockTransformer;
+  nextOneTimeWith(value: T): MockTransformer; // emit one value and completes
+  throwWith(value: any): MockTransformer;
+  complete(): MockTransformer;
 }
 
 export interface SpyMethod {
   calledWith(
     ...args: any[]
   ): {
-    returnValue: (value: any) => void;
+    returnValue: (value: any) => MockTransformer;
   };
 }
 
@@ -56,9 +57,7 @@ export type AddSpyByReturnTypes<TF extends (...args: any[]) => any> = TF &
       ? AddSpyOnFunction<TR> // returns a Promise
       : TR extends Promise<any>
         ? AddSpyOnPromise<TR> // returns an Observable
-        : TR extends Observable<any>
-          ? AddSpyOnObservable<TR>
-          : AddSpyOnFunction<TF>
+        : TR extends Observable<any> ? AddSpyOnObservable<TR> : AddSpyOnFunction<TF>
     : never);
 
 // export type AddSpyOnFunctionReturnType<
@@ -72,6 +71,4 @@ export type Unpacked<T> = T extends Array<infer U1>
   ? U1
   : T extends (...args: any[]) => infer U2
     ? U2
-    : T extends Promise<infer U3>
-      ? U3
-      : T extends Observable<infer U4> ? U4 : T;
+    : T extends Promise<infer U3> ? U3 : T extends Observable<infer U4> ? U4 : T;

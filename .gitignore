@@ -5,3 +5,4 @@ src/*.js*
 **/*.d.ts
 .vscode
 TODO
+yarn-error.log
