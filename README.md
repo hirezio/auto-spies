@@ -37,7 +37,7 @@ Now you can autocomplete AND have an auto spy for each method, returning Observa
 
 ✅ **Type completion** for both the original Class and the spy methods
 
-✅ **Automatic return type detection** by using a simple decorator
+✅ **Automatic return type detection** by using a conditional types
 
 ## Installation
 
@@ -100,19 +100,6 @@ export class MyService{
 ```
 
 ## Usage (TypeScript)
-
-### TypeScript Setup
-
-Set these 2 properties in your `tsconfig.json` -
-
-```json
-{
-  "compilerOptions": {
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true
-  }
-}
-```
 
 ### 1. Spying on regular sync methods
 
