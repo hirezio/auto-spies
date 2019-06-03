@@ -45,50 +45,22 @@ Now you can autocomplete AND have an auto spy for each method, returning Observa
 
 ## Usage (JavaScript)
 
+### `my-component.js`
+
 ```js
-// my-spec.js
-
-import { createSpyFromClass } from 'jasmine-auto-spies';
-import { MyService } from './my-service';
-import { MyComponent } from './my-component';
-
-describe('MyComponent', ()=>{
-
-  let myServiceSpy;
-  let componentUnderTest;
-
-  beforeEach(()=>{
-    myServiceSpy = createSpyFromClass(MyService);
-    componentUnderTest = new MyComponent(myServiceSpy);
-  });
-
-  it('should get data on init', ()=>{
-    const fakeData = [{fake: 'data'}];
-    myServiceSpy.getData.and.returnWith(fakeData);
-
-    componentUnderTest.init();
-
-    expect(myServiceSpy.getData).toHaveBeenCalled();
-    expect(componentUnderTest.compData).toEqual(fakeData);
-  });
-
-});
-
-
-// my-component.js
-
-export class MyComponent{
-
-  constructor(myService){
+export class MyComponent {
+  constructor(myService) {
     this.myService = myService;
   }
-  init(){
+  init() {
     this.compData = this.myService.getData();
   }
 }
+```
 
-// my-service.js
+### `my-service.js`
 
+```js
 export class MyService{
 
   getData{
@@ -97,6 +69,36 @@ export class MyService{
     ]
   }
 }
+```
+
+### `my-spec.js`
+
+```js
+import { createSpyFromClass } from 'jasmine-auto-spies';
+import { MyService } from './my-service';
+import { MyComponent } from './my-component';
+
+describe('MyComponent', () => {
+  let myServiceSpy;
+  let componentUnderTest;
+
+  beforeEach(() => {
+    myServiceSpy = createSpyFromClass(MyService); // <- THIS IS THE IMPORTANT LINE
+
+    componentUnderTest = new MyComponent(myServiceSpy);
+  });
+
+  it('should fetch data on init', () => {
+    const fakeData = [{ fake: 'data' }];
+
+    myServiceSpy.getData.and.returnWith(fakeData);
+
+    componentUnderTest.init();
+
+    expect(myServiceSpy.getData).toHaveBeenCalled();
+    expect(componentUnderTest.compData).toEqual(fakeData);
+  });
+});
 ```
 
 ## Usage (TypeScript)
@@ -109,13 +111,13 @@ export class MyService{
 import { Spy, createSpyFromClass } from 'jasmine-auto-spies';
 import { MyService } from './my-service';
 
-let myServiceSpy: Spy<MyService>;
+let myServiceSpy: Spy<MyService>; // <- THIS IS THE IMPORTANT LINE
 
 beforeEach( ()=> {
   myServiceSpy = createSpyFromClass( MyService );
 });
 
-it('should Do something' ()=> {
+it('should do something' ()=> {
   myServiceSpy.getName.and.returnValue('Fake Name');
 
   ... (the rest of the test) ...
@@ -151,7 +153,7 @@ it(() => {
 });
 ```
 
-### 3. Spy on a `Observable` returning method
+### 3. Spy on an `Observable` returning method
 
 Use the `nextWith` or `throwWith` and other methods -
 
