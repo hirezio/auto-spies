@@ -17,13 +17,13 @@ export type AddSpyTypes<T> = T extends (...args: any[]) => any
 //     : T extends Observable<any> ? AddSpyOnObservable<T> : T;
 
 export interface PromiseSpyMethod<T> {
-  resolveWith(value: T): MockTransformer;
-  rejectWith(value: any): MockTransformer;
+  resolveWith(value?: T): MockTransformer;
+  rejectWith(value?: any): MockTransformer;
 }
 
 export interface ObservableSpyMethod<T> {
-  nextWith(value: T): MockTransformer;
-  nextOneTimeWith(value: T): MockTransformer; // emit one value and completes
+  nextWith(value?: T): MockTransformer;
+  nextOneTimeWith(value?: T): MockTransformer; // emit one value and completes
   throwWith(value: any): MockTransformer;
   complete(): MockTransformer;
 }
