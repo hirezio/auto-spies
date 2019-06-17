@@ -42,12 +42,12 @@ export type AddSpyOnFunction<T extends (...args: any[]) => any> = T &
 
 export type AddSpyOnPromise<T extends Promise<any>> = {
   and: PromiseSpyMethod<Unpacked<T>>;
-  calledWith(...args: any[]): PromiseSpyMethod<T>;
+  calledWith(...args: any[]): PromiseSpyMethod<Unpacked<T>>;
 } & jasmine.Spy;
 
 export type AddSpyOnObservable<T extends Observable<any>> = {
   and: ObservableSpyMethod<Unpacked<T>>;
-  calledWith(...args: any[]): ObservableSpyMethod<T>;
+  calledWith(...args: any[]): ObservableSpyMethod<Unpacked<T>>;
 } & jasmine.Spy;
 
 // Wrap the return type of the given function type with the appropriate spy methods

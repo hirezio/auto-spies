@@ -119,12 +119,15 @@ describe('createSpyFromClass', () => {
         describe(`GIVEN another calledWith is configured
                   WHEN method is called twice
                   THEN return the correct value for each call`, () => {
+          interface FakeType {
+            name: string;
+          }
           let actualResult2: any;
           let fakeArgs2: any[];
-          let fakeValue2: any;
+          let fakeValue2: FakeType;
           Given(() => {
             actualResult2 = undefined;
-            fakeValue2 = 'FAKE VALUE 2';
+            fakeValue2 = { name: 'FAKE VALUE 2' };
             fakeArgs2 = [3, 4];
             fakeClassSpy.observableMethod.calledWith(...fakeArgs2).nextWith(fakeValue2);
           });

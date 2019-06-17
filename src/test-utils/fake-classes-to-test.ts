@@ -15,7 +15,7 @@ export class FakeClass {
     return Promise.resolve();
   }
 
-  public observableMethod(): Observable<void> {
+  public observableMethod(): Observable<any> {
     return of();
   }
 
