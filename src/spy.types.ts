@@ -1,6 +1,5 @@
 /// <reference types="jasmine" />
 import { Observable } from 'rxjs';
-import { MockTransformer } from './create-spy-from-class.types';
 
 export type Spy<T> = { [k in keyof T]: AddSpyTypes<T[k]> };
 
@@ -17,22 +16,27 @@ export type AddSpyTypes<T> = T extends (...args: any[]) => any
 //     : T extends Observable<any> ? AddSpyOnObservable<T> : T;
 
 export interface PromiseSpyMethod<T> {
-  resolveWith(value?: T): MockTransformer;
-  rejectWith(value?: any): MockTransformer;
+  resolveWith(value?: T): void;
+  rejectWith(value?: any): void;
 }
 
 export interface ObservableSpyMethod<T> {
-  nextWith(value?: T): MockTransformer;
-  nextOneTimeWith(value?: T): MockTransformer; // emit one value and completes
-  throwWith(value: any): MockTransformer;
-  complete(): MockTransformer;
+  nextWith(value?: T): void;
+  nextOneTimeWith(value?: T): void; // emit one value and completes
+  throwWith(value: any): void;
+  complete(): void;
 }
 
 export interface SpyMethod {
   calledWith(
     ...args: any[]
   ): {
-    returnValue: (value: any) => MockTransformer;
+    returnValue: (value: any) => void;
+  };
+  mustBeCalledWith(
+    ...args: any[]
+  ): {
+    returnValue: (value: any) => void;
   };
 }
 
@@ -43,11 +47,13 @@ export type AddSpyOnFunction<T extends (...args: any[]) => any> = T &
 export type AddSpyOnPromise<T extends Promise<any>> = {
   and: PromiseSpyMethod<Unpacked<T>>;
   calledWith(...args: any[]): PromiseSpyMethod<Unpacked<T>>;
+  mustBeCalledWith(...args: any[]): PromiseSpyMethod<Unpacked<T>>;
 } & jasmine.Spy;
 
 export type AddSpyOnObservable<T extends Observable<any>> = {
   and: ObservableSpyMethod<Unpacked<T>>;
   calledWith(...args: any[]): ObservableSpyMethod<Unpacked<T>>;
+  mustBeCalledWith(...args: any[]): ObservableSpyMethod<Unpacked<T>>;
 } & jasmine.Spy;
 
 // Wrap the return type of the given function type with the appropriate spy methods

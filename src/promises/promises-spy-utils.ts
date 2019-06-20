@@ -1,5 +1,3 @@
-import { throwArgumentsError } from '../errors/error-handling';
-import deepEqual from 'deep-equal';
 import {
   SpyFunctionReturnValueContainer,
   CalledWithObject
@@ -22,20 +20,10 @@ export function addPromiseHandlingToCalledWith(
   calledWithArgs: any[]
 ): CalledWithObject {
   calledWithObject.resolveWith = function(value?: any) {
-    calledWithObject.calledWithMap.set(calledWithArgs, Promise.resolve(value));
-    return {
-      throwOnMismatch() {
-        calledWithObject.shouldThrow = true;
-      }
-    };
+    calledWithObject.argsToValuesMap.set(calledWithArgs, Promise.resolve(value));
   };
   calledWithObject.rejectWith = function(value?: any) {
-    calledWithObject.calledWithMap.set(calledWithArgs, Promise.reject(value));
-    return {
-      throwOnMismatch() {
-        calledWithObject.shouldThrow = true;
-      }
-    };
+    calledWithObject.argsToValuesMap.set(calledWithArgs, Promise.reject(value));
   };
   return calledWithObject;
 }

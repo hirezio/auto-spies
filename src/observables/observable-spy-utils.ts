@@ -40,43 +40,23 @@ export function addObservableHandlingToCalledWith(
 
   calledWithObject.nextWith = function(value: any) {
     subject.next(value);
-    calledWithObject.calledWithMap.set(calledWithArgs, subject);
-    return {
-      throwOnMismatch() {
-        calledWithObject.shouldThrow = true;
-      }
-    };
+    calledWithObject.argsToValuesMap.set(calledWithArgs, subject);
   };
 
   calledWithObject.nextOneTimeWith = function(value: any) {
     subject.next(value);
     subject.complete();
-    calledWithObject.calledWithMap.set(calledWithArgs, subject);
-    return {
-      throwOnMismatch() {
-        calledWithObject.shouldThrow = true;
-      }
-    };
+    calledWithObject.argsToValuesMap.set(calledWithArgs, subject);
   };
 
   calledWithObject.throwWith = function(value: any) {
     subject.error(value);
-    calledWithObject.calledWithMap.set(calledWithArgs, subject);
-    return {
-      throwOnMismatch() {
-        calledWithObject.shouldThrow = true;
-      }
-    };
+    calledWithObject.argsToValuesMap.set(calledWithArgs, subject);
   };
 
   calledWithObject.complete = function() {
     subject.complete();
-    calledWithObject.calledWithMap.set(calledWithArgs, subject);
-    return {
-      throwOnMismatch() {
-        calledWithObject.shouldThrow = true;
-      }
-    };
+    calledWithObject.argsToValuesMap.set(calledWithArgs, subject);
   };
 
   return calledWithObject;

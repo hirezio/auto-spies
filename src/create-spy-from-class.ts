@@ -37,9 +37,13 @@ function createSpyFunction(name: string) {
   const spyFunction: any = jasmine.createSpy(name);
 
   let calledWithObject: CalledWithObject = {
-    calledWithMethodWasCalled: false,
-    shouldThrow: false,
-    calledWithMap: new Map()
+    wasCalled: false,
+    argsToValuesMap: new Map()
+  };
+
+  let mustBeCalledWithObject: CalledWithObject = {
+    wasCalled: false,
+    argsToValuesMap: new Map()
   };
 
   const valueContainer: SpyFunctionReturnValueContainer = {
@@ -50,15 +54,16 @@ function createSpyFunction(name: string) {
   observablifySpyFunction(spyFunction, valueContainer);
 
   spyFunction.and.callFake((...actualArgs: any[]) => {
-    return spyFunctionCallFakeImplementation(
+    return spyFunctionImplementation(
       calledWithObject,
+      mustBeCalledWithObject,
       valueContainer,
       actualArgs
     );
   });
 
   spyFunction.calledWith = (...calledWithArgs: any[]) => {
-    calledWithObject.calledWithMethodWasCalled = true;
+    calledWithObject.wasCalled = true;
     calledWithObject = addSyncHandlingToCalledWith(calledWithObject, calledWithArgs);
     calledWithObject = addPromiseHandlingToCalledWith(calledWithObject, calledWithArgs);
     calledWithObject = addObservableHandlingToCalledWith(
@@ -68,23 +73,46 @@ function createSpyFunction(name: string) {
     return calledWithObject;
   };
 
+  spyFunction.mustBeCalledWith = (...calledWithArgs: any[]) => {
+    mustBeCalledWithObject.wasCalled = true;
+    mustBeCalledWithObject = addSyncHandlingToCalledWith(
+      mustBeCalledWithObject,
+      calledWithArgs
+    );
+    mustBeCalledWithObject = addPromiseHandlingToCalledWith(
+      mustBeCalledWithObject,
+      calledWithArgs
+    );
+    mustBeCalledWithObject = addObservableHandlingToCalledWith(
+      mustBeCalledWithObject,
+      calledWithArgs
+    );
+    return mustBeCalledWithObject;
+  };
+
   return spyFunction;
 }
 
-function spyFunctionCallFakeImplementation(
+function spyFunctionImplementation(
   calledWithObject: CalledWithObject,
+  mustBeCalledWithObject: CalledWithObject,
   valueContainer: SpyFunctionReturnValueContainer,
   actualArgs: any[]
 ) {
-  if (calledWithObject.calledWithMethodWasCalled) {
-    for (const storedCalledWithArgs of calledWithObject.calledWithMap.keys()) {
+  if (calledWithObject.wasCalled) {
+    for (const storedCalledWithArgs of calledWithObject.argsToValuesMap.keys()) {
       if (deepEqual(storedCalledWithArgs, actualArgs)) {
-        return calledWithObject.calledWithMap.get(storedCalledWithArgs);
+        return calledWithObject.argsToValuesMap.get(storedCalledWithArgs);
       }
     }
-    if (calledWithObject.shouldThrow) {
-      throwArgumentsError(actualArgs);
+  }
+  if (mustBeCalledWithObject.wasCalled) {
+    for (const storedCalledWithArgs of mustBeCalledWithObject.argsToValuesMap.keys()) {
+      if (deepEqual(storedCalledWithArgs, actualArgs)) {
+        return mustBeCalledWithObject.argsToValuesMap.get(storedCalledWithArgs);
+      }
     }
+    throwArgumentsError(actualArgs);
   }
   return valueContainer.value;
 }
@@ -94,13 +122,7 @@ function addSyncHandlingToCalledWith(
   calledWithArgs: any[]
 ): CalledWithObject {
   calledWithObject.returnValue = (value: any) => {
-    calledWithObject.calledWithMap.set(calledWithArgs, value);
-
-    return {
-      throwOnMismatch() {
-        calledWithObject.shouldThrow = true;
-      }
-    };
+    calledWithObject.argsToValuesMap.set(calledWithArgs, value);
   };
   return calledWithObject;
 }

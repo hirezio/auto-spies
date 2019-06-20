@@ -123,10 +123,7 @@ describe('createSpyFromClass - promises', () => {
             WHEN called with the wrong parameters
             THEN throw an error`, () => {
       Given(() => {
-        fakeClassSpy.promiseMethod
-          .calledWith(WRONG_VALUE)
-          .resolveWith(fakeValue)
-          .throwOnMismatch();
+        fakeClassSpy.promiseMethod.mustBeCalledWith(WRONG_VALUE).resolveWith(fakeValue);
       });
 
       Then(() => {
@@ -160,10 +157,7 @@ describe('createSpyFromClass - promises', () => {
             WHEN called with the wrong parameters
             THEN throw an error`, () => {
       Given(() => {
-        fakeClassSpy.promiseMethod
-          .calledWith(WRONG_VALUE)
-          .rejectWith(fakeValue)
-          .throwOnMismatch();
+        fakeClassSpy.promiseMethod.mustBeCalledWith(WRONG_VALUE).rejectWith(fakeValue);
       });
 
       Then(() => {

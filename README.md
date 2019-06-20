@@ -200,13 +200,10 @@ myServiceSpy.getProducts$.calledWith(1).nextWith(true);
 // OR ANY OTHER ASYNC CONFIGURATION METHOD...
 ```
 
-### Use `throwOnMismatch()` to turn a conditional stub into a mock
+### Use `mustBeCalledWith()` to create a mock instead of a stub
 
 ```ts
-myServiceSpy.getProducts
-  .calledWith(1)
-  .returnValue(true)
-  .throwOnMismatch();
+myServiceSpy.getProducts.mustBeCalledWith(1).returnValue(true);
 ```
 
 is equal to:

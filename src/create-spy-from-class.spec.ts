@@ -109,10 +109,7 @@ describe('createSpyFromClass', () => {
             THEN throw an error`, () => {
     Given(() => {
       fakeArgs = [1, { a: 2 }];
-      fakeClassSpy.syncMethod
-        .calledWith(...fakeArgs)
-        .returnValue(fakeValue)
-        .throwOnMismatch();
+      fakeClassSpy.syncMethod.mustBeCalledWith(...fakeArgs).returnValue(fakeValue);
     });
     When(() => {
       actualResult = fakeClassSpy.syncMethod(WRONG_VALUE);
@@ -121,6 +118,45 @@ describe('createSpyFromClass', () => {
     Then(() => {
       verifyArgumentsErrorWasThrown({
         actualArgs: [WRONG_VALUE]
+      });
+    });
+  });
+
+  describe(`GIVEN a synchronous method calledWith is configured to throw on mismatch
+            WHEN called twice with the right parameters
+            THEN DO NOT throw an error`, () => {
+    let fakeArgs2: any[];
+    Given(() => {
+      fakeArgs = [1, { a: 2 }];
+      fakeArgs2 = [1, { a: 3 }];
+      fakeClassSpy.syncMethod.mustBeCalledWith(...fakeArgs).returnValue(fakeValue);
+
+      fakeClassSpy.syncMethod.mustBeCalledWith(...fakeArgs2).returnValue(fakeValue);
+    });
+
+    describe(`WHEN called twice with the right parameters
+             THEN DO NOT throw an error`, () => {
+      When(() => {
+        actualResult = fakeClassSpy.syncMethod(...fakeArgs);
+        actualResult = fakeClassSpy.syncMethod(...fakeArgs2);
+      });
+
+      Then(() => {
+        expect(throwArgumentsErrorSpyFunction).not.toHaveBeenCalled();
+      });
+    });
+
+    describe(`WHEN called second time with the wrong parameters
+             THEN throw an error with the wrong value`, () => {
+      When(() => {
+        actualResult = fakeClassSpy.syncMethod(...fakeArgs);
+        actualResult = fakeClassSpy.syncMethod(WRONG_VALUE);
+      });
+
+      Then(() => {
+        verifyArgumentsErrorWasThrown({
+          actualArgs: [WRONG_VALUE]
+        });
       });
     });
   });

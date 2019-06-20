@@ -146,7 +146,7 @@ describe('createSpyFromClass', () => {
         });
       });
 
-      describe('GIVEN calledWith of nextWith is configured with wrong params THEN do not throw an error', () => {
+      describe('GIVEN calledWith of nextWith is configured with wrong params THEN do NOT throw an error', () => {
         Given(() => {
           fakeClassSpy.observableMethod.calledWith(WRONG_VALUE).nextWith(fakeValue);
         });
@@ -158,10 +158,7 @@ describe('createSpyFromClass', () => {
 
       describe('GIVEN calledWith of nextWith is configured with the wrong params THEN throw an error', () => {
         Given(() => {
-          fakeClassSpy.observableMethod
-            .calledWith(WRONG_VALUE)
-            .nextWith(fakeValue)
-            .throwOnMismatch();
+          fakeClassSpy.observableMethod.mustBeCalledWith(WRONG_VALUE).nextWith(fakeValue);
         });
 
         Then(() => {
@@ -199,9 +196,8 @@ describe('createSpyFromClass', () => {
       describe('GIVEN calledWith of nextOneTimeWith is configured with the wrong params THEN throw an error', () => {
         Given(() => {
           fakeClassSpy.observableMethod
-            .calledWith(WRONG_VALUE)
-            .nextOneTimeWith(fakeValue)
-            .throwOnMismatch();
+            .mustBeCalledWith(WRONG_VALUE)
+            .nextOneTimeWith(fakeValue);
         });
 
         Then(() => {
@@ -234,9 +230,8 @@ describe('createSpyFromClass', () => {
       describe('GIVEN calledWith of throwWith is configured with the wrong params THEN throw an error', () => {
         Given(() => {
           fakeClassSpy.observableMethod
-            .calledWith(WRONG_VALUE)
-            .throwWith(fakeValue)
-            .throwOnMismatch();
+            .mustBeCalledWith(WRONG_VALUE)
+            .throwWith(fakeValue);
         });
 
         Then(() => {
@@ -268,10 +263,7 @@ describe('createSpyFromClass', () => {
 
       describe('GIVEN calledWith of complete is configured with the wrong params THEN throw an error', () => {
         Given(() => {
-          fakeClassSpy.observableMethod
-            .calledWith(WRONG_VALUE)
-            .complete()
-            .throwOnMismatch();
+          fakeClassSpy.observableMethod.mustBeCalledWith(WRONG_VALUE).complete();
         });
 
         Then(() => {
