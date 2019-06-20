@@ -27,13 +27,23 @@ describe('throwArgumentsError', () => {
     });
   });
 
-  describe('Given actual args dont match THEN throw error with arguments', () => {
+  describe('Given actual args do not match THEN throw error with arguments', () => {
     Given(() => {
-      fakeActualArgs = [1];
+      fakeActualArgs = [1, 2];
     });
 
     Then(() => {
-      expect(actualError).toContain('But the actual arguments were: 1');
+      expect(actualError).toContain('But the actual arguments were: 1,2');
+    });
+  });
+
+  describe('Given actual args of type object do not match THEN throw error with arguments', () => {
+    Given(() => {
+      fakeActualArgs = [{ yep: 1 }];
+    });
+
+    Then(() => {
+      expect(actualError).toContain('But the actual arguments were: {"yep":1}');
     });
   });
 });

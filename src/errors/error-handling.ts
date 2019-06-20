@@ -9,8 +9,11 @@ export function throwArgumentsError(actualArgs: any[]) {
               But the function was called without any arguments
               `;
   } else {
+    let formattedArgs = JSON.stringify(actualArgs);
+    formattedArgs = formattedArgs.substring(1, formattedArgs.length - 1);
+
     errorMessage += `
-              But the actual arguments were: ${actualArgs}
+              But the actual arguments were: ${formattedArgs}
               `;
   }
 
