@@ -182,7 +182,7 @@ function getAllMethodNames(obj: any) {
   let methods: string[] = [];
 
   do {
-    methods = methods.concat(Object.keys(obj));
+    methods = methods.concat(Object.getOwnPropertyNames(obj));
     obj = Object.getPrototypeOf(obj);
   } while (obj);
 
