@@ -3,6 +3,8 @@ import { Observable, of, Subject } from 'rxjs';
 export class FakeClass {
   public someProp: number = 1;
 
+  constructor() {}
+
   public syncMethod() {
     return '';
   }
@@ -30,6 +32,10 @@ export class FakeClass {
 
 // tslint:disable-next-line:max-classes-per-file
 export class FakeChildClass extends FakeClass {
+  constructor() {
+    super();
+  }
+
   public anotherObservableMethod(): Observable<any> {
     return of();
   }

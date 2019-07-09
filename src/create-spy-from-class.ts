@@ -131,13 +131,10 @@ function getAllMethodNames(obj: any): string[] {
   let methods: string[] = [];
 
   do {
-    methods = methods.concat(Object.keys(obj));
+    methods = methods.concat(Object.getOwnPropertyNames(obj));
     obj = Object.getPrototypeOf(obj);
   } while (obj);
 
-  const constructorIndex = methods.indexOf('constructor');
-  if (constructorIndex >= 0) {
-    methods.splice(constructorIndex, 1);
-  }
+  methods = methods.filter(m => m !== 'constructor');
   return methods;
 }
