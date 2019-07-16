@@ -1,6 +1,6 @@
 export function throwArgumentsError(actualArgs: any[]) {
   let errorMessage = `
-              The function was configured with 'calledWith'
+              The function was configured with 'mustBeCalledWith'
               and expects to be called with specific arguments.
               -
               `;
