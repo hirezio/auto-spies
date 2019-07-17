@@ -80,8 +80,8 @@
     "semantic-release": "^15.6.0",
     "travis-deploy-once": "^5.0.0",
     "ts-node": "^3.0.6",
-    "tslint": "5.10.0",
-    "typescript": "^2.9.2",
+    "tslint": "5.18.0",
+    "typescript": "^3.5.3",
     "webpack": "2.7.0"
   },
   "dependencies": {
@@ -90,6 +90,6 @@
   "peerDependencies": {
     "jasmine": "^2.6.0",
     "rxjs": "^6.0.0",
-    "typescript": "^2.8.1"
+    "typescript": ">=2.8.1"
   }
 }
