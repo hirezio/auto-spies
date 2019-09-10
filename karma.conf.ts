@@ -1,8 +1,7 @@
-import { webpackConfig } from './webpack.config';
+import { getWebpackConfig } from './webpack.config';
 
 export default function(config: any) {
   config.set({
-
     // base path that will be used to resolve all patterns (eg. files, exclude)
     basePath: '',
 
@@ -17,7 +16,7 @@ export default function(config: any) {
       require('karma-webpack'),
       require('karma-coverage-istanbul-reporter'),
       require('karma-mocha-reporter'),
-      require('karma-jasmine-diff-reporter'),
+      require('karma-jasmine-diff-reporter')
     ],
 
     preprocessors: {
@@ -29,14 +28,11 @@ export default function(config: any) {
     },
 
     // list of files / patterns to load in the browser
-    files: [
-      { pattern: './test.ts', watched: false }
-    ],
+    files: [{ pattern: './test.ts', watched: false }],
 
-    exclude: [
-    ],
+    exclude: [],
 
-    webpack: webpackConfig,
+    webpack: getWebpackConfig(true),
     webpackMiddleware: {
       stats: 'errors-only'
     },
@@ -82,7 +78,7 @@ export default function(config: any) {
           statements: 90,
           lines: 90,
           branches: 90,
-          functions: 90,
+          functions: 90
           // overrides: {
           //   'baz/component/**/*.js': {
           //     statements: 98
@@ -105,6 +101,6 @@ export default function(config: any) {
 
     singleRun: true,
 
-    concurrency: Infinity,
+    concurrency: Infinity
   });
 }
