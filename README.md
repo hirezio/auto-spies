@@ -41,6 +41,10 @@ Now you can autocomplete AND have an auto spy for each method, returning Observa
 
 ## Installation
 
+`yarn add -D jasmine-auto-spies`
+
+or 
+
 `npm install -D jasmine-auto-spies`
 
 ## Usage (JavaScript)
