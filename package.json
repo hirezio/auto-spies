@@ -61,7 +61,7 @@
     "cz-conventional-changelog": "2.1.0",
     "husky": "1.0.0-rc.13",
     "istanbul-instrumenter-loader": "3.0.1",
-    "jasmine": "^2.6.0",
+    "jasmine": "3.5.0",
     "jasmine-given": "^2.6.4",
     "karma": "^1.7.0",
     "karma-chrome-launcher": "2.2.0",
@@ -88,7 +88,7 @@
     "deep-equal": "1.0.1"
   },
   "peerDependencies": {
-    "jasmine": "^2.6.0",
+    "jasmine": ">=2.6.0 <=3.5.0",
     "rxjs": "^6.0.0",
     "typescript": ">=2.8.1"
   }
