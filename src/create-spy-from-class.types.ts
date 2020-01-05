@@ -1,3 +1,5 @@
+import { Subject } from 'rxjs';
+
 export interface SpyFunctionReturnValueContainer {
   value: any;
 }
@@ -12,4 +14,5 @@ export interface CalledWithObject {
   nextOneTimeWith?(value?: any): void;
   throwWith?(value: any): void;
   complete?(): void;
+  returnSubject?<R = any>(): Subject<R>;
 }

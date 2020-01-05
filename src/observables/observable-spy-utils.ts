@@ -30,6 +30,11 @@ export function observablifySpyFunction(
     valueContainer.value = subject;
     subject.complete();
   };
+
+  spyFunction.and.returnSubject = function complete() {
+    valueContainer.value = subject;
+    return subject;
+  };
 }
 
 export function addObservableHandlingToCalledWith(
@@ -57,6 +62,11 @@ export function addObservableHandlingToCalledWith(
   calledWithObject.complete = function() {
     subject.complete();
     calledWithObject.argsToValuesMap.set(calledWithArgs, subject);
+  };
+
+  calledWithObject.returnSubject = function() {
+    calledWithObject.argsToValuesMap.set(calledWithArgs, subject);
+    return subject;
   };
 
   return calledWithObject;

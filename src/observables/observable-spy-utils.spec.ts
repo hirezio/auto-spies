@@ -3,6 +3,7 @@ import { FakeChildClass, FakeClass } from '../test-utils/fake-classes-to-test';
 import { take } from 'rxjs/operators';
 import { Spy } from '../spy.types';
 import * as errorHandling from '../errors/error-handling';
+import { Subject } from 'rxjs';
 
 let fakeClassSpy: Spy<FakeClass>;
 let fakeChildClassSpy: Spy<FakeChildClass>;
@@ -84,6 +85,27 @@ describe('createSpyFromClass', () => {
 
         Then(() => {
           expect(completed).toBe(true);
+        });
+      });
+
+      describe('GIVEN returnSubject is configured THEN do not emit', () => {
+        let subject: Subject<any>;
+        Given(() => {
+          subject = fakeClassSpy.observableMethod.and.returnSubject();
+        });
+
+        Then(() => {
+          expect(actualResult).toBeNull();
+        });
+
+        describe('GIVEN subject emits THEN capture the emitted message', () => {
+          Given(() => {
+            subject.next(fakeValue);
+          });
+
+          Then(() => {
+            expect(actualResult).toBe(fakeValue);
+          });
         });
       });
     });
@@ -261,9 +283,45 @@ describe('createSpyFromClass', () => {
         });
       });
 
-      describe('GIVEN calledWith of complete is configured with the wrong params THEN throw an error', () => {
+      describe('GIVEN mustBeCalledWith of complete is configured with the wrong params THEN throw an error', () => {
         Given(() => {
           fakeClassSpy.observableMethod.mustBeCalledWith(WRONG_VALUE).complete();
+        });
+
+        Then(() => {
+          verifyArgumentsErrorWasThrown({
+            actualArgs: fakeArgs
+          });
+        });
+      });
+
+      describe('GIVEN calledWith of returnSubject is configured with the right params THEN emit successfully', () => {
+        Given(() => {
+          const subject = fakeClassSpy.observableMethod
+            .calledWith(...fakeArgs)
+            .returnSubject();
+          subject.next(fakeValue);
+        });
+
+        Then(() => {
+          expect(actualResult).toEqual(fakeValue);
+        });
+      });
+
+      describe('GIVEN calledWith of returnSubject is configured with wrong params THEN do not throw an error', () => {
+        Given(() => {
+          fakeClassSpy.observableMethod.calledWith(WRONG_VALUE).returnSubject();
+        });
+
+        Then(() => {
+          expect(throwArgumentsErrorSpyFunction).not.toHaveBeenCalled();
+        });
+      });
+
+      describe(`GIVEN mustBeCalledWith of returnSubject is configured with the wrong params
+                THEN throw an error`, () => {
+        Given(() => {
+          fakeClassSpy.observableMethod.mustBeCalledWith(WRONG_VALUE).returnSubject();
         });
 
         Then(() => {

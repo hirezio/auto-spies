@@ -1,5 +1,5 @@
 /// <reference types="jasmine" />
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 
 export type Spy<T> = { [k in keyof T]: AddSpyTypes<T[k]> };
 
@@ -25,6 +25,7 @@ export interface ObservableSpyMethod<T> {
   nextOneTimeWith(value?: T): void; // emit one value and completes
   throwWith(value: any): void;
   complete(): void;
+  returnSubject<R = any>(): Subject<R>;
 }
 
 export interface SpyMethod {
