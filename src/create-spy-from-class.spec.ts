@@ -26,11 +26,11 @@ describe('createSpyFromClass', () => {
 
   describe('GIVEN a synchronous method is being configured', () => {
     Given(() => {
-      fakeClassSpy.syncMethod.and.returnValue(fakeValue);
+      fakeClassSpy.getSyncValue.and.returnValue(fakeValue);
     });
 
     When(() => {
-      actualResult = fakeClassSpy.syncMethod();
+      actualResult = fakeClassSpy.getSyncValue();
     });
 
     Then(() => {
@@ -56,12 +56,12 @@ describe('createSpyFromClass', () => {
   describe('GIVEN a synchronous method is being configured with specific parameters', () => {
     Given(() => {
       fakeArgs = [1, { a: 2 }];
-      fakeClassSpy.syncMethod.calledWith(...fakeArgs).returnValue(fakeValue);
+      fakeClassSpy.getSyncValue.calledWith(...fakeArgs).returnValue(fakeValue);
     });
 
     describe('WHEN it is called with the expected parameters THEN return the value', () => {
       When(() => {
-        actualResult = fakeClassSpy.syncMethod(...fakeArgs);
+        actualResult = fakeClassSpy.getSyncValue(...fakeArgs);
       });
 
       Then(() => {
@@ -79,12 +79,12 @@ describe('createSpyFromClass', () => {
         actualResult2 = undefined;
         fakeValue2 = 'FAKE VALUE 2';
         fakeArgs2 = [3, 4];
-        fakeClassSpy.syncMethod.calledWith(...fakeArgs2).returnValue(fakeValue2);
+        fakeClassSpy.getSyncValue.calledWith(...fakeArgs2).returnValue(fakeValue2);
       });
 
       When(() => {
-        actualResult = fakeClassSpy.syncMethod(...fakeArgs);
-        actualResult2 = fakeClassSpy.syncMethod(...fakeArgs2);
+        actualResult = fakeClassSpy.getSyncValue(...fakeArgs);
+        actualResult2 = fakeClassSpy.getSyncValue(...fakeArgs2);
       });
 
       Then(() => {
@@ -95,7 +95,7 @@ describe('createSpyFromClass', () => {
 
     describe('WHEN called with the wrong parameters THEN DO NOT throw an error', () => {
       When(() => {
-        actualResult = fakeClassSpy.syncMethod(WRONG_VALUE);
+        actualResult = fakeClassSpy.getSyncValue(WRONG_VALUE);
       });
 
       Then(() => {
@@ -109,10 +109,10 @@ describe('createSpyFromClass', () => {
             THEN throw an error`, () => {
     Given(() => {
       fakeArgs = [1, { a: 2 }];
-      fakeClassSpy.syncMethod.mustBeCalledWith(...fakeArgs).returnValue(fakeValue);
+      fakeClassSpy.getSyncValue.mustBeCalledWith(...fakeArgs).returnValue(fakeValue);
     });
     When(() => {
-      actualResult = fakeClassSpy.syncMethod(WRONG_VALUE);
+      actualResult = fakeClassSpy.getSyncValue(WRONG_VALUE);
     });
 
     Then(() => {
@@ -129,16 +129,16 @@ describe('createSpyFromClass', () => {
     Given(() => {
       fakeArgs = [1, { a: 2 }];
       fakeArgs2 = [1, { a: 3 }];
-      fakeClassSpy.syncMethod.mustBeCalledWith(...fakeArgs).returnValue(fakeValue);
+      fakeClassSpy.getSyncValue.mustBeCalledWith(...fakeArgs).returnValue(fakeValue);
 
-      fakeClassSpy.syncMethod.mustBeCalledWith(...fakeArgs2).returnValue(fakeValue);
+      fakeClassSpy.getSyncValue.mustBeCalledWith(...fakeArgs2).returnValue(fakeValue);
     });
 
     describe(`WHEN called twice with the right parameters
              THEN DO NOT throw an error`, () => {
       When(() => {
-        actualResult = fakeClassSpy.syncMethod(...fakeArgs);
-        actualResult = fakeClassSpy.syncMethod(...fakeArgs2);
+        actualResult = fakeClassSpy.getSyncValue(...fakeArgs);
+        actualResult = fakeClassSpy.getSyncValue(...fakeArgs2);
       });
 
       Then(() => {
@@ -149,8 +149,8 @@ describe('createSpyFromClass', () => {
     describe(`WHEN called second time with the wrong parameters
              THEN throw an error with the wrong value`, () => {
       When(() => {
-        actualResult = fakeClassSpy.syncMethod(...fakeArgs);
-        actualResult = fakeClassSpy.syncMethod(WRONG_VALUE);
+        actualResult = fakeClassSpy.getSyncValue(...fakeArgs);
+        actualResult = fakeClassSpy.getSyncValue(WRONG_VALUE);
       });
 
       Then(() => {

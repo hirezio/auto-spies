@@ -19,7 +19,7 @@ function verifyArgumentsErrorWasThrown({ actualArgs }: { actualArgs: any[] }) {
   expect(throwArgumentsErrorSpyFunction).toHaveBeenCalledWith(actualArgs);
 }
 
-describe('createSpyFromClass', () => {
+describe('createSpyFromClass - Observables', () => {
   Given(() => {
     fakeValue = 'BOOM!';
     actualResult = null;
@@ -38,7 +38,7 @@ describe('createSpyFromClass', () => {
     describe('WHEN calling an observable returning method', () => {
       When(() => {
         fakeClassSpy
-          .observableMethod()
+          .getObservable()
           .pipe(take(1))
           .subscribe(
             result => (actualResult = result),
@@ -49,7 +49,7 @@ describe('createSpyFromClass', () => {
 
       describe('GIVEN nextWith is configured THEN emit the next event', () => {
         Given(() => {
-          fakeClassSpy.observableMethod.and.nextWith(fakeValue);
+          fakeClassSpy.getObservable.and.nextWith(fakeValue);
         });
 
         Then(() => {
@@ -59,7 +59,7 @@ describe('createSpyFromClass', () => {
 
       describe('GIVEN nextOneTimeWith is configured THEN emit the next event', () => {
         Given(() => {
-          fakeClassSpy.observableMethod.and.nextOneTimeWith(fakeValue);
+          fakeClassSpy.getObservable.and.nextOneTimeWith(fakeValue);
         });
 
         Then(() => {
@@ -70,7 +70,7 @@ describe('createSpyFromClass', () => {
 
       describe('GIVEN throwWith is configured THEN emit an error', () => {
         Given(() => {
-          fakeClassSpy.observableMethod.and.throwWith(fakeValue);
+          fakeClassSpy.getObservable.and.throwWith(fakeValue);
         });
 
         Then(() => {
@@ -80,7 +80,7 @@ describe('createSpyFromClass', () => {
 
       describe('GIVEN complete is configured THEN complete the Observable', () => {
         Given(() => {
-          fakeClassSpy.observableMethod.and.complete();
+          fakeClassSpy.getObservable.and.complete();
         });
 
         Then(() => {
@@ -91,7 +91,7 @@ describe('createSpyFromClass', () => {
       describe('GIVEN returnSubject is configured THEN do not emit', () => {
         let subject: Subject<any>;
         Given(() => {
-          subject = fakeClassSpy.observableMethod.and.returnSubject();
+          subject = fakeClassSpy.getObservable.and.returnSubject();
         });
 
         Then(() => {
@@ -116,7 +116,7 @@ describe('createSpyFromClass', () => {
       });
 
       When(() => {
-        const observable = fakeClassSpy.observableMethod(...fakeArgs);
+        const observable = fakeClassSpy.getObservable(...fakeArgs);
         if (observable) {
           observable
             .pipe(take(1))
@@ -130,7 +130,7 @@ describe('createSpyFromClass', () => {
 
       describe('GIVEN calledWith of nextWith is configured with the right params ', () => {
         Given(() => {
-          fakeClassSpy.observableMethod.calledWith(...fakeArgs).nextWith(fakeValue);
+          fakeClassSpy.getObservable.calledWith(...fakeArgs).nextWith(fakeValue);
         });
         describe('GIVEN it is configured once THEN emit the next event', () => {
           Then(() => {
@@ -151,12 +151,12 @@ describe('createSpyFromClass', () => {
             actualResult2 = undefined;
             fakeValue2 = { name: 'FAKE VALUE 2' };
             fakeArgs2 = [3, 4];
-            fakeClassSpy.observableMethod.calledWith(...fakeArgs2).nextWith(fakeValue2);
+            fakeClassSpy.getObservable.calledWith(...fakeArgs2).nextWith(fakeValue2);
           });
 
           When(() => {
             fakeClassSpy
-              .observableMethod(...fakeArgs2)
+              .getObservable(...fakeArgs2)
               .pipe(take(1))
               .subscribe((result: any) => (actualResult2 = result));
           });
@@ -170,7 +170,7 @@ describe('createSpyFromClass', () => {
 
       describe('GIVEN calledWith of nextWith is configured with wrong params THEN do NOT throw an error', () => {
         Given(() => {
-          fakeClassSpy.observableMethod.calledWith(WRONG_VALUE).nextWith(fakeValue);
+          fakeClassSpy.getObservable.calledWith(WRONG_VALUE).nextWith(fakeValue);
         });
 
         Then(() => {
@@ -180,7 +180,7 @@ describe('createSpyFromClass', () => {
 
       describe('GIVEN calledWith of nextWith is configured with the wrong params THEN throw an error', () => {
         Given(() => {
-          fakeClassSpy.observableMethod.mustBeCalledWith(WRONG_VALUE).nextWith(fakeValue);
+          fakeClassSpy.getObservable.mustBeCalledWith(WRONG_VALUE).nextWith(fakeValue);
         });
 
         Then(() => {
@@ -192,9 +192,7 @@ describe('createSpyFromClass', () => {
 
       describe('GIVEN calledWith of nextOneTimeWith configured with the right params THEN emit the next event', () => {
         Given(() => {
-          fakeClassSpy.observableMethod
-            .calledWith(...fakeArgs)
-            .nextOneTimeWith(fakeValue);
+          fakeClassSpy.getObservable.calledWith(...fakeArgs).nextOneTimeWith(fakeValue);
         });
 
         Then(() => {
@@ -205,9 +203,7 @@ describe('createSpyFromClass', () => {
 
       describe('GIVEN calledWith of nextOneTimeWith is configured with wrong params THEN do not throw an error', () => {
         Given(() => {
-          fakeClassSpy.observableMethod
-            .calledWith(WRONG_VALUE)
-            .nextOneTimeWith(fakeValue);
+          fakeClassSpy.getObservable.calledWith(WRONG_VALUE).nextOneTimeWith(fakeValue);
         });
 
         Then(() => {
@@ -217,7 +213,7 @@ describe('createSpyFromClass', () => {
 
       describe('GIVEN calledWith of nextOneTimeWith is configured with the wrong params THEN throw an error', () => {
         Given(() => {
-          fakeClassSpy.observableMethod
+          fakeClassSpy.getObservable
             .mustBeCalledWith(WRONG_VALUE)
             .nextOneTimeWith(fakeValue);
         });
@@ -231,7 +227,7 @@ describe('createSpyFromClass', () => {
 
       describe('GIVEN calledWith of throwWith is configured with the right params THEN emit an error', () => {
         Given(() => {
-          fakeClassSpy.observableMethod.calledWith(...fakeArgs).throwWith(fakeValue);
+          fakeClassSpy.getObservable.calledWith(...fakeArgs).throwWith(fakeValue);
         });
 
         Then(() => {
@@ -241,7 +237,7 @@ describe('createSpyFromClass', () => {
 
       describe('GIVEN calledWith of throwWith is configured with wrong params THEN do not throw an error', () => {
         Given(() => {
-          fakeClassSpy.observableMethod.calledWith(WRONG_VALUE).throwWith(fakeValue);
+          fakeClassSpy.getObservable.calledWith(WRONG_VALUE).throwWith(fakeValue);
         });
 
         Then(() => {
@@ -251,9 +247,7 @@ describe('createSpyFromClass', () => {
 
       describe('GIVEN calledWith of throwWith is configured with the wrong params THEN throw an error', () => {
         Given(() => {
-          fakeClassSpy.observableMethod
-            .mustBeCalledWith(WRONG_VALUE)
-            .throwWith(fakeValue);
+          fakeClassSpy.getObservable.mustBeCalledWith(WRONG_VALUE).throwWith(fakeValue);
         });
 
         Then(() => {
@@ -265,7 +259,7 @@ describe('createSpyFromClass', () => {
 
       describe('GIVEN calledWith of complete is configured with the right params THEN complete successfully', () => {
         Given(() => {
-          fakeClassSpy.observableMethod.calledWith(...fakeArgs).complete();
+          fakeClassSpy.getObservable.calledWith(...fakeArgs).complete();
         });
 
         Then(() => {
@@ -275,7 +269,7 @@ describe('createSpyFromClass', () => {
 
       describe('GIVEN calledWith of complete is configured with wrong params THEN do not throw an error', () => {
         Given(() => {
-          fakeClassSpy.observableMethod.calledWith(WRONG_VALUE).complete();
+          fakeClassSpy.getObservable.calledWith(WRONG_VALUE).complete();
         });
 
         Then(() => {
@@ -285,7 +279,7 @@ describe('createSpyFromClass', () => {
 
       describe('GIVEN mustBeCalledWith of complete is configured with the wrong params THEN throw an error', () => {
         Given(() => {
-          fakeClassSpy.observableMethod.mustBeCalledWith(WRONG_VALUE).complete();
+          fakeClassSpy.getObservable.mustBeCalledWith(WRONG_VALUE).complete();
         });
 
         Then(() => {
@@ -297,7 +291,7 @@ describe('createSpyFromClass', () => {
 
       describe('GIVEN calledWith of returnSubject is configured with the right params THEN emit successfully', () => {
         Given(() => {
-          const subject = fakeClassSpy.observableMethod
+          const subject = fakeClassSpy.getObservable
             .calledWith(...fakeArgs)
             .returnSubject();
           subject.next(fakeValue);
@@ -310,7 +304,7 @@ describe('createSpyFromClass', () => {
 
       describe('GIVEN calledWith of returnSubject is configured with wrong params THEN do not throw an error', () => {
         Given(() => {
-          fakeClassSpy.observableMethod.calledWith(WRONG_VALUE).returnSubject();
+          fakeClassSpy.getObservable.calledWith(WRONG_VALUE).returnSubject();
         });
 
         Then(() => {
@@ -321,7 +315,7 @@ describe('createSpyFromClass', () => {
       describe(`GIVEN mustBeCalledWith of returnSubject is configured with the wrong params
                 THEN throw an error`, () => {
         Given(() => {
-          fakeClassSpy.observableMethod.mustBeCalledWith(WRONG_VALUE).returnSubject();
+          fakeClassSpy.getObservable.mustBeCalledWith(WRONG_VALUE).returnSubject();
         });
 
         Then(() => {
@@ -334,12 +328,12 @@ describe('createSpyFromClass', () => {
 
     describe('WHEN calling a Subject returning method', () => {
       Given(() => {
-        fakeClassSpy.subjectMethod.and.nextWith(fakeValue);
+        fakeClassSpy.getSubject.and.nextWith(fakeValue);
       });
 
       When(() => {
         fakeClassSpy
-          .subjectMethod()
+          .getSubject()
           .pipe(take(1))
           .subscribe((result: any) => (actualResult = result));
       });
@@ -373,12 +367,12 @@ describe('createSpyFromClass', () => {
 
     describe('parent methods works correctly', () => {
       Given(() => {
-        fakeChildClassSpy.observableMethod.and.nextWith(fakeValue);
+        fakeChildClassSpy.getObservable.and.nextWith(fakeValue);
       });
 
       When(() => {
         fakeChildClassSpy
-          .observableMethod()
+          .getObservable()
           .subscribe(result => (actualResult = result))
           .unsubscribe();
       });
