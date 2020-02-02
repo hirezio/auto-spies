@@ -30,7 +30,7 @@ describe('createSpyFromClass - promises', () => {
   describe('WHEN a promise returning method is called', () => {
     When(async (done: any) => {
       try {
-        actualResult = await fakeClassSpy.promiseMethod(...fakeArgs);
+        actualResult = await fakeClassSpy.getPromise(...fakeArgs);
       } catch (error) {
         actualError = error;
       }
@@ -39,7 +39,7 @@ describe('createSpyFromClass - promises', () => {
 
     describe('THEN should be able to fake resolve', () => {
       Given(() => {
-        fakeClassSpy.promiseMethod.and.resolveWith(fakeValue);
+        fakeClassSpy.getPromise.and.resolveWith(fakeValue);
       });
       Then(() => {
         expect(actualResult).toBe(fakeValue);
@@ -48,7 +48,7 @@ describe('createSpyFromClass - promises', () => {
 
     describe('THEN should be able to fake reject', () => {
       Given(() => {
-        fakeClassSpy.promiseMethod.and.rejectWith(fakeValue);
+        fakeClassSpy.getPromise.and.rejectWith(fakeValue);
       });
       Then(() => {
         expect(actualError).toBe(fakeValue);
@@ -63,7 +63,7 @@ describe('createSpyFromClass - promises', () => {
 
     When(async (done: any) => {
       try {
-        actualResult = await fakeClassSpy.promiseMethod(...fakeArgs);
+        actualResult = await fakeClassSpy.getPromise(...fakeArgs);
       } catch (error) {
         actualError = error;
       }
@@ -72,7 +72,7 @@ describe('createSpyFromClass - promises', () => {
 
     describe('GIVEN calledWith of resolveWith is configured with exact params', () => {
       Given(() => {
-        fakeClassSpy.promiseMethod.calledWith(...fakeArgs).resolveWith(fakeValue);
+        fakeClassSpy.getPromise.calledWith(...fakeArgs).resolveWith(fakeValue);
       });
       describe('GIVEN it is configured once THEN resolve with value', () => {
         Then(() => {
@@ -90,12 +90,12 @@ describe('createSpyFromClass - promises', () => {
           actualResult2 = undefined;
           fakeValue2 = 'FAKE VALUE 2';
           fakeArgs2 = [3, 4];
-          fakeClassSpy.promiseMethod.calledWith(...fakeArgs2).resolveWith(fakeValue2);
+          fakeClassSpy.getPromise.calledWith(...fakeArgs2).resolveWith(fakeValue2);
         });
 
         When(async (done: any) => {
           try {
-            actualResult2 = await fakeClassSpy.promiseMethod(...fakeArgs2);
+            actualResult2 = await fakeClassSpy.getPromise(...fakeArgs2);
           } catch (error) {
             actualError = error;
           }
@@ -111,7 +111,7 @@ describe('createSpyFromClass - promises', () => {
 
     describe('GIVEN calledWith of resolveWith is configured with wrong params THEN do not throw an error', () => {
       Given(() => {
-        fakeClassSpy.promiseMethod.calledWith(...WRONG_VALUE).resolveWith(fakeValue);
+        fakeClassSpy.getPromise.calledWith(...WRONG_VALUE).resolveWith(fakeValue);
       });
 
       Then(() => {
@@ -123,7 +123,7 @@ describe('createSpyFromClass - promises', () => {
             WHEN called with the wrong parameters
             THEN throw an error`, () => {
       Given(() => {
-        fakeClassSpy.promiseMethod.mustBeCalledWith(WRONG_VALUE).resolveWith(fakeValue);
+        fakeClassSpy.getPromise.mustBeCalledWith(WRONG_VALUE).resolveWith(fakeValue);
       });
 
       Then(() => {
@@ -135,7 +135,7 @@ describe('createSpyFromClass - promises', () => {
 
     describe('GIVEN calledWith of rejectWith is configured with exact params THEN reject with value', () => {
       Given(() => {
-        fakeClassSpy.promiseMethod.calledWith(...fakeArgs).rejectWith(fakeValue);
+        fakeClassSpy.getPromise.calledWith(...fakeArgs).rejectWith(fakeValue);
       });
 
       Then(() => {
@@ -145,7 +145,7 @@ describe('createSpyFromClass - promises', () => {
 
     describe('GIVEN calledWith of rejectWith is configured with wrong params THEN do not throw an error', () => {
       Given(() => {
-        fakeClassSpy.promiseMethod.calledWith(...WRONG_VALUE).rejectWith(fakeValue);
+        fakeClassSpy.getPromise.calledWith(...WRONG_VALUE).rejectWith(fakeValue);
       });
 
       Then(() => {
@@ -157,7 +157,7 @@ describe('createSpyFromClass - promises', () => {
             WHEN called with the wrong parameters
             THEN throw an error`, () => {
       Given(() => {
-        fakeClassSpy.promiseMethod.mustBeCalledWith(WRONG_VALUE).rejectWith(fakeValue);
+        fakeClassSpy.getPromise.mustBeCalledWith(WRONG_VALUE).rejectWith(fakeValue);
       });
 
       Then(() => {

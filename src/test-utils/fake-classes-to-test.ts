@@ -3,28 +3,20 @@ import { Observable, of, Subject } from 'rxjs';
 export class FakeClass {
   public someProp: number = 1;
 
-  public syncMethod() {
+  public getSyncValue() {
     return '';
   }
 
-  public promiseMethod(): Promise<void> {
+  public getPromise(): Promise<void> {
     return Promise.resolve();
   }
 
-  public providedPromiseMethod(): Promise<void> {
-    return Promise.resolve();
-  }
-
-  public observableMethod(): Observable<any> {
+  public getObservable(): Observable<any> {
     return of();
   }
 
-  public subjectMethod(): Subject<any> {
+  public getSubject(): Subject<any> {
     return new Subject();
-  }
-
-  public providedObservableMethod(): Observable<void> {
-    return of();
   }
 }
 
