@@ -1,10 +1,21 @@
 # jasmine-auto-spies
 
+Easy and type safe way to write spies for jasmine tests, for both sync and async (promises, Observables) returning methods.
+
 [![npm version](https://img.shields.io/npm/v/jasmine-auto-spies.svg?style=flat-square)](https://www.npmjs.org/package/jasmine-auto-spies)
 [![npm downloads](https://img.shields.io/npm/dm/jasmine-auto-spies.svg?style=flat-square)](http://npm-stat.com/charts.html?package=jasmine-auto-spies&from=2017-07-26)
 [![Build Status](https://travis-ci.org/hirezio/jasmine-auto-spies.svg?branch=master)](https://travis-ci.org/hirezio/jasmine-auto-spies)
 [![codecov](https://img.shields.io/codecov/c/github/hirezio/jasmine-auto-spies.svg)](https://codecov.io/gh/hirezio/jasmine-auto-spies)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
+
+<div align="center">
+  <a href="http://testangular.com/?utm_source=github&utm_medium=link&utm_campaign=jasmine+auto+spies">
+    <img src="for-readme/test-angular.jpg"
+      alt="TestAngular.com - Free Angular Testing Workshop - The Roadmap to Angular Testing Mastery"
+      width="600"
+    />
+  </a>
+</div>
 
 ## IMPORTANT: compatibility
 
@@ -43,7 +54,7 @@ Now you can autocomplete AND have an auto spy for each method, returning Observa
 
 `yarn add -D jasmine-auto-spies`
 
-or 
+or
 
 `npm install -D jasmine-auto-spies`
 
