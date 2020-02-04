@@ -14,6 +14,7 @@ let fakeArgs: any[];
 let completed: boolean;
 const WRONG_VALUE = 'WRONG VALUE';
 let throwArgumentsErrorSpyFunction: jasmine.Spy;
+let errorIsExpected: boolean;
 
 function verifyArgumentsErrorWasThrown({ actualArgs }: { actualArgs: any[] }) {
   expect(throwArgumentsErrorSpyFunction).toHaveBeenCalledWith(actualArgs);
@@ -26,6 +27,7 @@ describe('createSpyFromClass - Observables', () => {
     actualError = null;
     completed = false;
     fakeArgs = [];
+    errorIsExpected = false;
 
     throwArgumentsErrorSpyFunction = spyOn(errorHandling, 'throwArgumentsError');
   });
@@ -70,6 +72,7 @@ describe('createSpyFromClass - Observables', () => {
 
       describe('GIVEN throwWith is configured THEN emit an error', () => {
         Given(() => {
+          errorIsExpected = true;
           fakeClassSpy.getObservable.and.throwWith(fakeValue);
         });
 
@@ -118,13 +121,16 @@ describe('createSpyFromClass - Observables', () => {
       When(() => {
         const observable = fakeClassSpy.getObservable(...fakeArgs);
         if (observable) {
-          observable
-            .pipe(take(1))
-            .subscribe(
-              (result: any) => (actualResult = result),
-              (error: any) => (actualError = error),
-              () => (completed = true)
-            );
+          observable.pipe(take(1)).subscribe(
+            (result: any) => (actualResult = result),
+            (error: any) => {
+              if (!errorIsExpected) {
+                throw error;
+              }
+              actualError = error;
+            },
+            () => (completed = true)
+          );
         }
       });
 
@@ -227,6 +233,7 @@ describe('createSpyFromClass - Observables', () => {
 
       describe('GIVEN calledWith of throwWith is configured with the right params THEN emit an error', () => {
         Given(() => {
+          errorIsExpected = true;
           fakeClassSpy.getObservable.calledWith(...fakeArgs).throwWith(fakeValue);
         });
 

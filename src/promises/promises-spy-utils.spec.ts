@@ -10,6 +10,7 @@ let actualError: any;
 let fakeArgs: any[];
 const WRONG_VALUE = 'WRONG VALUE';
 let throwArgumentsErrorSpyFunction: jasmine.Spy;
+let errorIsExpected: boolean;
 
 function verifyArgumentsErrorWasThrown({ actualArgs }: { actualArgs: any[] }) {
   expect(throwArgumentsErrorSpyFunction).toHaveBeenCalledWith(actualArgs);
@@ -21,6 +22,7 @@ describe('createSpyFromClass - promises', () => {
     actualResult = null;
     actualError = null;
     fakeArgs = [];
+    errorIsExpected = false;
 
     throwArgumentsErrorSpyFunction = spyOn(errorHandling, 'throwArgumentsError');
 
@@ -32,6 +34,9 @@ describe('createSpyFromClass - promises', () => {
       try {
         actualResult = await fakeClassSpy.getPromise(...fakeArgs);
       } catch (error) {
+        if (!errorIsExpected) {
+          throw error;
+        }
         actualError = error;
       }
       done();
@@ -48,6 +53,7 @@ describe('createSpyFromClass - promises', () => {
 
     describe('THEN should be able to fake reject', () => {
       Given(() => {
+        errorIsExpected = true;
         fakeClassSpy.getPromise.and.rejectWith(fakeValue);
       });
       Then(() => {
@@ -65,6 +71,9 @@ describe('createSpyFromClass - promises', () => {
       try {
         actualResult = await fakeClassSpy.getPromise(...fakeArgs);
       } catch (error) {
+        if (!errorIsExpected) {
+          throw error;
+        }
         actualError = error;
       }
       done();
@@ -135,6 +144,7 @@ describe('createSpyFromClass - promises', () => {
 
     describe('GIVEN calledWith of rejectWith is configured with exact params THEN reject with value', () => {
       Given(() => {
+        errorIsExpected = true;
         fakeClassSpy.getPromise.calledWith(...fakeArgs).rejectWith(fakeValue);
       });
 
