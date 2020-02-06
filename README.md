@@ -250,3 +250,51 @@ class MyClass {
   }
 }
 ```
+
+---
+
+## Observable Testing Helper Methods 👀💪
+
+#### `recordObservable(source: Observable<T>): RecordObservableReturnValue<T>`
+
+In order to test more complicated observables,
+you can use the `recordObservable` function to "record" all the messages a source observable emits and get them as an array.
+
+**Returns:**
+
+```ts
+interface RecordObservableReturnValue<T> {
+  // Aggregated results Observable that wraps the source observable
+  recordedResults$: Observable<T[]>;
+
+  // completes the recording observable and emits the recorded results.
+  stopRecording: () => void;
+}
+```
+
+**Usage:**
+
+```js
+it('should record Observable', () => {
+  const fakeSubject = new Subject();
+  const myObs$ = fakeSubject.asObservable();
+
+  const { recordedResults$, stopRecording } = recordObservable(myObs$);
+
+  // This subscribes to the source observable "myObs$" behind the scenes
+  recordedResults$.subscribe(recordedResults => (actualResults = recordedResults));
+
+  fakeSubject.next(1);
+  fakeSubject.next(2);
+  fakeSubject.next(3);
+
+  // This will emit the "recordedResults" and complete
+  stopRecording();
+
+  expect(actualResults).toEqual([1, 2, 3]);
+});
+```
+
+Basically, behind the scenes it just uses `takeUntil` and `toArray`.
+
+So the `stopRecording()` function completes the recording observable via `takeUntil` and then returns all the results as an array via `toArray` in the form of `recordedResults$`.
