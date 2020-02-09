@@ -44,7 +44,7 @@ Now you can autocomplete AND have an auto spy for each method, returning Observa
 
 ## What is it good for?
 
-✅ **Keep you tests DRY** - no more repeated spy setup code, no need for separate spy files
+✅ **Keep your tests DRY** - no more repeated spy setup code, no need for separate spy files
 
 ✅ **Type completion** for both the original Class and the spy methods
 
