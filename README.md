@@ -253,48 +253,54 @@ class MyClass {
 
 ---
 
-## Observable Testing Helper Methods 👀💪
+## ObserverSpy 👀💪
 
-#### `recordObservable(source: Observable<T>): RecordObservableReturnValue<T>`
+#### `new ObserverSpy()`
 
 In order to test more complicated observables,
-you can use the `recordObservable` function to "record" all the messages a source observable emits and get them as an array.
+you can use an `ObserverSpy` instance to "record" all the messages a source observable emits and get them as an array.
 
-**Returns:**
-
-```ts
-interface RecordObservableReturnValue<T> {
-  // Aggregated results Observable that wraps the source observable
-  recordedResults$: Observable<T[]>;
-
-  // completes the recording observable and emits the recorded results.
-  stopRecording: () => void;
-}
-```
+You can also spy on the `error` or `complete` states of the observer.
 
 **Usage:**
 
 ```js
-it('should record Observable', () => {
-  const fakeSubject = new Subject();
-  const myObs$ = fakeSubject.asObservable();
+it('should spy on Observable values', () => {
+  const observerSpy = new ObserverSpy();
+  const fakeValues = ['first', 'second', 'third'];
+  const fakeObservable = of(...fakeValues);
 
-  const { recordedResults$, stopRecording } = recordObservable(myObs$);
+  const subscription = fakeObservable.subscribe(observerSpy);
 
-  // This subscribes to the source observable "myObs$" behind the scenes
-  recordedResults$.subscribe(recordedResults => (actualResults = recordedResults));
+  // DO SOME LOGIC HERE
 
-  fakeSubject.next(1);
-  fakeSubject.next(2);
-  fakeSubject.next(3);
+  // unsubscribing is optional, it's good for stopping intervals etc
+  subscription.unsubscribe();
 
-  // This will emit the "recordedResults" and complete
-  stopRecording();
+  expect(observerSpy.receivedNext()).toBe(true);
 
-  expect(actualResults).toEqual([1, 2, 3]);
+  expect(observerSpy.getValues()).toEqual(fakeValues);
+
+  expect(observerSpy.getValuesLength()).toEqual(3);
+
+  expect(observerSpy.getFirstValue()).toEqual('first');
+
+  expect(observerSpy.getValueAt(1)).toEqual('second');
+
+  expect(observerSpy.getLastValue()).toEqual('third');
+
+  expect(observerSpy.receivedComplete()).toBe(true);
+});
+
+it('should spy on Observable errors', () => {
+  const observerSpy = new ObserverSpy();
+
+  const fakeObservable = throwError('FAKE ERROR');
+
+  fakeObservable.subscribe(observerSpy);
+
+  expect(observerSpy.receivedError()).toBe(true);
+
+  expect(observerSpy.getError()).toEqual('FAKE ERROR');
 });
 ```
-
-Basically, behind the scenes it just uses `takeUntil` and `toArray`.
-
-So the `stopRecording()` function completes the recording observable via `takeUntil` and then returns all the results as an array via `toArray` in the form of `recordedResults$`.
