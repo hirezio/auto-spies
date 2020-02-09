@@ -4,7 +4,7 @@ import {
   CalledWithObject
 } from '../create-spy-from-class.types';
 
-export function observablifySpyFunction(
+export function addObservableHelpersToFunctionSpy(
   spyFunction: any,
   valueContainer: SpyFunctionReturnValueContainer
 ) {
@@ -37,7 +37,7 @@ export function observablifySpyFunction(
   };
 }
 
-export function addObservableHandlingToCalledWith(
+export function addObservableHelpersToCalledWithObject(
   calledWithObject: CalledWithObject,
   calledWithArgs: any[]
 ) {

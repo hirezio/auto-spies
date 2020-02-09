@@ -1,14 +1,14 @@
-import { Spy } from './spy.types';
+import { Spy, AddSpyTypes } from './spy.types';
 import deepEqual from 'deep-equal';
 import { throwArgumentsError } from './errors/error-handling';
 import {
-  observablifySpyFunction,
-  addObservableHandlingToCalledWith
+  addObservableHelpersToFunctionSpy,
+  addObservableHelpersToCalledWithObject
 } from './observables/observable-spy-utils';
 
 import {
-  promisifySpyFunction,
-  addPromiseHandlingToCalledWith
+  addPromiseHelpersToFunctionSpy,
+  addPromiseHelpersToCalledWithObject
 } from './promises/promises-spy-utils';
 import {
   CalledWithObject,
@@ -28,13 +28,13 @@ export function createSpyFromClass<T>(
   const autoSpy: any = {};
 
   methodNames.forEach(methodName => {
-    autoSpy[methodName] = createSpyFunction(methodName);
+    autoSpy[methodName] = createFunctionSpy(methodName);
   });
   return autoSpy as Spy<T>;
 }
 
-function createSpyFunction(name: string) {
-  const spyFunction: any = jasmine.createSpy(name);
+export function createFunctionSpy<MT>(name: string): AddSpyTypes<MT> {
+  const functionSpy: any = jasmine.createSpy(name);
 
   let calledWithObject: CalledWithObject = {
     wasCalled: false,
@@ -50,10 +50,10 @@ function createSpyFunction(name: string) {
     value: undefined
   };
 
-  promisifySpyFunction(spyFunction, valueContainer);
-  observablifySpyFunction(spyFunction, valueContainer);
+  addPromiseHelpersToFunctionSpy(functionSpy, valueContainer);
+  addObservableHelpersToFunctionSpy(functionSpy, valueContainer);
 
-  spyFunction.and.callFake((...actualArgs: any[]) => {
+  functionSpy.and.callFake((...actualArgs: any[]) => {
     return spyFunctionImplementation(
       calledWithObject,
       mustBeCalledWithObject,
@@ -62,35 +62,41 @@ function createSpyFunction(name: string) {
     );
   });
 
-  spyFunction.calledWith = (...calledWithArgs: any[]) => {
+  functionSpy.calledWith = (...calledWithArgs: any[]) => {
     calledWithObject.wasCalled = true;
-    calledWithObject = addSyncHandlingToCalledWith(calledWithObject, calledWithArgs);
-    calledWithObject = addPromiseHandlingToCalledWith(calledWithObject, calledWithArgs);
-    calledWithObject = addObservableHandlingToCalledWith(
+    calledWithObject = addSyncHandlingToCalledWithObject(
+      calledWithObject,
+      calledWithArgs
+    );
+    calledWithObject = addPromiseHelpersToCalledWithObject(
+      calledWithObject,
+      calledWithArgs
+    );
+    calledWithObject = addObservableHelpersToCalledWithObject(
       calledWithObject,
       calledWithArgs
     );
     return calledWithObject;
   };
 
-  spyFunction.mustBeCalledWith = (...calledWithArgs: any[]) => {
+  functionSpy.mustBeCalledWith = (...calledWithArgs: any[]) => {
     mustBeCalledWithObject.wasCalled = true;
-    mustBeCalledWithObject = addSyncHandlingToCalledWith(
+    mustBeCalledWithObject = addSyncHandlingToCalledWithObject(
       mustBeCalledWithObject,
       calledWithArgs
     );
-    mustBeCalledWithObject = addPromiseHandlingToCalledWith(
+    mustBeCalledWithObject = addPromiseHelpersToCalledWithObject(
       mustBeCalledWithObject,
       calledWithArgs
     );
-    mustBeCalledWithObject = addObservableHandlingToCalledWith(
+    mustBeCalledWithObject = addObservableHelpersToCalledWithObject(
       mustBeCalledWithObject,
       calledWithArgs
     );
     return mustBeCalledWithObject;
   };
 
-  return spyFunction;
+  return functionSpy;
 }
 
 function spyFunctionImplementation(
@@ -117,7 +123,7 @@ function spyFunctionImplementation(
   return valueContainer.value;
 }
 
-function addSyncHandlingToCalledWith(
+function addSyncHandlingToCalledWithObject(
   calledWithObject: CalledWithObject,
   calledWithArgs: any[]
 ): CalledWithObject {

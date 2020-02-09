@@ -3,7 +3,7 @@ import {
   CalledWithObject
 } from '../create-spy-from-class.types';
 
-export function promisifySpyFunction(
+export function addPromiseHelpersToFunctionSpy(
   spyFunction: any,
   valueContainer: SpyFunctionReturnValueContainer
 ) {
@@ -15,7 +15,7 @@ export function promisifySpyFunction(
   };
 }
 
-export function addPromiseHandlingToCalledWith(
+export function addPromiseHelpersToCalledWithObject(
   calledWithObject: CalledWithObject,
   calledWithArgs: any[]
 ): CalledWithObject {
