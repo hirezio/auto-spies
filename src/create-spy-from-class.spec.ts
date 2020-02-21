@@ -1,5 +1,5 @@
-import { createSpyFromClass } from './create-spy-from-class';
-import { FakeClass } from './test-utils/fake-classes-to-test';
+import { getAllMethodNames, createSpyFromClass } from './create-spy-from-class';
+import { FakeClass, FakeGetterSetterClass } from './test-utils/fake-classes-to-test';
 import { Spy } from './spy.types';
 import * as errorHandling from './errors/error-handling';
 
@@ -9,6 +9,7 @@ let actualResult: any;
 let fakeArgs: any[];
 const WRONG_VALUE = 'WRONG VALUE';
 let throwArgumentsErrorSpyFunction: jasmine.Spy;
+let fakeGetterSetterClass: Spy<FakeGetterSetterClass>;
 
 function verifyArgumentsErrorWasThrown({ actualArgs }: { actualArgs: any[] }) {
   expect(throwArgumentsErrorSpyFunction).toHaveBeenCalledWith(actualArgs);
@@ -159,5 +160,59 @@ describe('createSpyFromClass', () => {
         });
       });
     });
+  });
+});
+
+describe('createSpyFromClass', () => {
+  When(() => {
+    fakeGetterSetterClass = createSpyFromClass(FakeGetterSetterClass);
+  });
+  describe('GIVEN an object containing a getter property THEN try to spy on it', () => {
+    Given(() => {
+      const getter = Object.getOwnPropertyDescriptor(
+        FakeGetterSetterClass.prototype,
+        'myProp'
+      );
+      expect(getter && getter['get']).toBeDefined();
+    });
+    Then(() => {
+      // try to spy on it
+      fakeValue = 'my value';
+      spyOnProperty(fakeGetterSetterClass, 'myProp', 'get').and.returnValue(fakeValue);
+      expect(fakeGetterSetterClass.myProp).toBe(fakeValue);
+    });
+  });
+  describe('GIVEN an object containing a setter property THEN try to spy on it', () => {
+    Given(() => {
+      const setter = Object.getOwnPropertyDescriptor(
+        FakeGetterSetterClass.prototype,
+        'myProp'
+      );
+      expect(setter && setter['set']).toBeDefined();
+    });
+    Then(() => {
+      // try to spy on it
+      let mySetterWasCalled = false;
+      spyOnProperty(fakeGetterSetterClass, 'myProp', 'set').and.callFake((v: any) => {
+        mySetterWasCalled = true;
+      });
+      expect(fakeGetterSetterClass.myProp).toBeUndefined();
+      fakeGetterSetterClass.myProp = ''; // <= The setter function is called now
+      expect(mySetterWasCalled).toBe(true); // check if the setter implementation have been executed
+    });
+  });
+});
+
+describe('getAllMethodNames', () => {
+  it('should return all methods/getters/setters expect properties on a given object', () => {
+    const { methods, getters, setters } = getAllMethodNames(
+      FakeGetterSetterClass.prototype
+    );
+
+    expect(methods).not.toContain('someProp');
+    expect(methods).toContain('getSyncValue');
+    expect(methods).not.toContain('myProp');
+    expect(getters).toContain('myProp');
+    expect(setters).toContain('myProp');
   });
 });

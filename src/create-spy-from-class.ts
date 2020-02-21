@@ -20,14 +20,37 @@ export function createSpyFromClass<T>(
   providedMethodNames?: string[]
 ): Spy<T> {
   const proto = ObjectClass.prototype;
-  const methodNames = getAllMethodNames(proto);
+  const { methods, getters, setters } = getAllMethodNames(proto);
   if (providedMethodNames && providedMethodNames.length > 0) {
-    methodNames.push(...providedMethodNames);
+    methods.push(...providedMethodNames);
   }
 
   const autoSpy: any = {};
-
-  methodNames.forEach(methodName => {
+  getters.forEach(getter => {
+    if (getter !== '__proto__') {
+      // Create a getter property with 'get' access type
+      Object.defineProperty(autoSpy, getter, {
+        get: (): any => {},
+        configurable: true
+      });
+      // Because spyOnProperty accept the object itself
+      // you need to spy this property in your own test code
+      // spyOnProperty(yourSpiedObject, 'yourGetter', 'get');
+    }
+  });
+  setters.forEach(setter => {
+    if (setter !== '__proto__') {
+      // Create a setter property with 'set' access type
+      Object.defineProperty(autoSpy, setter, {
+        set: (): any => {},
+        configurable: true
+      });
+      // Because spyOnProperty accept the object itself
+      // you need to spy this property in your own test code
+      // spyOnProperty(yourSpiedObject, 'yourSetter', 'set');
+    }
+  });
+  methods.forEach(methodName => {
     autoSpy[methodName] = createFunctionSpy(methodName);
   });
   return autoSpy as Spy<T>;
@@ -133,11 +156,39 @@ function addSyncHandlingToCalledWithObject(
   return calledWithObject;
 }
 
-function getAllMethodNames(obj: any): string[] {
-  let methods: string[] = [];
-
+export function getAllMethodNames(
+  obj: any
+): {
+  methods: string[];
+  getters: string[];
+  setters: string[];
+} {
+  const methods: string[] = [];
+  const getters: string[] = [];
+  const setters: string[] = [];
+  let m;
   do {
-    methods = methods.concat(Object.getOwnPropertyNames(obj));
+    m = Object.getOwnPropertyNames(obj);
+    m.forEach(propName => {
+      const desc = Object.getOwnPropertyDescriptor(obj, propName);
+      if (desc === undefined) {
+        return;
+      } else {
+        if (desc['get'] === undefined && desc['set'] === undefined) {
+          // is method
+          methods.push(propName);
+        } else {
+          if (desc['get'] !== undefined) {
+            // is getter
+            getters.push(propName);
+          }
+          if (desc['set'] !== undefined) {
+            // is setter
+            setters.push(propName);
+          }
+        }
+      }
+    });
     obj = Object.getPrototypeOf(obj);
   } while (obj);
 
@@ -145,5 +196,5 @@ function getAllMethodNames(obj: any): string[] {
   if (constructorIndex >= 0) {
     methods.splice(constructorIndex, 1);
   }
-  return methods;
+  return { methods, getters, setters };
 }
