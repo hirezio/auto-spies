@@ -1,4 +1,4 @@
-import { Spy, AddSpyTypes } from './spy.types';
+import { Spy, AddSpyTypes, MethodName, DescriptedMethod } from './spy.types';
 import deepEqual from 'deep-equal';
 import { throwArgumentsError } from './errors/error-handling';
 import {
@@ -27,28 +27,24 @@ export function createSpyFromClass<T>(
 
   const autoSpy: any = {};
   getters.forEach(getter => {
-    if (getter !== '__proto__') {
-      // Create a getter property with 'get' access type
-      Object.defineProperty(autoSpy, getter, {
-        get: (): any => {},
-        configurable: true
-      });
-      // Because spyOnProperty accept the object itself
-      // you need to spy this property in your own test code
-      // spyOnProperty(yourSpiedObject, 'yourGetter', 'get');
-    }
+    // Create a getter property with 'get' access type
+    Object.defineProperty(autoSpy, getter, {
+      get: (): any => {},
+      configurable: true
+    });
+    // Because spyOnProperty accept the object itself
+    // you need to spy this property in your own test code
+    // spyOnProperty(yourSpiedObject, 'yourGetter', 'get');
   });
   setters.forEach(setter => {
-    if (setter !== '__proto__') {
-      // Create a setter property with 'set' access type
-      Object.defineProperty(autoSpy, setter, {
-        set: (): any => {},
-        configurable: true
-      });
-      // Because spyOnProperty accept the object itself
-      // you need to spy this property in your own test code
-      // spyOnProperty(yourSpiedObject, 'yourSetter', 'set');
-    }
+    // Create a setter property with 'set' access type
+    Object.defineProperty(autoSpy, setter, {
+      set: (_): any => {},
+      configurable: true
+    });
+    // Because spyOnProperty accept the object itself
+    // you need to spy this property in your own test code
+    // spyOnProperty(yourSpiedObject, 'yourSetter', 'set');
   });
   methods.forEach(methodName => {
     autoSpy[methodName] = createFunctionSpy(methodName);
@@ -156,45 +152,42 @@ function addSyncHandlingToCalledWithObject(
   return calledWithObject;
 }
 
-export function getAllMethodNames(
-  obj: any
-): {
-  methods: string[];
-  getters: string[];
-  setters: string[];
-} {
-  const methods: string[] = [];
-  const getters: string[] = [];
-  const setters: string[] = [];
+export function getAllMethodNames(obj: any): MethodName {
   let m;
+  let descriptedMethods: DescriptedMethod[] = [];
   do {
     m = Object.getOwnPropertyNames(obj);
-    m.forEach(propName => {
-      const desc = Object.getOwnPropertyDescriptor(obj, propName);
-      if (desc === undefined) {
-        return;
-      } else {
-        if (desc['get'] === undefined && desc['set'] === undefined) {
-          // is method
-          methods.push(propName);
-        } else {
-          if (desc['get'] !== undefined) {
-            // is getter
-            getters.push(propName);
-          }
-          if (desc['set'] !== undefined) {
-            // is setter
-            setters.push(propName);
-          }
-        }
-      }
-    });
+    descriptedMethods = [
+      ...descriptedMethods,
+      ...m
+        .map(propName => {
+          return {
+            propertyName: propName,
+            descriptor: Object.getOwnPropertyDescriptor(obj, propName)
+          };
+        })
+        .filter(descMethod => descMethod.descriptor !== undefined)
+    ] as DescriptedMethod[];
     obj = Object.getPrototypeOf(obj);
   } while (obj);
 
-  const constructorIndex = methods.indexOf('constructor');
-  if (constructorIndex >= 0) {
-    methods.splice(constructorIndex, 1);
-  }
-  return { methods, getters, setters };
+  const methods = descriptedMethods
+    .filter(
+      dm => dm.descriptor['get'] === undefined && dm.descriptor['set'] === undefined
+    )
+    .map(dm => dm.propertyName)
+    .filter(method => method !== 'constructor');
+  const getters = descriptedMethods
+    .filter(dm => dm.descriptor['get'] !== undefined)
+    .filter(dm => dm.propertyName !== '__proto__')
+    .map(dm => dm.propertyName);
+  const setters = descriptedMethods
+    .filter(dm => dm.descriptor['set'] !== undefined)
+    .filter(dm => dm.propertyName !== '__proto__')
+    .map(dm => dm.propertyName);
+  return {
+    methods,
+    getters,
+    setters
+  };
 }

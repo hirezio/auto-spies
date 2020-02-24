@@ -79,3 +79,13 @@ export type Unpacked<T> = T extends Array<infer U1>
   : T extends (...args: any[]) => infer U2
     ? U2
     : T extends Promise<infer U3> ? U3 : T extends Observable<infer U4> ? U4 : T;
+
+export interface MethodName {
+  methods: string[];
+  getters: string[];
+  setters: string[];
+}
+export interface DescriptedMethod {
+  propertyName: string;
+  descriptor: PropertyDescriptor;
+}

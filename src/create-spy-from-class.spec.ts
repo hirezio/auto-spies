@@ -213,6 +213,6 @@ describe('getAllMethodNames', () => {
     expect(methods).toContain('getSyncValue');
     expect(methods).not.toContain('myProp');
     expect(getters).toContain('myProp');
-    expect(setters).toContain('myProp');
+    expect(setters).toContain('mySetter');
   });
 });
