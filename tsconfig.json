@@ -11,7 +11,9 @@
     "downlevelIteration": true,
     "lib": ["es2015", "es2016"],
     "pretty": true,
-    "strict": true
+    "strict": true,
+    "outDir": "dist"
   },
-  "include": ["src"]
+  "include": ["src"],
+  "exclude": ["**/*.spec.*"]
 }

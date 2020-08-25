@@ -6,12 +6,13 @@
     "url": "https://github.com/hirezio/jasmine-auto-spies"
   },
   "description": "Create automatic spies from classes in jasmine tests, also for promises and observables",
-  "main": "src/index.js",
-  "types": "src/index.d.ts",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
-    "clean": "rimraf src/**/*.js* src/**/*.d.ts *.d.ts",
+    "clean": "rimraf dist",
     "commit": "git-cz",
-    "build": "tsc",
+    "compile": "tsc",
+    "build": "run-s clean compile",
     "test": "karma start",
     "test:watch": "karma start --auto-watch --no-single-run",
     "test:full": "yarn run lint&& yarn run test",
@@ -19,7 +20,6 @@
     "lint": "tslint -p .",
     "lint:commitmsg": "commitlint -E HUSKY_GIT_PARAMS",
     "prepublishOnly": "yarn run build",
-    "postpublish": "yarn run clean",
     "travis-deploy-once": "travis-deploy-once",
     "semantic-release": "semantic-release"
   },
@@ -72,6 +72,7 @@
     "karma-sourcemap-loader": "^0.3.7",
     "karma-typescript": "^3.0.4",
     "karma-webpack": "^2.0.3",
+    "npm-run-all": "4.1.5",
     "prettier": "1.14.2",
     "pretty-quick": "1.6.0",
     "rimraf": "2.6.1",
