@@ -140,6 +140,18 @@
   dependencies:
     find-up "^2.1.0"
 
+"@hirez_io/jasmine-given@true1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@hirez_io/jasmine-given/-/jasmine-given-1.0.1.tgz#1ee1eb7d7b17137f21a235a32ebaf63d6ff8199a"
+  integrity sha512-u1H+cdOc2oWCtHLUHC/C4gL/8AulDqIrwR7WqhdkXxNEnbIpuHw8pUbz6whCr7FR7azS730h4tZmWDi6yVzDBA==
+  dependencies:
+    "@hirez_io/karma-jasmine-given" "^1.0.1"
+
+"@hirez_io/karma-jasmine-given@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/@hirez_io/karma-jasmine-given/-/karma-jasmine-given-1.0.1.tgz#c053d43c9a55401b21d1d070782c3a05440e8b6e"
+  integrity sha512-4oAx6rI8k71DgNe5hZuOEim9ExMqmQEHjFfOopBbCqKXf/03gs7eKu+eEfOrp+FIj2TPohxNjXPx7uaZ2hXuYw==
+
 "@marionebl/sander@^0.6.0":
   version "0.6.1"
   resolved "https://registry.yarnpkg.com/@marionebl/sander/-/sander-0.6.1.tgz#1958965874f24bc51be48875feb50d642fc41f7b"
@@ -244,10 +256,6 @@
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@types/deep-equal/-/deep-equal-1.0.1.tgz#71cfabb247c22bcc16d536111f50c0ed12476b03"
   integrity sha512-mMUu4nWHLBlHtxXY17Fg6+ucS/MnndyOWyOe7MmwkoMYxvfQU2ajtRaEvqSUv+aVkMqH/C0NCI8UoVfRNQ10yg==
-
-"@types/jasmine-given@^2.6.0":
-  version "2.6.1"
-  resolved "https://registry.yarnpkg.com/@types/jasmine-given/-/jasmine-given-2.6.1.tgz#8fc647b73b319e336e7080fc34ee233e97bd9511"
 
 "@types/jasmine@^2.5.53":
   version "2.5.53"
@@ -1751,10 +1759,6 @@ co@^4.6.0:
 code-point-at@^1.0.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/code-point-at/-/code-point-at-1.1.0.tgz#0d070b4d043a5bea33a2f1a40e2edb3d9a4ccf77"
-
-"coffee-script@~ 1.6.3":
-  version "1.6.3"
-  resolved "https://registry.yarnpkg.com/coffee-script/-/coffee-script-1.6.3.tgz#6355d32cf1b04cdff6b484e5e711782b2f0c39be"
 
 collection-visit@^0.2.1:
   version "0.2.3"
@@ -4303,21 +4307,6 @@ jasmine-core@~3.5.0:
   resolved "https://registry.yarnpkg.com/jasmine-core/-/jasmine-core-3.5.0.tgz#132c23e645af96d85c8bca13c8758b18429fc1e4"
   integrity sha512-nCeAiw37MIMA9w9IXso7bRaLl+c/ef3wnxsoSAlYrzS+Ot0zTG6nU8G/cIfGkqpkjX2wNaIW9RFG0TwIFnG6bA==
 
-jasmine-given@^2.6.0, jasmine-given@^2.6.4:
-  version "2.6.4"
-  resolved "https://registry.yarnpkg.com/jasmine-given/-/jasmine-given-2.6.4.tgz#5437a977ca1f09c40ee9837721b0ee785efde245"
-  dependencies:
-    coffee-script "~ 1.6.3"
-    jasmine-matcher-wrapper "~ 0.0.3"
-    minijasminenode "~0.2.4"
-
-"jasmine-matcher-wrapper@~ 0.0.3":
-  version "0.0.4"
-  resolved "https://registry.yarnpkg.com/jasmine-matcher-wrapper/-/jasmine-matcher-wrapper-0.0.4.tgz#f0bf081fea1fa5871fe27d9cb2dc1e916e93f84c"
-  dependencies:
-    coffee-script "~ 1.6.3"
-    minijasminenode "~0.2.7"
-
 jasmine@3.5.0:
   version "3.5.0"
   resolved "https://registry.yarnpkg.com/jasmine/-/jasmine-3.5.0.tgz#7101eabfd043a1fc82ac24e0ab6ec56081357f9e"
@@ -4469,12 +4458,6 @@ karma-jasmine-diff-reporter@1.2.0:
     chalk "^1.1.0"
     diff "^1.4.0"
     karma ">=0.9"
-
-karma-jasmine-given@0.1.1:
-  version "0.1.1"
-  resolved "https://registry.yarnpkg.com/karma-jasmine-given/-/karma-jasmine-given-0.1.1.tgz#0d26de9b82dcc82aa8a580f1444bea54baa319cf"
-  dependencies:
-    jasmine-given "^2.6.0"
 
 karma-jasmine@1.1.0:
   version "1.1.0"
@@ -5249,10 +5232,6 @@ mimic-response@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/mimic-response/-/mimic-response-1.0.0.tgz#df3d3652a73fded6b9b0b24146e6fd052353458e"
 
-minijasminenode@~0.2.4, minijasminenode@~0.2.7:
-  version "0.2.7"
-  resolved "https://registry.yarnpkg.com/minijasminenode/-/minijasminenode-0.2.7.tgz#534fd4550199ac68f2a70dc87c62daae9393e681"
-
 minimalistic-assert@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/minimalistic-assert/-/minimalistic-assert-1.0.0.tgz#702be2dda6b37f4836bcb3f5db56641b64a1d3d3"
@@ -5600,7 +5579,7 @@ npm-packlist@^1.1.6:
     ignore-walk "^3.0.1"
     npm-bundled "^1.0.1"
 
-npm-run-all@true4.1.5:
+npm-run-all@4.1.5:
   version "4.1.5"
   resolved "https://registry.yarnpkg.com/npm-run-all/-/npm-run-all-4.1.5.tgz#04476202a15ee0e2e214080861bff12a51d98fba"
   integrity sha512-Oo82gJDAVcaMdi3nuoKFavkIHBRVqQ1qvMb+9LHk/cF4P6B2m8aP04hGf7oL6wZ9BuGwX1onlLhpuoofSyoQDQ==

@@ -5,11 +5,11 @@ export default function(config: any) {
     // base path that will be used to resolve all patterns (eg. files, exclude)
     basePath: '',
 
-    frameworks: ['jasmine-given', 'jasmine'],
+    frameworks: ['@hirez_io/jasmine-given', 'jasmine'],
 
     plugins: [
       require('karma-jasmine'),
-      require('karma-jasmine-given'),
+      require('@hirez_io/karma-jasmine-given'),
       require('karma-sourcemap-loader'),
       require('karma-chrome-launcher'),
       require('karma-typescript'),
