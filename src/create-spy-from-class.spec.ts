@@ -1,5 +1,5 @@
 import { createSpyFromClass } from './create-spy-from-class';
-import { FakeClass } from './test-utils/fake-classes-to-test';
+import { FakeClass, FakeAbstractClass } from './test-utils/fake-classes-to-test';
 import { Spy } from './spy.types';
 import * as errorHandling from './errors/error-handling';
 
@@ -117,7 +117,7 @@ describe('createSpyFromClass', () => {
 
     Then(() => {
       verifyArgumentsErrorWasThrown({
-        actualArgs: [WRONG_VALUE]
+        actualArgs: [WRONG_VALUE],
       });
     });
   });
@@ -155,9 +155,27 @@ describe('createSpyFromClass', () => {
 
       Then(() => {
         verifyArgumentsErrorWasThrown({
-          actualArgs: [WRONG_VALUE]
+          actualArgs: [WRONG_VALUE],
         });
       });
+    });
+  });
+
+  describe('An example of how to write spies for abstract class', () => {
+    let abstractClassSpy: Spy<FakeAbstractClass>;
+    Given(() => {
+      abstractClassSpy = createSpyFromClass(
+        class SomeFakeClass extends FakeAbstractClass {}
+      );
+      abstractClassSpy.getSyncValue.and.returnValue('FAKE');
+    });
+
+    When(() => {
+      actualResult = abstractClassSpy.getSyncValue();
+    });
+
+    Then(() => {
+      expect(actualResult).toBe('FAKE');
     });
   });
 });

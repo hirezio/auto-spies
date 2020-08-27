@@ -1,3 +1,5 @@
+// tslint:disable:max-classes-per-file
+
 import { Observable, of, Subject } from 'rxjs';
 
 export class FakeClass {
@@ -20,9 +22,14 @@ export class FakeClass {
   }
 }
 
-// tslint:disable-next-line:max-classes-per-file
 export class FakeChildClass extends FakeClass {
   public anotherObservableMethod(): Observable<any> {
     return of();
+  }
+}
+
+export abstract class FakeAbstractClass {
+  public getSyncValue() {
+    return '';
   }
 }
