@@ -1,6 +1,6 @@
 import { getWebpackConfig } from './webpack.config';
 
-export default function(config: any) {
+export default function (config: any) {
   config.set({
     // base path that will be used to resolve all patterns (eg. files, exclude)
     basePath: '',
@@ -16,15 +16,15 @@ export default function(config: any) {
       require('karma-webpack'),
       require('karma-coverage-istanbul-reporter'),
       require('karma-mocha-reporter'),
-      require('karma-jasmine-diff-reporter')
+      require('karma-jasmine-diff-reporter'),
     ],
 
     preprocessors: {
-      './test.ts': ['webpack', 'sourcemap']
+      './test.ts': ['webpack', 'sourcemap'],
     },
 
     mime: {
-      'text/x-typescript': ['ts', 'tsx']
+      'text/x-typescript': ['ts', 'tsx'],
     },
 
     // list of files / patterns to load in the browser
@@ -34,7 +34,7 @@ export default function(config: any) {
 
     webpack: getWebpackConfig(true),
     webpackMiddleware: {
-      stats: 'errors-only'
+      stats: 'errors-only',
     },
 
     reporters: ['jasmine-diff', 'mocha', 'coverage-istanbul'],
@@ -44,13 +44,13 @@ export default function(config: any) {
         expectedBg: 'bgMagenta',
         expectedWhitespaceBg: 'bgMagenta',
         actualBg: 'bgBlue',
-        actualWhitespaceBg: 'bgBlue'
+        actualWhitespaceBg: 'bgBlue',
       },
-      legacy: true
+      legacy: true,
     },
 
     mochaReporter: {
-      output: 'minimal'
+      output: 'minimal',
     },
 
     coverageIstanbulReporter: {
@@ -71,21 +71,21 @@ export default function(config: any) {
           statements: 90,
           lines: 90,
           branches: 90,
-          functions: 90
+          functions: 90,
         },
         // thresholds per file
         each: {
           statements: 90,
           lines: 90,
-          branches: 90,
-          functions: 90
+          branches: 80,
+          functions: 90,
           // overrides: {
           //   'baz/component/**/*.js': {
           //     statements: 98
           //   }
           // }
-        }
-      }
+        },
+      },
     },
 
     port: 9876,
@@ -101,6 +101,6 @@ export default function(config: any) {
 
     singleRun: true,
 
-    concurrency: Infinity
+    concurrency: Infinity,
   });
 }
