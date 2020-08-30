@@ -15,12 +15,12 @@ export type AddSpyTypes<T> = T extends (...args: any[]) => any
 //     ? AddSpyOnPromise<T>
 //     : T extends Observable<any> ? AddSpyOnObservable<T> : T;
 
-export interface PromiseSpyMethod<T> {
+export interface PromiseMethodSpy<T> {
   resolveWith(value?: T): void;
   rejectWith(value?: any): void;
 }
 
-export interface ObservableSpyMethod<T> {
+export interface ObservableMethodSpy<T> {
   nextWith(value?: T): void;
   nextOneTimeWith(value?: T): void; // emit one value and completes
   throwWith(value: any): void;
@@ -28,7 +28,7 @@ export interface ObservableSpyMethod<T> {
   returnSubject<R = any>(): Subject<R>;
 }
 
-export interface SpyMethod {
+export interface MethodSpy {
   calledWith(
     ...args: any[]
   ): {
@@ -42,19 +42,19 @@ export interface SpyMethod {
 }
 
 export type AddSpyOnFunction<T extends (...args: any[]) => any> = T &
-  SpyMethod &
+  MethodSpy &
   jasmine.Spy;
 
 export type AddSpyOnPromise<T extends Promise<any>> = {
-  and: PromiseSpyMethod<Unpacked<T>>;
-  calledWith(...args: any[]): PromiseSpyMethod<Unpacked<T>>;
-  mustBeCalledWith(...args: any[]): PromiseSpyMethod<Unpacked<T>>;
+  and: PromiseMethodSpy<Unpacked<T>>;
+  calledWith(...args: any[]): PromiseMethodSpy<Unpacked<T>>;
+  mustBeCalledWith(...args: any[]): PromiseMethodSpy<Unpacked<T>>;
 } & jasmine.Spy;
 
 export type AddSpyOnObservable<T extends Observable<any>> = {
-  and: ObservableSpyMethod<Unpacked<T>>;
-  calledWith(...args: any[]): ObservableSpyMethod<Unpacked<T>>;
-  mustBeCalledWith(...args: any[]): ObservableSpyMethod<Unpacked<T>>;
+  and: ObservableMethodSpy<Unpacked<T>>;
+  calledWith(...args: any[]): ObservableMethodSpy<Unpacked<T>>;
+  mustBeCalledWith(...args: any[]): ObservableMethodSpy<Unpacked<T>>;
 } & jasmine.Spy;
 
 // Wrap the return type of the given function type with the appropriate spy methods
