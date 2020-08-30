@@ -50,7 +50,7 @@
   "devDependencies": {
     "@commitlint/cli": "9.1.2",
     "@commitlint/config-conventional": "9.1.2",
-    "@hirez_io/jasmine-given": "1.0.3",
+    "@hirez_io/jasmine-given": "1.0.4",
     "@types/deep-equal": "1.0.1",
     "@types/jasmine": "^3.5.14",
     "@types/tapable": "1.0.6",
