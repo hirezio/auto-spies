@@ -63,8 +63,10 @@ export type AddSpyByReturnTypes<TF extends (...args: any[]) => any> = TF &
     ? TR extends (...args: any[]) => infer R2
       ? AddSpyOnFunction<TR> // returns a Promise
       : TR extends Promise<any>
-        ? AddSpyOnPromise<TR> // returns an Observable
-        : TR extends Observable<any> ? AddSpyOnObservable<TR> : AddSpyOnFunction<TF>
+      ? AddSpyOnPromise<TR> // returns an Observable
+      : TR extends Observable<any>
+      ? AddSpyOnObservable<TR>
+      : AddSpyOnFunction<TF>
     : never);
 
 // export type AddSpyOnFunctionReturnType<
@@ -77,5 +79,9 @@ export type AddSpyByReturnTypes<TF extends (...args: any[]) => any> = TF &
 export type Unpacked<T> = T extends Array<infer U1>
   ? U1
   : T extends (...args: any[]) => infer U2
-    ? U2
-    : T extends Promise<infer U3> ? U3 : T extends Observable<infer U4> ? U4 : T;
+  ? U2
+  : T extends Promise<infer U3>
+  ? U3
+  : T extends Observable<infer U4>
+  ? U4
+  : T;

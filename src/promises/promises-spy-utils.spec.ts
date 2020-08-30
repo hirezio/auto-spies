@@ -1,6 +1,6 @@
 import { createSpyFromClass } from '../create-spy-from-class';
 import { FakeClass } from '../test-utils/fake-classes-to-test';
-import { Spy } from '../spy.types';
+import { Spy } from '../auto-spies.types';
 import * as errorHandling from '../errors/error-handling';
 
 let fakeClassSpy: Spy<FakeClass>;
@@ -137,7 +137,7 @@ describe('createSpyFromClass - promises', () => {
 
       Then(() => {
         verifyArgumentsErrorWasThrown({
-          actualArgs: fakeArgs
+          actualArgs: fakeArgs,
         });
       });
     });
@@ -172,7 +172,7 @@ describe('createSpyFromClass - promises', () => {
 
       Then(() => {
         verifyArgumentsErrorWasThrown({
-          actualArgs: fakeArgs
+          actualArgs: fakeArgs,
         });
       });
     });

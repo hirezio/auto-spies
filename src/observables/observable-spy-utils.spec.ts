@@ -1,7 +1,7 @@
 import { createSpyFromClass } from '../create-spy-from-class';
 import { FakeChildClass, FakeClass } from '../test-utils/fake-classes-to-test';
 import { take } from 'rxjs/operators';
-import { Spy } from '../spy.types';
+import { Spy } from '../auto-spies.types';
 import * as errorHandling from '../errors/error-handling';
 import { Subject } from 'rxjs';
 
@@ -43,8 +43,8 @@ describe('createSpyFromClass - Observables', () => {
           .getObservable()
           .pipe(take(1))
           .subscribe(
-            result => (actualResult = result),
-            error => (actualError = error),
+            (result) => (actualResult = result),
+            (error) => (actualError = error),
             () => (completed = true)
           );
       });
@@ -191,7 +191,7 @@ describe('createSpyFromClass - Observables', () => {
 
         Then(() => {
           verifyArgumentsErrorWasThrown({
-            actualArgs: fakeArgs
+            actualArgs: fakeArgs,
           });
         });
       });
@@ -226,7 +226,7 @@ describe('createSpyFromClass - Observables', () => {
 
         Then(() => {
           verifyArgumentsErrorWasThrown({
-            actualArgs: fakeArgs
+            actualArgs: fakeArgs,
           });
         });
       });
@@ -259,7 +259,7 @@ describe('createSpyFromClass - Observables', () => {
 
         Then(() => {
           verifyArgumentsErrorWasThrown({
-            actualArgs: fakeArgs
+            actualArgs: fakeArgs,
           });
         });
       });
@@ -291,7 +291,7 @@ describe('createSpyFromClass - Observables', () => {
 
         Then(() => {
           verifyArgumentsErrorWasThrown({
-            actualArgs: fakeArgs
+            actualArgs: fakeArgs,
           });
         });
       });
@@ -327,7 +327,7 @@ describe('createSpyFromClass - Observables', () => {
 
         Then(() => {
           verifyArgumentsErrorWasThrown({
-            actualArgs: fakeArgs
+            actualArgs: fakeArgs,
           });
         });
       });
@@ -363,7 +363,7 @@ describe('createSpyFromClass - Observables', () => {
       When(() => {
         fakeChildClassSpy
           .anotherObservableMethod()
-          .subscribe(result => (actualResult = result))
+          .subscribe((result) => (actualResult = result))
           .unsubscribe();
       });
 
@@ -380,7 +380,7 @@ describe('createSpyFromClass - Observables', () => {
       When(() => {
         fakeChildClassSpy
           .getObservable()
-          .subscribe(result => (actualResult = result))
+          .subscribe((result) => (actualResult = result))
           .unsubscribe();
       });
 

@@ -1,7 +1,7 @@
 import { AddSpyTypes } from '.';
 import {
   CalledWithObject,
-  SpyFunctionReturnValueContainer,
+  FunctionSpyReturnValueContainer,
 } from './create-spy-from-class.types';
 import {
   addPromiseHelpersToFunctionSpy,
@@ -27,7 +27,7 @@ export function createFunctionSpy<MT>(name: string): AddSpyTypes<MT> {
     argsToValuesMap: new Map(),
   };
 
-  const valueContainer: SpyFunctionReturnValueContainer = {
+  const valueContainer: FunctionSpyReturnValueContainer = {
     value: undefined,
   };
 
@@ -83,7 +83,7 @@ export function createFunctionSpy<MT>(name: string): AddSpyTypes<MT> {
 function spyFunctionImplementation(
   calledWithObject: CalledWithObject,
   mustBeCalledWithObject: CalledWithObject,
-  valueContainer: SpyFunctionReturnValueContainer,
+  valueContainer: FunctionSpyReturnValueContainer,
   actualArgs: any[]
 ) {
   if (calledWithObject.wasCalled) {

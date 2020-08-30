@@ -1,12 +1,12 @@
 import { ReplaySubject } from 'rxjs';
 import {
-  SpyFunctionReturnValueContainer,
-  CalledWithObject
+  FunctionSpyReturnValueContainer,
+  CalledWithObject,
 } from '../create-spy-from-class.types';
 
 export function addObservableHelpersToFunctionSpy(
   spyFunction: any,
-  valueContainer: SpyFunctionReturnValueContainer
+  valueContainer: FunctionSpyReturnValueContainer
 ) {
   const subject: ReplaySubject<any> = new ReplaySubject(1);
 
@@ -43,28 +43,28 @@ export function addObservableHelpersToCalledWithObject(
 ) {
   const subject: ReplaySubject<any> = new ReplaySubject(1);
 
-  calledWithObject.nextWith = function(value: any) {
+  calledWithObject.nextWith = function (value: any) {
     subject.next(value);
     calledWithObject.argsToValuesMap.set(calledWithArgs, subject);
   };
 
-  calledWithObject.nextOneTimeWith = function(value: any) {
+  calledWithObject.nextOneTimeWith = function (value: any) {
     subject.next(value);
     subject.complete();
     calledWithObject.argsToValuesMap.set(calledWithArgs, subject);
   };
 
-  calledWithObject.throwWith = function(value: any) {
+  calledWithObject.throwWith = function (value: any) {
     subject.error(value);
     calledWithObject.argsToValuesMap.set(calledWithArgs, subject);
   };
 
-  calledWithObject.complete = function() {
+  calledWithObject.complete = function () {
     subject.complete();
     calledWithObject.argsToValuesMap.set(calledWithArgs, subject);
   };
 
-  calledWithObject.returnSubject = function() {
+  calledWithObject.returnSubject = function () {
     calledWithObject.argsToValuesMap.set(calledWithArgs, subject);
     return subject;
   };

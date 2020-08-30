@@ -1,4 +1,4 @@
-import { Spy } from './spy.types';
+import { Spy } from './auto-spies.types';
 import { createFunctionSpy } from './create-function-spy';
 
 export function createSpyFromClass<T>(

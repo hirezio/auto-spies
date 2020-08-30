@@ -1,6 +1,6 @@
 import { Subject } from 'rxjs';
 
-export interface SpyFunctionReturnValueContainer {
+export interface FunctionSpyReturnValueContainer {
   value: any;
 }
 
