@@ -12,6 +12,7 @@
     "lib": ["es2015", "es2016"],
     "pretty": true,
     "strict": true,
+    "typeRoots": ["node_modules/types", "node_modules"],
     "types": ["@hirez_io/jasmine-given"]
   },
   "include": ["src"]
