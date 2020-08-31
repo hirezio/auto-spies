@@ -15,7 +15,7 @@
     "build": "run-s clean compile",
     "test": "karma start",
     "test:watch": "karma start --auto-watch --no-single-run",
-    "test:full": "yarn run lint&& yarn run test",
+    "test:full": "run-s lint test",
     "format:fix": "pretty-quick --staged",
     "lint": "eslint . --ext .js,.ts",
     "lint:fix": "eslint . --ext .js,.ts --fix",
@@ -87,7 +87,7 @@
     "webpack": "4.44.1"
   },
   "dependencies": {
-    "deep-equal": "1.0.1"
+    "deep-equal": "2.0.3"
   },
   "peerDependencies": {
     "jasmine-core": ">=2.6.0 <=3.6.0",
