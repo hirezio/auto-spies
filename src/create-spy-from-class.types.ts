@@ -2,6 +2,7 @@ import { Subject } from 'rxjs';
 
 export interface FunctionSpyReturnValueContainer {
   value: any;
+  _isRejectedPromise?: boolean;
 }
 
 export interface CalledWithObject {

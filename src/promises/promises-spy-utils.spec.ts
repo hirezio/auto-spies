@@ -153,6 +153,17 @@ describe('createSpyFromClass - promises', () => {
       });
     });
 
+    describe('GIVEN mustBeCalledWith of rejectWith is configured with exact params THEN reject with value', () => {
+      Given(() => {
+        errorIsExpected = true;
+        fakeClassSpy.getPromise.mustBeCalledWith(...fakeArgs).rejectWith(fakeValue);
+      });
+
+      Then(() => {
+        expect(actualError).toBe(fakeValue);
+      });
+    });
+
     describe('GIVEN calledWith of rejectWith is configured with wrong params THEN do not throw an error', () => {
       Given(() => {
         fakeClassSpy.getPromise.calledWith(WRONG_VALUE).rejectWith(fakeValue);

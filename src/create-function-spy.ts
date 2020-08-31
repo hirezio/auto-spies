@@ -89,17 +89,32 @@ function spyFunctionImplementation(
   if (calledWithObject.wasConfigured) {
     for (const storedCalledWithArgs of calledWithObject.argsToValuesMap.keys()) {
       if (deepEqual(storedCalledWithArgs, actualArgs)) {
-        return calledWithObject.argsToValuesMap.get(storedCalledWithArgs);
+        const expectedReturnValue = calledWithObject.argsToValuesMap.get(
+          storedCalledWithArgs
+        );
+        if (expectedReturnValue._isRejectedPromise) {
+          return Promise.reject(expectedReturnValue.value);
+        }
+        return expectedReturnValue;
       }
     }
   }
   if (mustBeCalledWithObject.wasConfigured) {
     for (const storedCalledWithArgs of mustBeCalledWithObject.argsToValuesMap.keys()) {
       if (deepEqual(storedCalledWithArgs, actualArgs)) {
-        return mustBeCalledWithObject.argsToValuesMap.get(storedCalledWithArgs);
+        const expectedReturnValue = mustBeCalledWithObject.argsToValuesMap.get(
+          storedCalledWithArgs
+        );
+        if (expectedReturnValue._isRejectedPromise) {
+          return Promise.reject(expectedReturnValue.value);
+        }
+        return expectedReturnValue;
       }
     }
     throwArgumentsError(actualArgs);
+  }
+  if (valueContainer._isRejectedPromise) {
+    return Promise.reject(valueContainer.value);
   }
   return valueContainer.value;
 }

@@ -12,7 +12,8 @@ export function addPromiseHelpersToFunctionSpy(
     valueContainer.value = Promise.resolve(value);
   };
   spyFunction.and.rejectWith = function (value?: any) {
-    valueContainer.value = Promise.reject(value);
+    valueContainer.value = value;
+    valueContainer._isRejectedPromise = true;
   };
 }
 
@@ -24,7 +25,11 @@ export function addPromiseHelpersToCalledWithObject(
     calledWithObject.argsToValuesMap.set(calledWithArgs, Promise.resolve(value));
   };
   calledWithObject.rejectWith = function (value?: any) {
-    calledWithObject.argsToValuesMap.set(calledWithArgs, Promise.reject(value));
+    const valueContainer: FunctionSpyReturnValueContainer = {
+      value,
+      _isRejectedPromise: true,
+    };
+    calledWithObject.argsToValuesMap.set(calledWithArgs, valueContainer);
   };
   return calledWithObject;
 }
