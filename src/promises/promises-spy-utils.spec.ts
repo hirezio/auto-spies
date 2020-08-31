@@ -30,7 +30,7 @@ describe('createSpyFromClass - promises', () => {
   });
 
   describe('WHEN a promise returning method is called', () => {
-    When(async (done: any) => {
+    When(async () => {
       try {
         actualResult = await fakeClassSpy.getPromise(...fakeArgs);
       } catch (error) {
@@ -39,7 +39,6 @@ describe('createSpyFromClass - promises', () => {
         }
         actualError = error;
       }
-      done();
     });
 
     describe('THEN should be able to fake resolve', () => {
@@ -67,7 +66,7 @@ describe('createSpyFromClass - promises', () => {
       fakeArgs = [1, 2];
     });
 
-    When(async (done: any) => {
+    When(async () => {
       try {
         actualResult = await fakeClassSpy.getPromise(...fakeArgs);
       } catch (error) {
@@ -76,7 +75,6 @@ describe('createSpyFromClass - promises', () => {
         }
         actualError = error;
       }
-      done();
     });
 
     describe('GIVEN calledWith of resolveWith is configured with exact params', () => {
@@ -102,13 +100,15 @@ describe('createSpyFromClass - promises', () => {
           fakeClassSpy.getPromise.calledWith(...fakeArgs2).resolveWith(fakeValue2);
         });
 
-        When(async (done: any) => {
+        When(async () => {
           try {
             actualResult2 = await fakeClassSpy.getPromise(...fakeArgs2);
           } catch (error) {
+            if (!errorIsExpected) {
+              throw error;
+            }
             actualError = error;
           }
-          done();
         });
 
         Then(() => {
