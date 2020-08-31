@@ -5,7 +5,7 @@ export interface FunctionSpyReturnValueContainer {
 }
 
 export interface CalledWithObject {
-  wasCalled: boolean;
+  wasConfigured: boolean;
   argsToValuesMap: Map<any, any>;
   returnValue?: (value: any) => void;
   resolveWith?: (value?: any) => void;

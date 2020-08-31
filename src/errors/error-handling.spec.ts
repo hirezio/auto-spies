@@ -17,7 +17,7 @@ describe('throwArgumentsError', () => {
     }
   });
 
-  describe('Given actual args are empty and dont match THEN throw the empty error', () => {
+  describe('Given actual args are empty and do not match THEN throw the empty error', () => {
     Given(() => {
       fakeActualArgs = [];
     });

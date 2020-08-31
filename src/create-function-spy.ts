@@ -18,12 +18,12 @@ export function createFunctionSpy<MT>(name: string): AddSpyTypes<MT> {
   const functionSpy: any = jasmine.createSpy(name);
 
   let calledWithObject: CalledWithObject = {
-    wasCalled: false,
+    wasConfigured: false,
     argsToValuesMap: new Map(),
   };
 
   let mustBeCalledWithObject: CalledWithObject = {
-    wasCalled: false,
+    wasConfigured: false,
     argsToValuesMap: new Map(),
   };
 
@@ -44,7 +44,7 @@ export function createFunctionSpy<MT>(name: string): AddSpyTypes<MT> {
   });
 
   functionSpy.calledWith = (...calledWithArgs: any[]) => {
-    calledWithObject.wasCalled = true;
+    calledWithObject.wasConfigured = true;
     calledWithObject = addSyncHandlingToCalledWithObject(
       calledWithObject,
       calledWithArgs
@@ -61,7 +61,7 @@ export function createFunctionSpy<MT>(name: string): AddSpyTypes<MT> {
   };
 
   functionSpy.mustBeCalledWith = (...calledWithArgs: any[]) => {
-    mustBeCalledWithObject.wasCalled = true;
+    mustBeCalledWithObject.wasConfigured = true;
     mustBeCalledWithObject = addSyncHandlingToCalledWithObject(
       mustBeCalledWithObject,
       calledWithArgs
@@ -86,14 +86,14 @@ function spyFunctionImplementation(
   valueContainer: FunctionSpyReturnValueContainer,
   actualArgs: any[]
 ) {
-  if (calledWithObject.wasCalled) {
+  if (calledWithObject.wasConfigured) {
     for (const storedCalledWithArgs of calledWithObject.argsToValuesMap.keys()) {
       if (deepEqual(storedCalledWithArgs, actualArgs)) {
         return calledWithObject.argsToValuesMap.get(storedCalledWithArgs);
       }
     }
   }
-  if (mustBeCalledWithObject.wasCalled) {
+  if (mustBeCalledWithObject.wasConfigured) {
     for (const storedCalledWithArgs of mustBeCalledWithObject.argsToValuesMap.keys()) {
       if (deepEqual(storedCalledWithArgs, actualArgs)) {
         return mustBeCalledWithObject.argsToValuesMap.get(storedCalledWithArgs);
