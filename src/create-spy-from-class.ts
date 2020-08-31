@@ -22,10 +22,14 @@ export function createSpyFromClass<T>(
 function getAllMethodNames(obj: any): string[] {
   let methods: string[] = [];
 
-  do {
-    methods = methods.concat(Object.getOwnPropertyNames(obj));
-    obj = Object.getPrototypeOf(obj);
-  } while (obj);
+  while (obj) {
+    const parentObj = Object.getPrototypeOf(obj);
+    // we don't want to spy on Function.prototype methods
+    if (parentObj) {
+      methods = methods.concat(Object.getOwnPropertyNames(obj));
+    }
+    obj = parentObj;
+  }
 
   const constructorIndex = methods.indexOf('constructor');
   if (constructorIndex >= 0) {
