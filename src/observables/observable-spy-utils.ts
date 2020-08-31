@@ -5,9 +5,10 @@ import {
 } from '../create-spy-from-class.types';
 
 export function addObservableHelpersToFunctionSpy(
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   spyFunction: any,
   valueContainer: FunctionSpyReturnValueContainer
-) {
+): void {
   const subject: ReplaySubject<any> = new ReplaySubject(1);
 
   spyFunction.and.nextWith = function nextWith(value: any) {
@@ -40,7 +41,7 @@ export function addObservableHelpersToFunctionSpy(
 export function addObservableHelpersToCalledWithObject(
   calledWithObject: CalledWithObject,
   calledWithArgs: any[]
-) {
+): CalledWithObject {
   const subject: ReplaySubject<any> = new ReplaySubject(1);
 
   calledWithObject.nextWith = function (value: any) {

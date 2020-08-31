@@ -4,9 +4,10 @@ import {
 } from '../create-spy-from-class.types';
 
 export function addPromiseHelpersToFunctionSpy(
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   spyFunction: any,
   valueContainer: FunctionSpyReturnValueContainer
-) {
+): void {
   spyFunction.and.resolveWith = function (value?: any) {
     valueContainer.value = Promise.resolve(value);
   };

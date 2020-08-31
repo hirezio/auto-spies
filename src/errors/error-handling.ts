@@ -1,4 +1,4 @@
-export function throwArgumentsError(actualArgs: any[]) {
+export function throwArgumentsError(actualArgs: any[]): void {
   let errorMessage = `
               The function was configured with 'mustBeCalledWith'
               and expects to be called with specific arguments.
