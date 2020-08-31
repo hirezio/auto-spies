@@ -18,7 +18,7 @@ function verifyArgumentsErrorWasThrown({ actualArgs }: { actualArgs: any[] }) {
 
 describe('createSpyFromClass - promises', () => {
   Given(() => {
-    fakeValue = 'BOOM!';
+    fakeValue = 'FAKE PROMISE VALUE';
     actualResult = null;
     actualError = null;
     fakeArgs = [];
@@ -120,7 +120,7 @@ describe('createSpyFromClass - promises', () => {
 
     describe('GIVEN calledWith of resolveWith is configured with wrong params THEN do not throw an error', () => {
       Given(() => {
-        fakeClassSpy.getPromise.calledWith(...WRONG_VALUE).resolveWith(fakeValue);
+        fakeClassSpy.getPromise.calledWith(WRONG_VALUE).resolveWith(fakeValue);
       });
 
       Then(() => {
@@ -155,7 +155,7 @@ describe('createSpyFromClass - promises', () => {
 
     describe('GIVEN calledWith of rejectWith is configured with wrong params THEN do not throw an error', () => {
       Given(() => {
-        fakeClassSpy.getPromise.calledWith(...WRONG_VALUE).rejectWith(fakeValue);
+        fakeClassSpy.getPromise.calledWith(WRONG_VALUE).rejectWith(fakeValue);
       });
 
       Then(() => {

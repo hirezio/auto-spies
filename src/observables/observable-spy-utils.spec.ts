@@ -22,7 +22,7 @@ function verifyArgumentsErrorWasThrown({ actualArgs }: { actualArgs: any[] }) {
 
 describe('createSpyFromClass - Observables', () => {
   Given(() => {
-    fakeValue = 'BOOM!';
+    fakeValue = 'FAKE EMITTED VALUE';
     actualResult = null;
     actualError = null;
     completed = false;

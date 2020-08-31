@@ -16,7 +16,7 @@ function verifyArgumentsErrorWasThrown({ actualArgs }: { actualArgs: any[] }) {
 
 describe('createSpyFromClass', () => {
   Given(() => {
-    fakeValue = 'BOOM!';
+    fakeValue = 'FAKE SYNC VALUE';
     actualResult = null;
     fakeArgs = [];
 
