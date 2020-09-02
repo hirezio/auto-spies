@@ -1,12 +1,13 @@
-import { Spy } from './auto-spies.types';
+import { Spy, OnlyMethodKeysOf } from './auto-spies.types';
 import { createFunctionSpy } from './create-function-spy';
 
 export function createSpyFromClass<T>(
   ObjectClass: { new (...args: any[]): T; [key: string]: any },
-  providedMethodNames?: string[]
+  providedMethodNames?: OnlyMethodKeysOf<T>[]
 ): Spy<T> {
   const proto = ObjectClass.prototype;
   const methodNames = getAllMethodNames(proto);
+
   if (providedMethodNames && providedMethodNames.length > 0) {
     methodNames.push(...providedMethodNames);
   }

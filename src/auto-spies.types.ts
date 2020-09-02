@@ -85,3 +85,12 @@ export type Unpacked<T> = T extends Array<infer U1>
   : T extends Observable<infer U4>
   ? U4
   : T;
+
+type KeysForPropertyType<ObjectType, PropType> = Extract<
+  {
+    [Key in keyof ObjectType]: ObjectType[Key] extends PropType ? Key : never;
+  }[keyof ObjectType],
+  string
+>;
+
+export type OnlyMethodKeysOf<T> = KeysForPropertyType<T, { (...args: any[]): any }>;

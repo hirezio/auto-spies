@@ -18,6 +18,9 @@ export class FakeClass {
   public getSubject(): Subject<any> {
     return new Subject();
   }
+
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
+  public arrowMethod: () => void = () => {};
 }
 
 export class FakeChildClass extends FakeClass {
