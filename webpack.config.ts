@@ -8,10 +8,10 @@ export function getWebpackConfig(forTest: boolean = false): webpack.Configuratio
     entry: './src/index.ts',
     output: {
       filename: 'jasmine-auto-spies.js',
-      path: resolve('./dist')
+      path: resolve('./dist'),
     },
     resolve: {
-      extensions: ['.ts', '.js']
+      extensions: ['.ts', '.js'],
     },
     module: {
       rules: [
@@ -22,26 +22,26 @@ export function getWebpackConfig(forTest: boolean = false): webpack.Configuratio
               loader: 'awesome-typescript-loader',
               options: {
                 declaration: false,
-                configFileName: forTest ? 'tsconfig.spec.json' : 'tsconfig.json'
-              }
-            }
-          ]
+                configFileName: forTest ? 'tsconfig.spec.json' : 'tsconfig.json',
+              },
+            },
+          ],
         },
         {
           test: /\.(js|ts)$/,
           loader: 'istanbul-instrumenter-loader',
           options: { esModules: true },
           enforce: 'post',
-          exclude: [/\.(e2e|spec)\.ts$/, /node_modules/, /fake-classes-to-test.ts/]
-        }
-      ]
+          exclude: [/\.(e2e|spec)\.ts$/, /node_modules/, /fake-classes-to-test.ts/],
+        },
+      ],
     },
     plugins: [
       new webpack.SourceMapDevToolPlugin({
         filename: null, // if no value is provided the sourcemap is inlined
-        test: /\.(ts|js)($|\?)/i // process .js and .ts files only
-      })
-    ]
+        test: /\.(ts|js)($|\?)/i, // process .js and .ts files only
+      }),
+    ],
   };
 }
 

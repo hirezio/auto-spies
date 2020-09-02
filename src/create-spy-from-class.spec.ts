@@ -40,12 +40,12 @@ describe('createSpyFromClass', () => {
 
   describe('GIVEN a synchronous method is being manually configured', () => {
     Given(() => {
-      fakeClassSpy = createSpyFromClass(FakeClass, ['customMethod']);
-      (fakeClassSpy as any).customMethod.and.returnValue(fakeValue);
+      fakeClassSpy = createSpyFromClass(FakeClass, ['arrowMethod']);
+      fakeClassSpy.arrowMethod.and.returnValue(fakeValue);
     });
 
     When(() => {
-      actualResult = (fakeClassSpy as any).customMethod();
+      actualResult = fakeClassSpy.arrowMethod();
     });
 
     Then(() => {

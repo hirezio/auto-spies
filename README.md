@@ -244,7 +244,7 @@ This is good for times where a method is not part of the `prototype` of the Clas
 ```ts
 class MyClass {
   constructor() {
-    this.customMethod1 = function() {
+    this.customMethod1 = function () {
       // This definition is not part of MyClass' prototype
     };
   }
