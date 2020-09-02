@@ -1,45 +1,67 @@
 import { createSpyFromClass } from './create-spy-from-class';
-import { FakeChildClass, FakeClass } from './fake-classes-to-test';
-import { take } from 'rxjs/operators';
-import { Spy } from './spy-types';
-import * as errorHandling from './error-handling';
+import { FakeClass, FakeAbstractClass } from './test-utils/fake-classes-to-test';
+import { Spy } from './auto-spies.types';
+import * as errorHandling from './errors/error-handling';
 
 let fakeClassSpy: Spy<FakeClass>;
-let fakeChildClassSpy: Spy<FakeChildClass>;
 let fakeValue: any;
 let actualResult: any;
-let actualError: any;
 let fakeArgs: any[];
-let completed: boolean;
 const WRONG_VALUE = 'WRONG VALUE';
 let throwArgumentsErrorSpyFunction: jasmine.Spy;
 
+function verifyArgumentsErrorWasThrown({ actualArgs }: { actualArgs: any[] }) {
+  expect(throwArgumentsErrorSpyFunction).toHaveBeenCalledWith(actualArgs);
+}
+
 describe('createSpyFromClass', () => {
   Given(() => {
-    fakeValue = 'BOOM!';
+    fakeValue = 'FAKE SYNC VALUE';
     actualResult = null;
-    actualError = null;
-    completed = false;
     fakeArgs = [];
 
-    throwArgumentsErrorSpyFunction = spyOn(
-      errorHandling,
-      'throwArgumentsError'
-    );
+    throwArgumentsErrorSpyFunction = spyOn(errorHandling, 'throwArgumentsError');
+    fakeClassSpy = createSpyFromClass(FakeClass);
   });
 
-  describe('GIVEN a fake Class', () => {
+  describe('GIVEN a synchronous method is being configured', () => {
     Given(() => {
-      fakeClassSpy = createSpyFromClass(FakeClass);
+      fakeClassSpy.getSyncValue.and.returnValue(fakeValue);
     });
 
-    describe('GIVEN a synchronous method is being configured', () => {
-      Given(() => {
-        fakeClassSpy.syncMethod.and.returnValue(fakeValue);
-      });
+    When(() => {
+      actualResult = fakeClassSpy.getSyncValue();
+    });
 
+    Then(() => {
+      expect(actualResult).toBe(fakeValue);
+    });
+  });
+
+  describe('GIVEN a synchronous method is being manually configured', () => {
+    Given(() => {
+      fakeClassSpy = createSpyFromClass(FakeClass, ['customMethod']);
+      (fakeClassSpy as any).customMethod.and.returnValue(fakeValue);
+    });
+
+    When(() => {
+      actualResult = (fakeClassSpy as any).customMethod();
+    });
+
+    Then(() => {
+      expect(actualResult).toBe(fakeValue);
+    });
+  });
+
+  describe('GIVEN a synchronous method is being configured with specific parameters', () => {
+    Given(() => {
+      fakeArgs = [1, { a: 2 }];
+      fakeClassSpy.getSyncValue.calledWith(...fakeArgs).returnValue(fakeValue);
+    });
+
+    describe('WHEN it is called with the expected parameters THEN return the value', () => {
       When(() => {
-        actualResult = fakeClassSpy.syncMethod();
+        actualResult = fakeClassSpy.getSyncValue(...fakeArgs);
       });
 
       Then(() => {
@@ -47,396 +69,113 @@ describe('createSpyFromClass', () => {
       });
     });
 
-    describe('GIVEN a synchronous method is being configured with specific parameters', () => {
+    describe(`GIVEN another calledWith is configured
+                WHEN method is called twice
+                THEN return the correct value for each call`, () => {
+      let actualResult2: any;
+      let fakeArgs2: any[];
+      let fakeValue2: any;
       Given(() => {
-        fakeArgs = [1, { a: 2 }];
-        fakeClassSpy.syncMethod.calledWith(...fakeArgs).returnValue(fakeValue);
+        actualResult2 = undefined;
+        fakeValue2 = 'FAKE VALUE 2';
+        fakeArgs2 = [3, 4];
+        fakeClassSpy.getSyncValue.calledWith(...fakeArgs2).returnValue(fakeValue2);
       });
 
-      describe('WHEN it is called with the expected parameters THEN return the value', () => {
-        When(() => {
-          actualResult = fakeClassSpy.syncMethod(...fakeArgs);
-        });
-
-        Then(() => {
-          expect(actualResult).toBe(fakeValue);
-        });
+      When(() => {
+        actualResult = fakeClassSpy.getSyncValue(...fakeArgs);
+        actualResult2 = fakeClassSpy.getSyncValue(...fakeArgs2);
       });
 
-      describe('WHEN called with the wrong parameters THEN throw an error', () => {
-        When(() => {
-          actualResult = fakeClassSpy.syncMethod(WRONG_VALUE);
-        });
-
-        Then(() => {
-          expect(throwArgumentsErrorSpyFunction).toHaveBeenCalledWith(
-            fakeArgs,
-            [WRONG_VALUE]
-          );
-        });
-      });
-    });
-
-    describe('WHEN promise returning method is called', () => {
-      When((done = () => {}) => {
-        fakeClassSpy
-          .promiseMethod()
-          .then(result => {
-            actualResult = result;
-            done();
-          })
-          .catch(error => {
-            actualError = error;
-            done();
-          });
-      });
-
-      describe('should be able to fake resolve', () => {
-        Given(() => {
-          fakeClassSpy.promiseMethod.and.resolveWith(fakeValue);
-        });
-        Then(() => {
-          expect(actualResult).toBe(fakeValue);
-        });
-      });
-
-      describe('should be able to fake reject', () => {
-        Given(() => {
-          fakeClassSpy.promiseMethod.and.rejectWith(fakeValue);
-        });
-        Then(() => {
-          expect(actualError).toBe(fakeValue);
-        });
-      });
-    });
-
-    describe('WHEN promise returning method is called with exact params ', () => {
-      Given(() => {
-        fakeArgs = [1, 2];
-      });
-
-      When((done = () => {}) => {
-        fakeClassSpy
-          .promiseMethod(...fakeArgs)
-          .then((result: any) => {
-            actualResult = result;
-            done();
-          })
-          .catch((error: any) => {
-            actualError = error;
-            done();
-          });
-      });
-
-      describe('GIVEN calledWith of resolveWith is configured with exact params THEN resolve with value', () => {
-        Given(() => {
-          fakeClassSpy.promiseMethod
-            .calledWith(...fakeArgs)
-            .resolveWith(fakeValue);
-        });
-
-        Then(() => {
-          expect(actualResult).toBe(fakeValue);
-        });
-      });
-
-      describe('GIVEN calledWith of resolveWith is configured with different params THEN throw an error', () => {
-        Given(() => {
-          fakeClassSpy.promiseMethod
-            .calledWith(WRONG_VALUE)
-            .resolveWith(fakeValue);
-        });
-
-        Then(() => {
-          expect(throwArgumentsErrorSpyFunction).toHaveBeenCalledWith(
-            [WRONG_VALUE],
-            fakeArgs
-          );
-        });
-      });
-
-      describe('GIVEN calledWith of rejectWith is configured with exact params THEN reject with value', () => {
-        Given(() => {
-          fakeClassSpy.promiseMethod
-            .calledWith(...fakeArgs)
-            .rejectWith(fakeValue);
-        });
-
-        Then(() => {
-          expect(actualError).toBe(fakeValue);
-        });
-      });
-
-      describe('GIVEN calledWith of rejectWith is configured with different params THEN should throw an error', () => {
-        Given(() => {
-          fakeClassSpy.promiseMethod
-            .calledWith(WRONG_VALUE)
-            .rejectWith(fakeValue);
-        });
-
-        Then(() => {
-          expect(throwArgumentsErrorSpyFunction).toHaveBeenCalledWith(
-            [WRONG_VALUE],
-            fakeArgs
-          );
-        });
-      });
-    });
-
-    describe('GIVEN promise method names list configured', () => {
-      Given(() => {
-        fakeClassSpy = createSpyFromClass(FakeClass, ['providedPromiseMethod']);
-        fakeClassSpy.providedPromiseMethod.and.resolveWith(fakeValue);
-      });
-
-      When((done = () => {}) => {
-        fakeClassSpy
-          .providedPromiseMethod()
-          .then(result => {
-            actualResult = result;
-            done();
-          })
-          .catch(error => {
-            actualError = error;
-            done();
-          });
-      });
       Then(() => {
         expect(actualResult).toBe(fakeValue);
+        expect(actualResult2).toBe(fakeValue2);
       });
     });
 
-    describe('WHEN calling an observable returning method', () => {
+    describe('WHEN called with the wrong parameters THEN DO NOT throw an error', () => {
       When(() => {
-        fakeClassSpy
-          .observableMethod()
-          .pipe(take(1))
-          .subscribe(
-            result => (actualResult = result),
-            error => (actualError = error),
-            () => (completed = true)
-          );
+        actualResult = fakeClassSpy.getSyncValue(WRONG_VALUE);
       });
 
-      describe('GIVEN nextWith is configured THEN emit the next event', () => {
-        Given(() => {
-          fakeClassSpy.observableMethod.and.nextWith(fakeValue);
-        });
-
-        Then(() => {
-          expect(actualResult).toBe(fakeValue);
-        });
-      });
-
-      describe('GIVEN nextOneTimeWith is configured THEN emit the next event', () => {
-        Given(() => {
-          fakeClassSpy.observableMethod.and.nextOneTimeWith(fakeValue);
-        });
-
-        Then(() => {
-          expect(actualResult).toBe(fakeValue);
-          expect(completed).toBeTruthy();
-        });
-      });
-
-      describe('GIVEN throwWith is configured THEN emit an error', () => {
-        Given(() => {
-          fakeClassSpy.observableMethod.and.throwWith(fakeValue);
-        });
-
-        Then(() => {
-          expect(actualError).toBe(fakeValue);
-        });
-      });
-
-      describe('GIVEN complete is configured THEN complete the Observable', () => {
-        Given(() => {
-          fakeClassSpy.observableMethod.and.complete();
-        });
-
-        Then(() => {
-          expect(completed).toBe(true);
-        });
-      });
-    });
-
-    describe('WHEN Observable returning method is called with exact params', () => {
-      Given(() => {
-        fakeArgs = [1, 2];
-      });
-
-      When(() => {
-        fakeClassSpy
-          .observableMethod(...fakeArgs)
-          .pipe(take(1))
-          .subscribe(
-            (result: any) => (actualResult = result),
-            (error: any) => (actualError = error),
-            () => (completed = true)
-          );
-      });
-
-      describe('GIVEN calledWith of nextWith is configured with the right params THEN emit the next event', () => {
-        Given(() => {
-          fakeClassSpy.observableMethod
-            .calledWith(...fakeArgs)
-            .nextWith(fakeValue);
-        });
-
-        Then(() => {
-          expect(actualResult).toBe(fakeValue);
-        });
-      });
-
-      describe('GIVEN calledWith of nextWith is configured with the wrong params THEN throw an error', () => {
-        Given(() => {
-          fakeClassSpy.observableMethod
-            .calledWith(WRONG_VALUE)
-            .nextWith(fakeValue);
-        });
-
-        Then(() => {
-          expect(throwArgumentsErrorSpyFunction).toHaveBeenCalledWith(
-            ['WRONG VALUE'],
-            fakeArgs
-          );
-        });
-      });
-
-      describe('GIVEN calledWith of nextOneTimeWith configured with the right params THEN emit the next event', () => {
-        Given(() => {
-          fakeClassSpy.observableMethod
-            .calledWith(...fakeArgs)
-            .nextOneTimeWith(fakeValue);
-        });
-
-        Then(() => {
-          expect(actualResult).toBe(fakeValue);
-          expect(completed).toBeTruthy();
-        });
-      });
-
-      describe('GIVEN calledWith of nextOneTimeWith is configured with the wrong params THEN throw an error', () => {
-        Given(() => {
-          fakeClassSpy.observableMethod
-            .calledWith(WRONG_VALUE)
-            .nextOneTimeWith(fakeValue);
-        });
-
-        Then(() => {
-          expect(throwArgumentsErrorSpyFunction).toHaveBeenCalledWith(
-            ['WRONG VALUE'],
-            fakeArgs
-          );
-        });
-      });
-
-      describe('GIVEN calledWith of throwWith is configured with the right params THEN emit an error', () => {
-        Given(() => {
-          fakeClassSpy.observableMethod
-            .calledWith(...fakeArgs)
-            .throwWith(fakeValue);
-        });
-
-        Then(() => {
-          expect(actualError).toBe(fakeValue);
-        });
-      });
-
-      describe('GIVEN calledWith of throwWith is configured with the wrong params THEN throw an error', () => {
-        Given(() => {
-          fakeClassSpy.observableMethod
-            .calledWith(WRONG_VALUE)
-            .throwWith(fakeValue);
-        });
-
-        Then(() => {
-          expect(throwArgumentsErrorSpyFunction).toHaveBeenCalledWith(
-            ['WRONG VALUE'],
-            fakeArgs
-          );
-        });
-      });
-
-      describe('GIVEN calledWith of complete is configured with the right params THEN complete successfully', () => {
-        Given(() => {
-          fakeClassSpy.observableMethod.calledWith(...fakeArgs).complete();
-        });
-
-        Then(() => {
-          expect(completed).toBeTruthy();
-        });
-      });
-
-      describe('GIVEN calledWith of complete is configured with the wrong params THEN throw an error', () => {
-        Given(() => {
-          fakeClassSpy.observableMethod.calledWith(WRONG_VALUE).complete();
-        });
-
-        Then(() => {
-          expect(throwArgumentsErrorSpyFunction).toHaveBeenCalledWith(
-            ['WRONG VALUE'],
-            fakeArgs
-          );
-        });
-      });
-    });
-
-    describe('GIVEN Observable method names list configured', () => {
-      Given(() => {
-        fakeClassSpy = createSpyFromClass(FakeClass, undefined, [
-          'providedObservableMethod'
-        ]);
-        fakeClassSpy.providedObservableMethod.and.nextWith(fakeValue);
-      });
-      When(() => {
-        fakeClassSpy
-          .providedObservableMethod()
-          .subscribe(result => (actualResult = result))
-          .unsubscribe();
-      });
       Then(() => {
-        expect(actualResult).toBe(fakeValue);
+        expect(throwArgumentsErrorSpyFunction).not.toHaveBeenCalled();
       });
     });
   });
 
-  describe('GIVEN a fake child Class', () => {
+  describe(`GIVEN a synchronous method is configured to throw on mismatch
+            WHEN called with the wrong parameters
+            THEN throw an error`, () => {
     Given(() => {
-      fakeChildClassSpy = createSpyFromClass(FakeChildClass);
+      fakeArgs = [1, { a: 2 }];
+      fakeClassSpy.getSyncValue.mustBeCalledWith(...fakeArgs).returnValue(fakeValue);
     });
-    describe('Observable method works correctly', () => {
-      Given(() => {
-        fakeChildClassSpy.anotherObservableMethod.and.nextWith(fakeValue);
-      });
+    When(() => {
+      actualResult = fakeClassSpy.getSyncValue(WRONG_VALUE);
+    });
 
+    Then(() => {
+      verifyArgumentsErrorWasThrown({
+        actualArgs: [WRONG_VALUE],
+      });
+    });
+  });
+
+  describe(`GIVEN a synchronous method calledWith is configured to throw on mismatch
+            WHEN called twice with the right parameters
+            THEN DO NOT throw an error`, () => {
+    let fakeArgs2: any[];
+    Given(() => {
+      fakeArgs = [1, { a: 2 }];
+      fakeArgs2 = [1, { a: 3 }];
+      fakeClassSpy.getSyncValue.mustBeCalledWith(...fakeArgs).returnValue(fakeValue);
+
+      fakeClassSpy.getSyncValue.mustBeCalledWith(...fakeArgs2).returnValue(fakeValue);
+    });
+
+    describe(`WHEN called twice with the right parameters
+             THEN DO NOT throw an error`, () => {
       When(() => {
-        fakeChildClassSpy
-          .anotherObservableMethod()
-          .subscribe(result => (actualResult = result))
-          .unsubscribe();
+        actualResult = fakeClassSpy.getSyncValue(...fakeArgs);
+        actualResult = fakeClassSpy.getSyncValue(...fakeArgs2);
       });
 
       Then(() => {
-        expect(actualResult).toBe(fakeValue);
+        expect(throwArgumentsErrorSpyFunction).not.toHaveBeenCalled();
       });
     });
 
-    describe('parent methods works correctly', () => {
-      Given(() => {
-        fakeChildClassSpy.observableMethod.and.nextWith(fakeValue);
-      });
-
+    describe(`WHEN called second time with the wrong parameters
+             THEN throw an error with the wrong value`, () => {
       When(() => {
-        fakeChildClassSpy
-          .observableMethod()
-          .subscribe(result => (actualResult = result))
-          .unsubscribe();
+        actualResult = fakeClassSpy.getSyncValue(...fakeArgs);
+        actualResult = fakeClassSpy.getSyncValue(WRONG_VALUE);
       });
 
       Then(() => {
-        expect(actualResult).toBe(fakeValue);
+        verifyArgumentsErrorWasThrown({
+          actualArgs: [WRONG_VALUE],
+        });
       });
+    });
+  });
+
+  describe('An example of how to write spies for abstract class', () => {
+    let abstractClassSpy: Spy<FakeAbstractClass>;
+    Given(() => {
+      abstractClassSpy = createSpyFromClass(
+        class SomeFakeClass extends FakeAbstractClass {}
+      );
+      abstractClassSpy.getSyncValue.and.returnValue('FAKE');
+    });
+
+    When(() => {
+      actualResult = abstractClassSpy.getSyncValue();
+    });
+
+    Then(() => {
+      expect(actualResult).toBe('FAKE');
     });
   });
 });

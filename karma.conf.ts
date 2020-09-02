@@ -1,16 +1,15 @@
-import { webpackConfig } from './webpack.config';
+import { getWebpackConfig } from './webpack.config';
 
-export default function(config: any) {
+export default function (config: any) {
   config.set({
-
     // base path that will be used to resolve all patterns (eg. files, exclude)
     basePath: '',
 
-    frameworks: ['jasmine-given', 'jasmine'],
+    frameworks: ['@hirez_io/jasmine-given', 'jasmine'],
 
     plugins: [
       require('karma-jasmine'),
-      require('karma-jasmine-given'),
+      require('@hirez_io/karma-jasmine-given'),
       require('karma-sourcemap-loader'),
       require('karma-chrome-launcher'),
       require('karma-typescript'),
@@ -21,24 +20,21 @@ export default function(config: any) {
     ],
 
     preprocessors: {
-      './test.ts': ['webpack', 'sourcemap']
+      './test.ts': ['webpack', 'sourcemap'],
     },
 
     mime: {
-      'text/x-typescript': ['ts', 'tsx']
+      'text/x-typescript': ['ts', 'tsx'],
     },
 
     // list of files / patterns to load in the browser
-    files: [
-      { pattern: './test.ts', watched: false }
-    ],
+    files: [{ pattern: './test.ts', watched: false }],
 
-    exclude: [
-    ],
+    exclude: [],
 
-    webpack: webpackConfig,
+    webpack: getWebpackConfig(true),
     webpackMiddleware: {
-      stats: 'errors-only'
+      stats: 'errors-only',
     },
 
     reporters: ['jasmine-diff', 'mocha', 'coverage-istanbul'],
@@ -48,13 +44,13 @@ export default function(config: any) {
         expectedBg: 'bgMagenta',
         expectedWhitespaceBg: 'bgMagenta',
         actualBg: 'bgBlue',
-        actualWhitespaceBg: 'bgBlue'
+        actualWhitespaceBg: 'bgBlue',
       },
-      legacy: true
+      legacy: true,
     },
 
     mochaReporter: {
-      output: 'minimal'
+      output: 'minimal',
     },
 
     coverageIstanbulReporter: {
@@ -75,21 +71,21 @@ export default function(config: any) {
           statements: 90,
           lines: 90,
           branches: 90,
-          functions: 90
+          functions: 90,
         },
         // thresholds per file
         each: {
           statements: 90,
           lines: 90,
-          branches: 90,
+          branches: 80,
           functions: 90,
           // overrides: {
           //   'baz/component/**/*.js': {
           //     statements: 98
           //   }
           // }
-        }
-      }
+        },
+      },
     },
 
     port: 9876,

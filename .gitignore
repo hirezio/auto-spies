@@ -1,7 +1,8 @@
 node_modules
 dist
 coverage
-src/*.js* 
+src/**/*.js* 
 **/*.d.ts
 .vscode
 TODO
+yarn-error.log

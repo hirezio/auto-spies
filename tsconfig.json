@@ -8,9 +8,12 @@
     "noImplicitAny": true,
     "esModuleInterop": true,
     "sourceMap": true,
-    "lib": ["es2015", "es2016"],
+    "downlevelIteration": true,
+    "lib": ["es2015", "es2016", "DOM"],
     "pretty": true,
-    "strict": true
+    "strict": true,
+    "typeRoots": ["node_modules/types", "node_modules"],
+    "types": ["@hirez_io/jasmine-given"]
   },
   "include": ["src"]
 }

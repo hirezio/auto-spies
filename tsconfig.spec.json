@@ -1,0 +1,9 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "target": "es2015",
+    "types": ["jasmine", "@hirez_io/jasmine-given", "node"]
+  },
+  "files": ["src/test.ts"],
+  "include": ["src/**/*.spec.ts"]
+}

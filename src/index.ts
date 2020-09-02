@@ -1,3 +1,3 @@
-export * from './spy-types';
-export { AsyncSpyable } from './async-spyable-decorator';
+export * from './auto-spies.types';
 export { createSpyFromClass } from './create-spy-from-class';
+export { createFunctionSpy } from './create-function-spy';
