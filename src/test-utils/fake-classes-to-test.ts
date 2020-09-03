@@ -2,6 +2,7 @@ import { Observable, of, Subject } from 'rxjs';
 
 export class FakeClass {
   public someProp: number = 1;
+  public observableProp: Observable<any> = new Observable();
 
   public getSyncValue(): string {
     return '';

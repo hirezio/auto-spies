@@ -3,6 +3,7 @@ import {
   FunctionSpyReturnValueContainer,
   CalledWithObject,
 } from '../create-spy-from-class.types';
+import { AddObservableSpyMethods } from '..';
 
 export function addObservableHelpersToFunctionSpy(
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -71,4 +72,29 @@ export function addObservableHelpersToCalledWithObject(
   };
 
   return calledWithObject;
+}
+
+export function createObservablePropSpy<T>(): T & AddObservableSpyMethods<T> {
+  const subject: ReplaySubject<any> = new ReplaySubject();
+
+  const observableSpy: any = subject.asObservable();
+
+  observableSpy.nextWith = function nextWith(value: any) {
+    subject.next(value);
+  };
+  observableSpy.nextOneTimeWith = function nextOneTimeWith(value: any) {
+    subject.next(value);
+    subject.complete();
+  };
+  observableSpy.throwWith = function throwWith(value: any) {
+    subject.error(value);
+  };
+  observableSpy.complete = function complete() {
+    subject.complete();
+  };
+  observableSpy.returnSubject = function returnSubject() {
+    return subject;
+  };
+
+  return observableSpy;
 }

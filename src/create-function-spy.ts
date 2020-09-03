@@ -1,4 +1,4 @@
-import { AddSpyTypes } from '.';
+import { AddSpyTypesToMethods } from '.';
 import {
   CalledWithObject,
   FunctionSpyReturnValueContainer,
@@ -14,7 +14,7 @@ import {
 import deepEqual from 'deep-equal';
 import { throwArgumentsError } from './errors/error-handling';
 
-export function createFunctionSpy<MT>(name: string): AddSpyTypes<MT> {
+export function createFunctionSpy<MT>(name: string): AddSpyTypesToMethods<MT> {
   const functionSpy: any = jasmine.createSpy(name);
 
   let calledWithObject: CalledWithObject = {

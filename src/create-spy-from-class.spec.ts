@@ -53,6 +53,23 @@ describe('createSpyFromClass', () => {
     });
   });
 
+  describe('GIVEN a synchronous method is being manually configured using the config object', () => {
+    Given(() => {
+      fakeClassSpy = createSpyFromClass(FakeClass, {
+        providedMethodNames: ['arrowMethod'],
+      });
+      fakeClassSpy.arrowMethod.and.returnValue(fakeValue);
+    });
+
+    When(() => {
+      actualResult = fakeClassSpy.arrowMethod();
+    });
+
+    Then(() => {
+      expect(actualResult).toBe(fakeValue);
+    });
+  });
+
   describe('GIVEN a synchronous method is being configured with specific parameters', () => {
     Given(() => {
       fakeArgs = [1, { a: 2 }];

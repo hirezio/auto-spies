@@ -1,18 +1,41 @@
-import { Spy, OnlyMethodKeysOf } from './auto-spies.types';
+import { Spy, OnlyMethodKeysOf, OnlyObservablePropsOf } from './auto-spies.types';
 import { createFunctionSpy } from './create-function-spy';
+import { createObservablePropSpy } from './observables/observable-spy-utils';
+
+export interface ClassSpyConfiguration<T> {
+  providedMethodNames?: OnlyMethodKeysOf<T>[];
+  observablePropsToSpyOn?: OnlyObservablePropsOf<T>[];
+}
 
 export function createSpyFromClass<T>(
   ObjectClass: { new (...args: any[]): T; [key: string]: any },
-  providedMethodNames?: OnlyMethodKeysOf<T>[]
+  providedMethodNamesOrConfig?: OnlyMethodKeysOf<T>[] | ClassSpyConfiguration<T>
 ): Spy<T> {
   const proto = ObjectClass.prototype;
   const methodNames = getAllMethodNames(proto);
 
-  if (providedMethodNames && providedMethodNames.length > 0) {
+  let providedMethodNames: OnlyMethodKeysOf<T>[] = [];
+  let observablePropsToSpyOn: OnlyObservablePropsOf<T>[] = [];
+
+  if (providedMethodNamesOrConfig) {
+    if (Array.isArray(providedMethodNamesOrConfig)) {
+      providedMethodNames = providedMethodNamesOrConfig;
+    } else {
+      observablePropsToSpyOn = providedMethodNamesOrConfig.observablePropsToSpyOn || [];
+      providedMethodNames = providedMethodNamesOrConfig.providedMethodNames || [];
+    }
+  }
+  if (providedMethodNames.length > 0) {
     methodNames.push(...providedMethodNames);
   }
 
   const autoSpy: any = {};
+
+  if (observablePropsToSpyOn.length > 0) {
+    observablePropsToSpyOn.forEach((observablePropName) => {
+      autoSpy[observablePropName] = createObservablePropSpy();
+    });
+  }
 
   methodNames.forEach((methodName) => {
     autoSpy[methodName] = createFunctionSpy(methodName);
