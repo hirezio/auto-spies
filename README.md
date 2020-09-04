@@ -192,7 +192,7 @@ it(() => {
 });
 ```
 
-### Use `calledWith()` to configure conditional return values
+### 4. Use `calledWith()` to configure conditional return values
 
 You can setup the expected arguments ahead of time
 by using `calledWith` like so:
@@ -215,7 +215,7 @@ myServiceSpy.getProducts$.calledWith(1).nextWith(true);
 // OR ANY OTHER ASYNC CONFIGURATION METHOD...
 ```
 
-### Use `mustBeCalledWith()` to create a mock instead of a stub
+### 5. Use `mustBeCalledWith()` to create a mock instead of a stub
 
 ```ts
 myServiceSpy.getProducts.mustBeCalledWith(1).returnValue(true);
@@ -231,12 +231,26 @@ expect(myServiceSpy.getProducts).toHaveBeenCalledWith(1);
 
 But the difference is that the error is being thrown during `getProducts()` call and not in the `expect(...)` call.
 
-### Manual Setup
+### 6. Creating method spies manually
 
 If you need to manually add methods that you want to be spies by passing an array of names as the second param of the `createSpyFromClass` function:
 
 ```ts
 let spy = createSpyFromClass(MyClass, ['customMethod1', 'customMethod2']);
+```
+
+or as a property on the config object:
+
+```ts
+let spy = createSpyFromClass(MyClass, {
+  methodsToSpyOn: ['customMethod1', 'customMethod2'],
+});
+```
+
+And then you could just configure them:
+
+```ts
+spy.customMethod1.and.returnValue('bla bla bla...');
 ```
 
 This is good for times where a method is not part of the `prototype` of the Class but instead being defined in its constructor.
@@ -249,4 +263,82 @@ class MyClass {
     };
   }
 }
+```
+
+### 7. Create observable properties spies
+
+If you have a property that extends the `Observable` type, you can create a spy for it as follows:
+
+```ts
+
+MyClass{
+  myObservable: Observable<any>;
+  mySubject: Subject<any>;
+}
+
+it('should spy on observable properties', ()=>{
+
+  let classSpy = createSpyFromClass(MyClass, {
+      observablePropsToSpyOn: ['myObservable', 'mySubject']
+    }
+  );
+
+  // and then you could configure it with methods like `nextWith`:
+
+  classSpy.myObservable.nextWith('FAKE VALUE');
+
+  let actualValue;
+  classSpy.myObservable.subscribe((value) => actualValue = value )
+
+  expect(actualValue).toBe('FAKE VALUE');
+
+})
+
+```
+
+### 7. Create accessors spies (getters and setters)
+
+If you have a property that extends the `Observable` type, you can create a spy for it.
+
+You need to configure whether you'd like to create a "SetterSpy" or a "GetterSpy" by using the configuration `settersToSpyOn` and `GettersToSpyOn`.
+
+This will create an object on the Spy called `accessorSpies` and through that you'll gain access to either the "setter spies" or the "getter spies":
+
+```ts
+
+MyClass{
+  private _myProp: number;
+  get myProp(){
+    return _myProp;
+  }
+  set myProp(value: number){
+    _myProp = value;
+  }
+}
+
+  let classSpy: Spy<MyClass>;
+
+  beforeEach(()=>{
+    classSpy = createSpyFromClass(MyClass, {
+      gettersToSpyOn: ['myProp'],
+      settersToSpyOn: ['myProp']
+    });
+  })
+
+  it('should return the fake value', () => {
+
+      classSpy.accessorSpies.getters.myProp.and.returnValue(10);
+
+      expect(classSpy.myProp).toBe(10);
+  });
+
+  it('allow spying on setter', () => {
+
+    classSpy.myProp = 2;
+
+    expect(classSpy.accessorSpies.setters.myProp).toHaveBeenCalledWith(2);
+  });
+
+})
+
 ```

@@ -42,6 +42,8 @@ export class FakeGetterSetterClass extends FakeClass {
     return 1;
   }
   set mySetter(value: number) {}
+
+  myFunction(): void {}
 }
 
 export abstract class FakeAbstractClass {

@@ -8,12 +8,11 @@ import { Spy } from './auto-spies.types';
 import * as errorHandling from './errors/error-handling';
 
 let fakeClassSpy: Spy<FakeClass>;
-let fakeValue: any;
+const FAKE_VALUE = 'FAKE SYNC VALUE';
 let actualResult: any;
 let fakeArgs: any[];
 const WRONG_VALUE = 'WRONG VALUE';
 let throwArgumentsErrorSpyFunction: jasmine.Spy;
-let fakeGetterSetterClass: Spy<FakeGetterSetterClass>;
 
 function verifyArgumentsErrorWasThrown({ actualArgs }: { actualArgs: any[] }) {
   expect(throwArgumentsErrorSpyFunction).toHaveBeenCalledWith(actualArgs);
@@ -21,7 +20,6 @@ function verifyArgumentsErrorWasThrown({ actualArgs }: { actualArgs: any[] }) {
 
 describe('createSpyFromClass', () => {
   Given(() => {
-    fakeValue = 'FAKE SYNC VALUE';
     actualResult = null;
     fakeArgs = [];
 
@@ -31,7 +29,7 @@ describe('createSpyFromClass', () => {
 
   describe('GIVEN a synchronous method is being configured', () => {
     Given(() => {
-      fakeClassSpy.getSyncValue.and.returnValue(fakeValue);
+      fakeClassSpy.getSyncValue.and.returnValue(FAKE_VALUE);
     });
 
     When(() => {
@@ -39,14 +37,14 @@ describe('createSpyFromClass', () => {
     });
 
     Then(() => {
-      expect(actualResult).toBe(fakeValue);
+      expect(actualResult).toBe(FAKE_VALUE);
     });
   });
 
   describe('GIVEN a synchronous method is being manually configured', () => {
     Given(() => {
       fakeClassSpy = createSpyFromClass(FakeClass, ['arrowMethod']);
-      fakeClassSpy.arrowMethod.and.returnValue(fakeValue);
+      fakeClassSpy.arrowMethod.and.returnValue(FAKE_VALUE);
     });
 
     When(() => {
@@ -54,16 +52,16 @@ describe('createSpyFromClass', () => {
     });
 
     Then(() => {
-      expect(actualResult).toBe(fakeValue);
+      expect(actualResult).toBe(FAKE_VALUE);
     });
   });
 
   describe('GIVEN a synchronous method is being manually configured using the config object', () => {
     Given(() => {
       fakeClassSpy = createSpyFromClass(FakeClass, {
-        providedMethodNames: ['arrowMethod'],
+        methodsToSpyOn: ['arrowMethod'],
       });
-      fakeClassSpy.arrowMethod.and.returnValue(fakeValue);
+      fakeClassSpy.arrowMethod.and.returnValue(FAKE_VALUE);
     });
 
     When(() => {
@@ -71,14 +69,14 @@ describe('createSpyFromClass', () => {
     });
 
     Then(() => {
-      expect(actualResult).toBe(fakeValue);
+      expect(actualResult).toBe(FAKE_VALUE);
     });
   });
 
   describe('GIVEN a synchronous method is being configured with specific parameters', () => {
     Given(() => {
       fakeArgs = [1, { a: 2 }];
-      fakeClassSpy.getSyncValue.calledWith(...fakeArgs).returnValue(fakeValue);
+      fakeClassSpy.getSyncValue.calledWith(...fakeArgs).returnValue(FAKE_VALUE);
     });
 
     describe('WHEN it is called with the expected parameters THEN return the value', () => {
@@ -87,7 +85,7 @@ describe('createSpyFromClass', () => {
       });
 
       Then(() => {
-        expect(actualResult).toBe(fakeValue);
+        expect(actualResult).toBe(FAKE_VALUE);
       });
     });
 
@@ -110,7 +108,7 @@ describe('createSpyFromClass', () => {
       });
 
       Then(() => {
-        expect(actualResult).toBe(fakeValue);
+        expect(actualResult).toBe(FAKE_VALUE);
         expect(actualResult2).toBe(fakeValue2);
       });
     });
@@ -131,7 +129,7 @@ describe('createSpyFromClass', () => {
             THEN throw an error`, () => {
     Given(() => {
       fakeArgs = [1, { a: 2 }];
-      fakeClassSpy.getSyncValue.mustBeCalledWith(...fakeArgs).returnValue(fakeValue);
+      fakeClassSpy.getSyncValue.mustBeCalledWith(...fakeArgs).returnValue(FAKE_VALUE);
     });
     When(() => {
       actualResult = fakeClassSpy.getSyncValue(WRONG_VALUE);
@@ -151,9 +149,9 @@ describe('createSpyFromClass', () => {
     Given(() => {
       fakeArgs = [1, { a: 2 }];
       fakeArgs2 = [1, { a: 3 }];
-      fakeClassSpy.getSyncValue.mustBeCalledWith(...fakeArgs).returnValue(fakeValue);
+      fakeClassSpy.getSyncValue.mustBeCalledWith(...fakeArgs).returnValue(FAKE_VALUE);
 
-      fakeClassSpy.getSyncValue.mustBeCalledWith(...fakeArgs2).returnValue(fakeValue);
+      fakeClassSpy.getSyncValue.mustBeCalledWith(...fakeArgs2).returnValue(FAKE_VALUE);
     });
 
     describe(`WHEN called twice with the right parameters
@@ -202,42 +200,67 @@ describe('createSpyFromClass', () => {
   });
 });
 
-describe('createSpyFromClass', () => {
-  When(() => {
-    fakeGetterSetterClass = createSpyFromClass(FakeGetterSetterClass);
-  });
-  describe('GIVEN an object containing a getter property THEN try to spy on it', () => {
+describe('getters and setters', () => {
+  let fakeGetterSetterClass: Spy<FakeGetterSetterClass>;
+
+  describe('GIVEN spying on class with a property that has both getter and setter', () => {
     Given(() => {
-      const getter = Object.getOwnPropertyDescriptor(
-        FakeGetterSetterClass.prototype,
-        'myProp'
-      );
-      expect(getter && getter['get']).toBeDefined();
-    });
-    Then(() => {
-      // try to spy on it
-      fakeValue = 'my value';
-      spyOnProperty(fakeGetterSetterClass, 'myProp', 'get').and.returnValue(fakeValue);
-      expect(fakeGetterSetterClass.myProp).toBe(fakeValue);
-    });
-  });
-  describe('GIVEN an object containing a setter property THEN try to spy on it', () => {
-    Given(() => {
-      const setter = Object.getOwnPropertyDescriptor(
-        FakeGetterSetterClass.prototype,
-        'myProp'
-      );
-      expect(setter && setter['set']).toBeDefined();
-    });
-    Then(() => {
-      // try to spy on it
-      let mySetterWasCalled = false;
-      spyOnProperty(fakeGetterSetterClass, 'myProp', 'set').and.callFake((v: any) => {
-        mySetterWasCalled = true;
+      fakeGetterSetterClass = createSpyFromClass(FakeGetterSetterClass, {
+        gettersToSpyOn: ['myProp'],
+        settersToSpyOn: ['myProp'],
       });
-      expect(fakeGetterSetterClass.myProp).toBeUndefined();
-      fakeGetterSetterClass.myProp = ''; // <= The setter function is called now
-      expect(mySetterWasCalled).toBe(true); // check if the setter implementation have been executed
+    });
+    describe('GIVEN getter spy configured with fake return value', () => {
+      Given(() => {
+        fakeGetterSetterClass.accessorSpies.getters.myProp.and.returnValue(FAKE_VALUE);
+      });
+      Then('return the fake value', () => {
+        expect(fakeGetterSetterClass.myProp).toBe(FAKE_VALUE);
+      });
+    });
+
+    describe('GIVEN setter spy configured WHEN setting the var', () => {
+      When(() => {
+        fakeGetterSetterClass.myProp = '2';
+      });
+      Then('allow spying on setter', () => {
+        expect(fakeGetterSetterClass.accessorSpies.setters.myProp).toHaveBeenCalled();
+      });
+    });
+  });
+
+  describe('GIVEN spying on class with a property that has only a getter', () => {
+    Given(() => {
+      fakeGetterSetterClass = createSpyFromClass(FakeGetterSetterClass, {
+        gettersToSpyOn: ['anotherGetter'],
+      });
+    });
+    describe('GIVEN getter spy configured with fake return value', () => {
+      Given(() => {
+        fakeGetterSetterClass.accessorSpies.getters.anotherGetter.and.returnValue(222);
+      });
+      Then('return the fake value', () => {
+        expect(fakeGetterSetterClass.anotherGetter).toBe(222);
+      });
+    });
+  });
+
+  describe('GIVEN spying on class with a property that has only a setter', () => {
+    Given(() => {
+      fakeGetterSetterClass = createSpyFromClass(FakeGetterSetterClass, {
+        settersToSpyOn: ['mySetter'],
+      });
+    });
+
+    describe('WHEN variable is set', () => {
+      When(() => {
+        fakeGetterSetterClass.mySetter = 2222;
+      });
+      Then('allow spying on setter', () => {
+        expect(fakeGetterSetterClass.accessorSpies.setters.mySetter).toHaveBeenCalledWith(
+          2222
+        );
+      });
     });
   });
 });

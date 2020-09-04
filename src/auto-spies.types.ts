@@ -1,20 +1,29 @@
 /// <reference types="jasmine" />
 import { Observable, Subject } from 'rxjs';
 
+type Func = (...args: any[]) => any;
+
 export type Spy<T> = {
-  [k in keyof T]: T[k] extends (...args: any[]) => any
+  [k in keyof T]: T[k] extends Func
     ? AddSpyTypesToMethods<T[k]>
     : T[k] extends Observable<infer OR>
     ? T[k] & AddObservableSpyMethods<OR>
     : T[k];
+} & {
+  accessorSpies: {
+    setters: {
+      [k in keyof T]: jasmine.Spy;
+    };
+    getters: {
+      [k in keyof T]: jasmine.Spy;
+    };
+  };
 };
 
-export type AddSpyTypesToMethods<T> = T extends (...args: any[]) => any
-  ? AddSpyByReturnTypes<T>
-  : T;
+export type AddSpyTypesToMethods<T> = T extends Func ? AddSpyByReturnTypes<T> : T;
 
 // Wrap the return type of the given function type with the appropriate spy methods
-export type AddSpyByReturnTypes<TF extends (...args: any[]) => any> = TF &
+export type AddSpyByReturnTypes<TF extends Func> = TF &
   (TF extends (...args: any[]) => infer TR
     ? // returns a Promise
       TR extends Promise<infer PR>
@@ -70,9 +79,7 @@ export interface MethodSpy {
   };
 }
 
-export type AddSpyToMethod<T extends (...args: any[]) => any> = T &
-  MethodSpy &
-  jasmine.Spy;
+export type AddSpyToMethod<T extends Func> = T & MethodSpy & jasmine.Spy;
 
 type KeysForPropertyType<ObjectType, PropType> = Extract<
   {
@@ -86,3 +93,10 @@ export type OnlyMethodKeysOf<T> = KeysForPropertyType<T, { (...args: any[]): any
 export type OnlyObservablePropsOf<T> = KeysForPropertyType<T, Observable<any>>;
 
 export type GetObservableReturnType<OT> = OT extends Observable<infer OR> ? OR : never;
+
+export type OnlyPropsOf<ObjectType> = Extract<
+  {
+    [Key in keyof ObjectType]: ObjectType[Key] extends Func ? never : Key;
+  }[keyof ObjectType],
+  string
+>;
