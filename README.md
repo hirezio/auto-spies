@@ -296,7 +296,7 @@ it('should spy on observable properties', ()=>{
 
 ```
 
-### 7. Create accessors spies (getters and setters)
+### 8. Create accessors spies (getters and setters)
 
 If you have a property that extends the `Observable` type, you can create a spy for it.
 
