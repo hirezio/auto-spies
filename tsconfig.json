@@ -9,7 +9,7 @@
     "esModuleInterop": true,
     "sourceMap": true,
     "downlevelIteration": true,
-    "lib": ["es2015", "es2016", "DOM"],
+    "lib": ["es2015", "es2016", "es2017", "DOM"],
     "pretty": true,
     "strict": true,
     "typeRoots": ["node_modules/types", "node_modules"],
