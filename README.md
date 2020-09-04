@@ -244,63 +244,9 @@ This is good for times where a method is not part of the `prototype` of the Clas
 ```ts
 class MyClass {
   constructor() {
-    this.customMethod1 = function() {
+    this.customMethod1 = function () {
       // This definition is not part of MyClass' prototype
     };
   }
 }
-```
-
----
-
-## ObserverSpy 👀💪
-
-#### `new ObserverSpy()`
-
-In order to test more complicated observables,
-you can use an `ObserverSpy` instance to "record" all the messages a source observable emits and get them as an array.
-
-You can also spy on the `error` or `complete` states of the observer.
-
-**Usage:**
-
-```js
-it('should spy on Observable values', () => {
-  const observerSpy = new ObserverSpy();
-  const fakeValues = ['first', 'second', 'third'];
-  const fakeObservable = of(...fakeValues);
-
-  const subscription = fakeObservable.subscribe(observerSpy);
-
-  // DO SOME LOGIC HERE
-
-  // unsubscribing is optional, it's good for stopping intervals etc
-  subscription.unsubscribe();
-
-  expect(observerSpy.receivedNext()).toBe(true);
-
-  expect(observerSpy.getValues()).toEqual(fakeValues);
-
-  expect(observerSpy.getValuesLength()).toEqual(3);
-
-  expect(observerSpy.getFirstValue()).toEqual('first');
-
-  expect(observerSpy.getValueAt(1)).toEqual('second');
-
-  expect(observerSpy.getLastValue()).toEqual('third');
-
-  expect(observerSpy.receivedComplete()).toBe(true);
-});
-
-it('should spy on Observable errors', () => {
-  const observerSpy = new ObserverSpy();
-
-  const fakeObservable = throwError('FAKE ERROR');
-
-  fakeObservable.subscribe(observerSpy);
-
-  expect(observerSpy.receivedError()).toBe(true);
-
-  expect(observerSpy.getError()).toEqual('FAKE ERROR');
-});
 ```

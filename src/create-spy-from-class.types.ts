@@ -1,11 +1,12 @@
 import { Subject } from 'rxjs';
 
-export interface SpyFunctionReturnValueContainer {
+export interface FunctionSpyReturnValueContainer {
   value: any;
+  _isRejectedPromise?: boolean;
 }
 
 export interface CalledWithObject {
-  wasCalled: boolean;
+  wasConfigured: boolean;
   argsToValuesMap: Map<any, any>;
   returnValue?: (value: any) => void;
   resolveWith?: (value?: any) => void;

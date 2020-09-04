@@ -1,9 +1,11 @@
+/* eslint-disable @typescript-eslint/no-empty-function */
 import { Observable, of, Subject } from 'rxjs';
 
 export class FakeClass {
   public someProp: number = 1;
+  public observableProp: Observable<any> = new Observable();
 
-  public getSyncValue() {
+  public getSyncValue(): string {
     return '';
   }
 
@@ -18,17 +20,17 @@ export class FakeClass {
   public getSubject(): Subject<any> {
     return new Subject();
   }
+
+  public arrowMethod: () => void = () => {};
 }
 
-// tslint:disable-next-line:max-classes-per-file
 export class FakeChildClass extends FakeClass {
   public anotherObservableMethod(): Observable<any> {
     return of();
   }
 }
-// tslint:disable-next-line:max-classes-per-file
+
 export class FakeGetterSetterClass extends FakeClass {
-  // tslint:disable-next-line: variable-name
   private _myProp = 'default value';
   get myProp(): string {
     return this._myProp;
@@ -40,4 +42,10 @@ export class FakeGetterSetterClass extends FakeClass {
     return 1;
   }
   set mySetter(value: number) {}
+}
+
+export abstract class FakeAbstractClass {
+  public getSyncValue(): string {
+    return '';
+  }
 }

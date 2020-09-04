@@ -1,13 +1,14 @@
 import { createSpyFromClass } from '../create-spy-from-class';
 import { FakeChildClass, FakeClass } from '../test-utils/fake-classes-to-test';
 import { take } from 'rxjs/operators';
-import { Spy } from '../spy.types';
+import { Spy } from '../auto-spies.types';
 import * as errorHandling from '../errors/error-handling';
-import { Subject } from 'rxjs';
+import { Subject, Subscription } from 'rxjs';
+import { ObserverSpy } from '@hirez_io/observer-spy';
 
 let fakeClassSpy: Spy<FakeClass>;
 let fakeChildClassSpy: Spy<FakeChildClass>;
-let fakeValue: any;
+const FAKE_VALUE = 'FAKE EMITTED VALUE';
 let actualResult: any;
 let actualError: any;
 let fakeArgs: any[];
@@ -15,6 +16,7 @@ let completed: boolean;
 const WRONG_VALUE = 'WRONG VALUE';
 let throwArgumentsErrorSpyFunction: jasmine.Spy;
 let errorIsExpected: boolean;
+let observerSpy: ObserverSpy<any>;
 
 function verifyArgumentsErrorWasThrown({ actualArgs }: { actualArgs: any[] }) {
   expect(throwArgumentsErrorSpyFunction).toHaveBeenCalledWith(actualArgs);
@@ -22,17 +24,18 @@ function verifyArgumentsErrorWasThrown({ actualArgs }: { actualArgs: any[] }) {
 
 describe('createSpyFromClass - Observables', () => {
   Given(() => {
-    fakeValue = 'BOOM!';
     actualResult = null;
     actualError = null;
     completed = false;
     fakeArgs = [];
     errorIsExpected = false;
 
+    observerSpy = new ObserverSpy();
+
     throwArgumentsErrorSpyFunction = spyOn(errorHandling, 'throwArgumentsError');
   });
 
-  describe('GIVEN a fake Class', () => {
+  describe('GIVEN a fake Class is auto spied on', () => {
     Given(() => {
       fakeClassSpy = createSpyFromClass(FakeClass);
     });
@@ -43,29 +46,29 @@ describe('createSpyFromClass - Observables', () => {
           .getObservable()
           .pipe(take(1))
           .subscribe(
-            result => (actualResult = result),
-            error => (actualError = error),
+            (result) => (actualResult = result),
+            (error) => (actualError = error),
             () => (completed = true)
           );
       });
 
       describe('GIVEN nextWith is configured THEN emit the next event', () => {
         Given(() => {
-          fakeClassSpy.getObservable.and.nextWith(fakeValue);
+          fakeClassSpy.getObservable.and.nextWith(FAKE_VALUE);
         });
 
         Then(() => {
-          expect(actualResult).toBe(fakeValue);
+          expect(actualResult).toBe(FAKE_VALUE);
         });
       });
 
       describe('GIVEN nextOneTimeWith is configured THEN emit the next event', () => {
         Given(() => {
-          fakeClassSpy.getObservable.and.nextOneTimeWith(fakeValue);
+          fakeClassSpy.getObservable.and.nextOneTimeWith(FAKE_VALUE);
         });
 
         Then(() => {
-          expect(actualResult).toBe(fakeValue);
+          expect(actualResult).toBe(FAKE_VALUE);
           expect(completed).toBeTruthy();
         });
       });
@@ -73,11 +76,11 @@ describe('createSpyFromClass - Observables', () => {
       describe('GIVEN throwWith is configured THEN emit an error', () => {
         Given(() => {
           errorIsExpected = true;
-          fakeClassSpy.getObservable.and.throwWith(fakeValue);
+          fakeClassSpy.getObservable.and.throwWith(FAKE_VALUE);
         });
 
         Then(() => {
-          expect(actualError).toBe(fakeValue);
+          expect(actualError).toBe(FAKE_VALUE);
         });
       });
 
@@ -103,11 +106,11 @@ describe('createSpyFromClass - Observables', () => {
 
         describe('GIVEN subject emits THEN capture the emitted message', () => {
           Given(() => {
-            subject.next(fakeValue);
+            subject.next(FAKE_VALUE);
           });
 
           Then(() => {
-            expect(actualResult).toBe(fakeValue);
+            expect(actualResult).toBe(FAKE_VALUE);
           });
         });
       });
@@ -136,11 +139,11 @@ describe('createSpyFromClass - Observables', () => {
 
       describe('GIVEN calledWith of nextWith is configured with the right params ', () => {
         Given(() => {
-          fakeClassSpy.getObservable.calledWith(...fakeArgs).nextWith(fakeValue);
+          fakeClassSpy.getObservable.calledWith(...fakeArgs).nextWith(FAKE_VALUE);
         });
         describe('GIVEN it is configured once THEN emit the next event', () => {
           Then(() => {
-            expect(actualResult).toBe(fakeValue);
+            expect(actualResult).toBe(FAKE_VALUE);
           });
         });
 
@@ -168,7 +171,7 @@ describe('createSpyFromClass - Observables', () => {
           });
 
           Then(() => {
-            expect(actualResult).toBe(fakeValue);
+            expect(actualResult).toBe(FAKE_VALUE);
             expect(actualResult2).toBe(fakeValue2);
           });
         });
@@ -176,7 +179,7 @@ describe('createSpyFromClass - Observables', () => {
 
       describe('GIVEN calledWith of nextWith is configured with wrong params THEN do NOT throw an error', () => {
         Given(() => {
-          fakeClassSpy.getObservable.calledWith(WRONG_VALUE).nextWith(fakeValue);
+          fakeClassSpy.getObservable.calledWith(WRONG_VALUE).nextWith(FAKE_VALUE);
         });
 
         Then(() => {
@@ -186,30 +189,30 @@ describe('createSpyFromClass - Observables', () => {
 
       describe('GIVEN calledWith of nextWith is configured with the wrong params THEN throw an error', () => {
         Given(() => {
-          fakeClassSpy.getObservable.mustBeCalledWith(WRONG_VALUE).nextWith(fakeValue);
+          fakeClassSpy.getObservable.mustBeCalledWith(WRONG_VALUE).nextWith(FAKE_VALUE);
         });
 
         Then(() => {
           verifyArgumentsErrorWasThrown({
-            actualArgs: fakeArgs
+            actualArgs: fakeArgs,
           });
         });
       });
 
       describe('GIVEN calledWith of nextOneTimeWith configured with the right params THEN emit the next event', () => {
         Given(() => {
-          fakeClassSpy.getObservable.calledWith(...fakeArgs).nextOneTimeWith(fakeValue);
+          fakeClassSpy.getObservable.calledWith(...fakeArgs).nextOneTimeWith(FAKE_VALUE);
         });
 
         Then(() => {
-          expect(actualResult).toBe(fakeValue);
+          expect(actualResult).toBe(FAKE_VALUE);
           expect(completed).toBeTruthy();
         });
       });
 
       describe('GIVEN calledWith of nextOneTimeWith is configured with wrong params THEN do not throw an error', () => {
         Given(() => {
-          fakeClassSpy.getObservable.calledWith(WRONG_VALUE).nextOneTimeWith(fakeValue);
+          fakeClassSpy.getObservable.calledWith(WRONG_VALUE).nextOneTimeWith(FAKE_VALUE);
         });
 
         Then(() => {
@@ -221,12 +224,12 @@ describe('createSpyFromClass - Observables', () => {
         Given(() => {
           fakeClassSpy.getObservable
             .mustBeCalledWith(WRONG_VALUE)
-            .nextOneTimeWith(fakeValue);
+            .nextOneTimeWith(FAKE_VALUE);
         });
 
         Then(() => {
           verifyArgumentsErrorWasThrown({
-            actualArgs: fakeArgs
+            actualArgs: fakeArgs,
           });
         });
       });
@@ -234,17 +237,17 @@ describe('createSpyFromClass - Observables', () => {
       describe('GIVEN calledWith of throwWith is configured with the right params THEN emit an error', () => {
         Given(() => {
           errorIsExpected = true;
-          fakeClassSpy.getObservable.calledWith(...fakeArgs).throwWith(fakeValue);
+          fakeClassSpy.getObservable.calledWith(...fakeArgs).throwWith(FAKE_VALUE);
         });
 
         Then(() => {
-          expect(actualError).toBe(fakeValue);
+          expect(actualError).toBe(FAKE_VALUE);
         });
       });
 
       describe('GIVEN calledWith of throwWith is configured with wrong params THEN do not throw an error', () => {
         Given(() => {
-          fakeClassSpy.getObservable.calledWith(WRONG_VALUE).throwWith(fakeValue);
+          fakeClassSpy.getObservable.calledWith(WRONG_VALUE).throwWith(FAKE_VALUE);
         });
 
         Then(() => {
@@ -254,12 +257,12 @@ describe('createSpyFromClass - Observables', () => {
 
       describe('GIVEN calledWith of throwWith is configured with the wrong params THEN throw an error', () => {
         Given(() => {
-          fakeClassSpy.getObservable.mustBeCalledWith(WRONG_VALUE).throwWith(fakeValue);
+          fakeClassSpy.getObservable.mustBeCalledWith(WRONG_VALUE).throwWith(FAKE_VALUE);
         });
 
         Then(() => {
           verifyArgumentsErrorWasThrown({
-            actualArgs: fakeArgs
+            actualArgs: fakeArgs,
           });
         });
       });
@@ -291,7 +294,7 @@ describe('createSpyFromClass - Observables', () => {
 
         Then(() => {
           verifyArgumentsErrorWasThrown({
-            actualArgs: fakeArgs
+            actualArgs: fakeArgs,
           });
         });
       });
@@ -301,11 +304,11 @@ describe('createSpyFromClass - Observables', () => {
           const subject = fakeClassSpy.getObservable
             .calledWith(...fakeArgs)
             .returnSubject();
-          subject.next(fakeValue);
+          subject.next(FAKE_VALUE);
         });
 
         Then(() => {
-          expect(actualResult).toEqual(fakeValue);
+          expect(actualResult).toEqual(FAKE_VALUE);
         });
       });
 
@@ -327,15 +330,17 @@ describe('createSpyFromClass - Observables', () => {
 
         Then(() => {
           verifyArgumentsErrorWasThrown({
-            actualArgs: fakeArgs
+            actualArgs: fakeArgs,
           });
         });
       });
     });
 
-    describe('WHEN calling a Subject returning method', () => {
+    describe(`GIVEN a Subject returning method is configured to emit
+              WHEN calling that method
+              THEN emit the configured value`, () => {
       Given(() => {
-        fakeClassSpy.getSubject.and.nextWith(fakeValue);
+        fakeClassSpy.getSubject.and.nextWith(FAKE_VALUE);
       });
 
       When(() => {
@@ -346,7 +351,74 @@ describe('createSpyFromClass - Observables', () => {
       });
 
       Then(() => {
-        expect(actualResult).toBe(fakeValue);
+        expect(actualResult).toBe(FAKE_VALUE);
+      });
+    });
+
+    describe(`GIVEN class spy is configured with a manual observable property
+              WHEN subscribing to an observable property`, () => {
+      let subscription: Subscription;
+      Given(() => {
+        fakeClassSpy = createSpyFromClass(FakeClass, {
+          observablePropsToSpyOn: ['observableProp'],
+        });
+      });
+
+      When(() => {
+        subscription = fakeClassSpy.observableProp.subscribe(observerSpy);
+      });
+
+      describe(`GIVEN observable spy is configured to emit`, () => {
+        Given(() => {
+          fakeClassSpy.observableProp.nextWith(FAKE_VALUE);
+        });
+
+        Then('return value should be the fake value', () => {
+          expect(observerSpy.getLastValue()).toBe(FAKE_VALUE);
+          subscription.unsubscribe();
+        });
+      });
+
+      describe(`GIVEN observable spy is configured to emit and complete`, () => {
+        Given(() => {
+          fakeClassSpy.observableProp.nextOneTimeWith(FAKE_VALUE);
+        });
+
+        Then('return value should be the fake value and complete', () => {
+          expect(observerSpy.getLastValue()).toBe(FAKE_VALUE);
+          expect(observerSpy.receivedComplete()).toBe(true);
+        });
+      });
+
+      describe(`GIVEN observable spy is configured to throw`, () => {
+        Given(() => {
+          fakeClassSpy.observableProp.throwWith(FAKE_VALUE);
+        });
+
+        Then('return error value should be the fake value', () => {
+          expect(observerSpy.getError()).toBe(FAKE_VALUE);
+        });
+      });
+
+      describe(`GIVEN observable spy is configured to complete`, () => {
+        Given(() => {
+          fakeClassSpy.observableProp.complete();
+        });
+
+        Then('it should complete', () => {
+          expect(observerSpy.receivedComplete()).toBe(true);
+        });
+      });
+
+      describe(`GIVEN observable spy is configured to return the subject and emit`, () => {
+        Given(() => {
+          const subject = fakeClassSpy.observableProp.returnSubject();
+          subject.next(FAKE_VALUE);
+        });
+
+        Then('return value should be the fake value', () => {
+          expect(observerSpy.getLastValue()).toBe(FAKE_VALUE);
+        });
       });
     });
   });
@@ -357,35 +429,35 @@ describe('createSpyFromClass - Observables', () => {
     });
     describe('Observable method works correctly', () => {
       Given(() => {
-        fakeChildClassSpy.anotherObservableMethod.and.nextWith(fakeValue);
+        fakeChildClassSpy.anotherObservableMethod.and.nextWith(FAKE_VALUE);
       });
 
       When(() => {
         fakeChildClassSpy
           .anotherObservableMethod()
-          .subscribe(result => (actualResult = result))
+          .subscribe((result) => (actualResult = result))
           .unsubscribe();
       });
 
       Then(() => {
-        expect(actualResult).toBe(fakeValue);
+        expect(actualResult).toBe(FAKE_VALUE);
       });
     });
 
     describe('parent methods works correctly', () => {
       Given(() => {
-        fakeChildClassSpy.getObservable.and.nextWith(fakeValue);
+        fakeChildClassSpy.getObservable.and.nextWith(FAKE_VALUE);
       });
 
       When(() => {
         fakeChildClassSpy
           .getObservable()
-          .subscribe(result => (actualResult = result))
+          .subscribe((result) => (actualResult = result))
           .unsubscribe();
       });
 
       Then(() => {
-        expect(actualResult).toBe(fakeValue);
+        expect(actualResult).toBe(FAKE_VALUE);
       });
     });
   });

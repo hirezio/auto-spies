@@ -1,6 +1,10 @@
-import { getAllMethodNames, createSpyFromClass } from './create-spy-from-class';
-import { FakeClass, FakeGetterSetterClass } from './test-utils/fake-classes-to-test';
-import { Spy } from './spy.types';
+import { createSpyFromClass } from './create-spy-from-class';
+import {
+  FakeClass,
+  FakeAbstractClass,
+  FakeGetterSetterClass,
+} from './test-utils/fake-classes-to-test';
+import { Spy } from './auto-spies.types';
 import * as errorHandling from './errors/error-handling';
 
 let fakeClassSpy: Spy<FakeClass>;
@@ -17,7 +21,7 @@ function verifyArgumentsErrorWasThrown({ actualArgs }: { actualArgs: any[] }) {
 
 describe('createSpyFromClass', () => {
   Given(() => {
-    fakeValue = 'BOOM!';
+    fakeValue = 'FAKE SYNC VALUE';
     actualResult = null;
     fakeArgs = [];
 
@@ -41,12 +45,29 @@ describe('createSpyFromClass', () => {
 
   describe('GIVEN a synchronous method is being manually configured', () => {
     Given(() => {
-      fakeClassSpy = createSpyFromClass(FakeClass, ['customMethod']);
-      (fakeClassSpy as any).customMethod.and.returnValue(fakeValue);
+      fakeClassSpy = createSpyFromClass(FakeClass, ['arrowMethod']);
+      fakeClassSpy.arrowMethod.and.returnValue(fakeValue);
     });
 
     When(() => {
-      actualResult = (fakeClassSpy as any).customMethod();
+      actualResult = fakeClassSpy.arrowMethod();
+    });
+
+    Then(() => {
+      expect(actualResult).toBe(fakeValue);
+    });
+  });
+
+  describe('GIVEN a synchronous method is being manually configured using the config object', () => {
+    Given(() => {
+      fakeClassSpy = createSpyFromClass(FakeClass, {
+        providedMethodNames: ['arrowMethod'],
+      });
+      fakeClassSpy.arrowMethod.and.returnValue(fakeValue);
+    });
+
+    When(() => {
+      actualResult = fakeClassSpy.arrowMethod();
     });
 
     Then(() => {
@@ -118,7 +139,7 @@ describe('createSpyFromClass', () => {
 
     Then(() => {
       verifyArgumentsErrorWasThrown({
-        actualArgs: [WRONG_VALUE]
+        actualArgs: [WRONG_VALUE],
       });
     });
   });
@@ -156,9 +177,27 @@ describe('createSpyFromClass', () => {
 
       Then(() => {
         verifyArgumentsErrorWasThrown({
-          actualArgs: [WRONG_VALUE]
+          actualArgs: [WRONG_VALUE],
         });
       });
+    });
+  });
+
+  describe('An example of how to write spies for abstract class', () => {
+    let abstractClassSpy: Spy<FakeAbstractClass>;
+    Given(() => {
+      abstractClassSpy = createSpyFromClass(
+        class SomeFakeClass extends FakeAbstractClass {}
+      );
+      abstractClassSpy.getSyncValue.and.returnValue('FAKE');
+    });
+
+    When(() => {
+      actualResult = abstractClassSpy.getSyncValue();
+    });
+
+    Then(() => {
+      expect(actualResult).toBe('FAKE');
     });
   });
 });
@@ -200,19 +239,5 @@ describe('createSpyFromClass', () => {
       fakeGetterSetterClass.myProp = ''; // <= The setter function is called now
       expect(mySetterWasCalled).toBe(true); // check if the setter implementation have been executed
     });
-  });
-});
-
-describe('getAllMethodNames', () => {
-  it('should return all methods/getters/setters expect properties on a given object', () => {
-    const { methods, getters, setters } = getAllMethodNames(
-      FakeGetterSetterClass.prototype
-    );
-
-    expect(methods).not.toContain('someProp');
-    expect(methods).toContain('getSyncValue');
-    expect(methods).not.toContain('myProp');
-    expect(getters).toContain('myProp');
-    expect(setters).toContain('mySetter');
   });
 });
