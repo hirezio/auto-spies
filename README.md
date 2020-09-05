@@ -342,3 +342,51 @@ MyClass{
 })
 
 ```
+
+### 9. Spying on a function
+
+You can create an "auto spy" for a function using:
+
+```ts
+import { createFunctionSpy } from 'jasmine-auto-spies';
+
+describe('Testing a function', () => {
+  it('should be able to spy on a function', () => {
+    function addTwoNumbers(a, b) {
+      return a + b;
+    }
+
+    const functionSpy = createFunctionSpy<typeof addTwoNumbers>('addTwoNumbers');
+
+    functionSpy.and.returnValue(4);
+
+    expect(functionSpy()).toBe(4);
+  });
+});
+```
+
+This is useful if you have an observable returning function and you want to use `nextWith` for example:
+
+```ts
+import { createFunctionSpy } from 'jasmine-auto-spies';
+import { Observable, of } from 'rxjs';
+import { ObserverSpy } from '@hirez_io/observer-spy';
+
+describe('Testing an observable function', () => {
+  it('should be able to spy on observable', () => {
+    function getResultsObservable(): Observable<number> {
+      return of(1, 2, 3);
+    }
+
+    const functionSpy = createFunctionSpy<typeof getResultsObservable>(
+      'getResultsObservable'
+    );
+
+    functionSpy.and.nextWith(4);
+    const observerSpy = new ObserverSpy();
+    functionSpy.subscribe(observerSpy);
+
+    expect(observerSpy.getLastValue()).toBe(4);
+  });
+});
+```
