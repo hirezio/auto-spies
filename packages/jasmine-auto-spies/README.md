@@ -5,7 +5,7 @@ Easy and type safe way to write spies for jasmine tests, for both sync and async
 [![npm version](https://img.shields.io/npm/v/jasmine-auto-spies.svg?style=flat-square)](https://www.npmjs.org/package/jasmine-auto-spies)
 [![npm downloads](https://img.shields.io/npm/dm/jasmine-auto-spies.svg?style=flat-square)](http://npm-stat.com/charts.html?package=jasmine-auto-spies&from=2017-07-26)
 ![Build](https://github.com/hirezio/auto-spies/workflows/Build/badge.svg)
-[![codecov](https://img.shields.io/codecov/c/github/hirezio/jasmine-auto-spies.svg)](https://codecov.io/gh/hirezio/jasmine-auto-spies)
+[![codecov](https://img.shields.io/codecov/c/github/hirezio/auto-spies.svg?flags=jasmine-auto-spies)](https://codecov.io/gh/hirezio/auto-spies)
 [![Code of Conduct](https://img.shields.io/badge/code%20of-conduct-ff69b4.svg?style=flat-square)](code_of_conduct.md)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 
