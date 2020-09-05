@@ -1,70 +1,105 @@
-# Contributing to jasmine-auto-spies
+# Contribution Guidelines
 
 We would love for you to contribute to this project.
 As a contributor, here are the guidelines we would like you to follow:
 
-## 1. Be Kind - Code of Conduct
+## Be Kind - Code of Conduct
 
 Help us keep this project open and inclusive. Please read and follow our [Code of Conduct](CODE_OF_CONDUCT.md)
 
-## 2. Submitting an Issue
+## Found a bug? Want a feature? - Please submit an Issue
 
-You can file new issues by selecting from our [new issue templates](https://github.com/hirezio/jasmine-auto-spies/issues/new/choose) and filling out the issue template.
+[Choose an issue template](https://github.com/hirezio/auto-spies/issues/new/choose) to file a bug report / feature request.
 
-## 3. Submitting a Pull Request (PR)
+## Want to contribute code? please submit a Pull Request (PR), but first...
 
-Before you submit your Pull Request (PR) consider the following guidelines:
+.
 
-1. Search [GitHub](https://github.com/hirezio/jasmine-auto-spies/pulls) for an open or closed PR
-   that relates to your submission. You don't want to duplicate effort.
-1. Be sure that **there is an issue** describes the problem you're fixing, or documents the design for the feature you'd like to add.
-   Discussing the design up front helps to ensure that we're ready to accept your work.
+### ✅ 1. [Search this repo first](https://github.com/hirezio/given/pulls)...
 
-1. Fork the this repo.
-1. Make your changes in a new git branch:
+for an open or closed PR that relates to the change you want to introduce.
 
-   ```shell
-   git checkout -b my-fix-branch master
-   ```
+.
 
-1. Create your patch, **including appropriate test cases**.
-1. Run `yarn test` to check if all the tests are passing.
-   and ensure that all tests pass.
-1. Commit your changes using:
+### ✅ 2. **Before you start coding - find / create an issue**
 
-   ```shell
-   yarn commit
-   ```
+**Make sure there's an issue** describing the problem you're fixing, or documents the design for the feature you'd like to add.
+Discussing the design up front helps to ensure that we're ready to accept your work.
 
-   This will create a descriptive commit message that follows our
-   [commit message conventions](#commit-message-format).
-   This is necessary to generate meaningful release notes automatically.
+**Don't waste your time working on code before you got a 👍 in an issue comment.**
 
-1. Push your branch to GitHub:
+.
 
-   ```shell
-   git push origin my-fix-branch
-   ```
+### ✅ 3. Fork the this repo and create a branch.
 
-1. In GitHub, send a pull request to `jasmine-auto-spies:master`.
+Make your changes in a new git branch:
 
-- If we suggest changes then:
+```shell
+git checkout -b my-fix-branch master
+```
 
-  - Make the required updates.
-  - Re-run the tests to ensure tests are still passing.
-  - Rebase your branch and force push to your GitHub repository (this will update your Pull Request):
+.
 
-    ```shell
-    git rebase master -i
-    git push -f
-    ```
+### ✅ 4. Make sure you add / modify tests
 
-That's it! Thank you for your contribution!
+Run `yarn test:full` to make sure there aren't any errors
 
-#### After your pull request is merged
+.
 
-After your pull request is merged, you can safely delete your branch and pull the changes
-from the main (upstream) repository:
+### ✅ 5. Commit your changes using commitizen:
+
+Instead of `git commit` use the following command:
+
+```shell
+yarn commit
+```
+
+It will then ask you a bunch of questions.
+
+**For "scope" please choose from the following options:**
+
+| Scope name         | Description                                         |
+| ------------------ | --------------------------------------------------- |
+| core               | a change related to `@hirez_io/auto-spies-core`     |
+| jasmine-auto-spies | a change related to `jasmine-auto-spies`            |
+| jest-auto-spies    | a change related to `jest-auto-spies`               |
+| global             | any change that doesn't fall under the above scopes |
+
+This will create a descriptive commit message that follows the
+[Angular commit message convention](#commit-message-format).
+
+This is necessary to generate meaningful release notes / CHANGELOG automatically.
+
+.
+
+### ✅ 6. Push your branch to GitHub:
+
+```shell
+git push origin my-fix-branch
+```
+
+.
+
+### ✅ 7. In GitHub, create a pull request for `hirezio/auto-spies:master`.
+
+If you need to update your PR for some reason -
+
+- Make the required updates.
+
+- Re-run the tests to ensure tests are still passing `yarn test:full`
+
+- Rebase your branch and force push to your GitHub repository (this will update your Pull Request):
+
+  ```shell
+  git rebase master -i
+  git push -f
+  ```
+
+.
+
+### ✅ 8. After your pull request is merged - delete your PR branch
+
+After your pull request is merged, you can safely delete your branch and pull the changes from the main (upstream) repository:
 
 - Delete the remote branch on GitHub either through the GitHub web UI or your local shell as follows:
 
@@ -90,11 +125,8 @@ from the main (upstream) repository:
   git pull --ff upstream master
   ```
 
-<hr>
+.
 
-This doc is based on [Angular's contributing document](https://github.com/angular/angular/blob/master/CONTRIBUTING.md)
+### ✅ 9. That's it! Thank you for your contribution! 🙏💓
 
-[coc]: CODE_OF_CONDUCT.md
 [commit-message-format]: https://docs.google.com/document/d/1QrDFcIiPjSLDn3EL15IJygNPiHORgU1_OOAqWjiDU5Y/edit#
-[github]: https://github.com/hirezio/jasmine-auto-spies
-[stackblitz]: https://stackblitz.com/

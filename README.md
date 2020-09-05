@@ -4,9 +4,9 @@ Easy and type safe way to write spies for tests, for both sync and async (promis
 
 This is the monorepo of:
 
-| Project              | Status                                                     | Description                                          |
-| -------------------- | ---------------------------------------------------------- | ---------------------------------------------------- |
-| [jasmine-auto-spies] | [![jasmine-auto-spies-status]][jasmine-auto-spies-package] | Jasmine addon that adds the "Given When Then" syntax |
+| Project              | Status                                                     | Description                                             |
+| -------------------- | ---------------------------------------------------------- | ------------------------------------------------------- |
+| [jasmine-auto-spies] | [![jasmine-auto-spies-status]][jasmine-auto-spies-package] | Easy and type safe way to write spies for jasmine tests |
 
 [jasmine-auto-spies]: https://github.com/hirezio/auto-spies/tree/master/packages/jasmine-auto-spies
 [jasmine-auto-spies-status]: https://img.shields.io/npm/v/jasmine-auto-spies.svg
