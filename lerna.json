@@ -1,0 +1,20 @@
+{
+  "packages": ["packages/*"],
+  "npmClient": "yarn",
+  "useWorkspaces": true,
+  "version": "independent",
+  "command": {
+    "publish": {
+      "conventionalCommits": true
+    },
+    "version": {
+      "conventionalCommits": true,
+      "push": true,
+      "gitTagVersion": true,
+      "createRelease": "github",
+      "allowBranch": "master",
+      "message": "chore(release): publish new version"
+    }
+  },
+  "ignoreChanges": ["**/*.md", "**/*.spec.ts", "**/*.spec.js"]
+}
