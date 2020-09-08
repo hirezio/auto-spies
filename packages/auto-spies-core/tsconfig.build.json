@@ -1,15 +1,10 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
+    "composite": true,
     "rootDir": "./src",
     "outDir": "dist",
-    "composite": true,
     "lib": ["es2015", "es2016", "DOM"]
   },
-  "references": [
-    {
-      "path": "../auto-spies-core/tsconfig.build.json"
-    }
-  ],
   "exclude": ["**/*.spec.ts"]
 }

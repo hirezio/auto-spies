@@ -1,7 +1,7 @@
-import { createSpyFromClass } from '../create-spy-from-class';
-import { FakeClass } from '../test-utils/fake-classes-to-test';
+import { errorHandler } from '@hirez_io/auto-spies-core';
 import { Spy } from '../auto-spies.types';
-import * as errorHandling from '../errors/error-handling';
+import { FakeClass } from './fake-classes-to-test';
+import { createSpyFromClass } from '../create-spy-from-class';
 
 let fakeClassSpy: Spy<FakeClass>;
 let fakeValue: any;
@@ -24,7 +24,7 @@ describe('createSpyFromClass - promises', () => {
     fakeArgs = [];
     errorIsExpected = false;
 
-    throwArgumentsErrorSpyFunction = spyOn(errorHandling, 'throwArgumentsError');
+    throwArgumentsErrorSpyFunction = spyOn(errorHandler, 'throwArgumentsError');
 
     fakeClassSpy = createSpyFromClass(FakeClass);
   });

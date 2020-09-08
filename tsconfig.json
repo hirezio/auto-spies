@@ -1,0 +1,21 @@
+{
+  "compilerOptions": {
+    "baseUrl": "./packages",
+    "module": "commonjs",
+    "target": "es5",
+    "pretty": true,
+    "strict": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "declaration": true, // generate .d.ts files
+    "noImplicitAny": true,
+    "esModuleInterop": true,
+    "sourceMap": true,
+    "downlevelIteration": true,
+    "paths": {
+      "@hirez_io/auto-spies-core": ["auto-spies-core/src"],
+      "jasmine-auto-spies": ["jasmine-auto-spies/src"]
+    }
+  },
+  "exclude": ["node_modules"]
+}

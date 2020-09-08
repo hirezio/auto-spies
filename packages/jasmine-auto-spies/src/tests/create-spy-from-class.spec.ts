@@ -1,11 +1,11 @@
-import { createSpyFromClass } from './create-spy-from-class';
+import { createSpyFromClass } from '../create-spy-from-class';
 import {
   FakeClass,
   FakeAbstractClass,
   FakeGetterSetterClass,
-} from './test-utils/fake-classes-to-test';
-import { Spy } from './auto-spies.types';
-import * as errorHandling from './errors/error-handling';
+} from './fake-classes-to-test';
+import { Spy } from '../auto-spies.types';
+import { errorHandler } from '@hirez_io/auto-spies-core';
 
 let fakeClassSpy: Spy<FakeClass>;
 const FAKE_VALUE = 'FAKE SYNC VALUE';
@@ -23,7 +23,7 @@ describe('createSpyFromClass', () => {
     actualResult = null;
     fakeArgs = [];
 
-    throwArgumentsErrorSpyFunction = spyOn(errorHandling, 'throwArgumentsError');
+    throwArgumentsErrorSpyFunction = spyOn(errorHandler, 'throwArgumentsError');
     fakeClassSpy = createSpyFromClass(FakeClass);
   });
 

@@ -2,8 +2,8 @@ import { ReplaySubject } from 'rxjs';
 import {
   FunctionSpyReturnValueContainer,
   CalledWithObject,
-} from '../create-spy-from-class.types';
-import { AddObservableSpyMethods } from '..';
+  AddObservableSpyMethods,
+} from '..';
 
 export function addObservableHelpersToFunctionSpy(
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -12,28 +12,28 @@ export function addObservableHelpersToFunctionSpy(
 ): void {
   const subject: ReplaySubject<any> = new ReplaySubject(1);
 
-  spyFunction.and.nextWith = function nextWith(value: any) {
+  spyFunction.nextWith = function nextWith(value: any) {
     valueContainer.value = subject;
     subject.next(value);
   };
 
-  spyFunction.and.nextOneTimeWith = function nextOneTimeWith(value: any) {
+  spyFunction.nextOneTimeWith = function nextOneTimeWith(value: any) {
     valueContainer.value = subject;
     subject.next(value);
     subject.complete();
   };
 
-  spyFunction.and.throwWith = function throwWith(value: any) {
+  spyFunction.throwWith = function throwWith(value: any) {
     valueContainer.value = subject;
     subject.error(value);
   };
 
-  spyFunction.and.complete = function complete() {
+  spyFunction.complete = function complete() {
     valueContainer.value = subject;
     subject.complete();
   };
 
-  spyFunction.and.returnSubject = function complete() {
+  spyFunction.returnSubject = function complete() {
     valueContainer.value = subject;
     return subject;
   };

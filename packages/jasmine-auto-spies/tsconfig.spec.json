@@ -1,9 +1,17 @@
 {
   "extends": "./tsconfig.json",
   "compilerOptions": {
+    "rootDir": "./",
     "target": "es2015",
+    "composite": true,
     "types": ["jasmine", "@hirez_io/jasmine-given", "node"]
   },
-  "files": ["src/test.ts"],
-  "include": ["src/**/*.spec.ts"]
+  "references": [
+    {
+      "path": "../auto-spies-core/tsconfig.build.json"
+    }
+  ],
+  "files": ["test.ts"],
+  "include": ["src/**/*.spec.ts"],
+  "exclude": []
 }

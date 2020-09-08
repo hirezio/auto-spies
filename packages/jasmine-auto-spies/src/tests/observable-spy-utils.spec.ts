@@ -1,10 +1,10 @@
-import { createSpyFromClass } from '../create-spy-from-class';
-import { FakeChildClass, FakeClass } from '../test-utils/fake-classes-to-test';
 import { take } from 'rxjs/operators';
-import { Spy } from '../auto-spies.types';
-import * as errorHandling from '../errors/error-handling';
+import { errorHandler } from '@hirez_io/auto-spies-core';
 import { Subject, Subscription } from 'rxjs';
 import { ObserverSpy } from '@hirez_io/observer-spy';
+import { Spy } from '../auto-spies.types';
+import { FakeClass, FakeChildClass } from './fake-classes-to-test';
+import { createSpyFromClass } from '../create-spy-from-class';
 
 let fakeClassSpy: Spy<FakeClass>;
 let fakeChildClassSpy: Spy<FakeChildClass>;
@@ -32,7 +32,7 @@ describe('createSpyFromClass - Observables', () => {
 
     observerSpy = new ObserverSpy();
 
-    throwArgumentsErrorSpyFunction = spyOn(errorHandling, 'throwArgumentsError');
+    throwArgumentsErrorSpyFunction = spyOn(errorHandler, 'throwArgumentsError');
   });
 
   describe('GIVEN a fake Class is auto spied on', () => {

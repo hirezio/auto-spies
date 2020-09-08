@@ -60,6 +60,6 @@
     "pretty-quick": "3.0.0",
     "rimraf": "3.0.2",
     "ts-node": "^3.0.6",
-    "typescript": "^3.5.3"
+    "typescript": "^3.9.7"
   }
 }

@@ -1,17 +1,14 @@
-import {
-  FunctionSpyReturnValueContainer,
-  CalledWithObject,
-} from '../create-spy-from-class.types';
+import { FunctionSpyReturnValueContainer, CalledWithObject } from '../';
 
 export function addPromiseHelpersToFunctionSpy(
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   spyFunction: any,
   valueContainer: FunctionSpyReturnValueContainer
 ): void {
-  spyFunction.and.resolveWith = function (value?: any) {
+  spyFunction.resolveWith = function (value?: any) {
     valueContainer.value = Promise.resolve(value);
   };
-  spyFunction.and.rejectWith = function (value?: any) {
+  spyFunction.rejectWith = function (value?: any) {
     valueContainer.value = value;
     valueContainer._isRejectedPromise = true;
   };

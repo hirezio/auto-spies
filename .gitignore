@@ -5,3 +5,4 @@ coverage
 TODO
 yarn-error.log
 lerna-debug.log
+*.tsbuildinfo

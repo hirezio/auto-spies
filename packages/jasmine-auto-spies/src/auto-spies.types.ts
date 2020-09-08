@@ -1,72 +1,66 @@
 /// <reference types="jasmine" />
-import { Observable, Subject } from 'rxjs';
+import { Observable } from 'rxjs';
+import {
+  AddObservableSpyMethods,
+  AddPromiseSpyMethods,
+  Func,
+  AddAccessorsSpies,
+  CreateSyncAutoSpy,
+  CreateObservableAutoSpy,
+  CreatePromiseAutoSpy,
+} from '@hirez_io/auto-spies-core';
 
-type Func = (...args: any[]) => any;
+export type Spy<ClassToSpyOn> = AddAutoSpies<ClassToSpyOn, jasmine.Spy> &
+  AddAccessorsSpies<ClassToSpyOn, jasmine.Spy>;
 
-export type Spy<T> = {
-  [k in keyof T]: T[k] extends Func
-    ? AddSpyTypesToMethods<T[k]>
-    : T[k] extends Observable<infer OR>
-    ? T[k] & AddObservableSpyMethods<OR>
-    : T[k];
-} & {
-  accessorSpies: {
-    setters: {
-      [k in keyof T]: jasmine.Spy;
-    };
-    getters: {
-      [k in keyof T]: jasmine.Spy;
-    };
-  };
+type AddAutoSpies<ClassToSpyOn, LibSpecificFunctionSpy> = {
+  [Key in keyof ClassToSpyOn /* 
+  if it's a method */]: ClassToSpyOn[Key] extends Func
+    ? AddSpyMethodsByReturnTypes<ClassToSpyOn[Key], LibSpecificFunctionSpy>
+    : // if it's a property of type Observable
+    ClassToSpyOn[Key] extends Observable<infer ObservableReturnType>
+    ? ClassToSpyOn[Key] & AddObservableSpyMethods<ObservableReturnType>
+    : // If not a method or an observable, leave as is
+      ClassToSpyOn[Key];
 };
 
-export type AddSpyTypesToMethods<T> = T extends Func ? AddSpyByReturnTypes<T> : T;
-
 // Wrap the return type of the given function type with the appropriate spy methods
-export type AddSpyByReturnTypes<TF extends Func> = TF &
-  (TF extends (...args: any[]) => infer TR
+export type AddSpyMethodsByReturnTypes<
+  Method extends Func,
+  LibSpecificFunctionSpy
+> = Method &
+  (Method extends (...args: any[]) => infer ReturnType
     ? // returns a Promise
-      TR extends Promise<infer PR>
-      ? AddSpyToPromiseMethod<PR>
+      ReturnType extends Promise<infer PromiseReturnType>
+      ? CreatePromiseAutoSpy<
+          LibSpecificFunctionSpy,
+          AddPromisesToJasmineFunctionSpy<PromiseReturnType>,
+          PromiseReturnType
+        >
       : // returns an Observable
-      TR extends Observable<infer OR>
-      ? AddSpyToObservableMethod<OR>
+      ReturnType extends Observable<infer ObservableReturnType>
+      ? CreateObservableAutoSpy<
+          LibSpecificFunctionSpy,
+          AddObservablesToJasmineFunctionSpy<ObservableReturnType>,
+          ObservableReturnType
+        >
       : // for any other type
-        AddSpyToMethod<TF>
+        CreateSyncAutoSpy<
+          Method,
+          LibSpecificFunctionSpy,
+          AddCalledWithToJasmineFunctionSpy
+        >
     : never);
 
-export type AddSpyToObservableProps<OP extends Observable<any>> = OP extends Observable<
-  infer OR
->
-  ? OP & AddObservableSpyMethods<OR>
-  : OP;
+type AddPromisesToJasmineFunctionSpy<PromiseReturnType> = {
+  and: AddPromiseSpyMethods<PromiseReturnType>;
+};
 
-export type AddSpyToPromiseMethod<PromiseReturnType> = {
-  and: PromiseMethodSpy<PromiseReturnType>;
-  calledWith(...args: any[]): PromiseMethodSpy<PromiseReturnType>;
-  mustBeCalledWith(...args: any[]): PromiseMethodSpy<PromiseReturnType>;
-} & jasmine.Spy;
-
-export interface PromiseMethodSpy<T> {
-  resolveWith(value?: T): void;
-  rejectWith(value?: any): void;
-}
-
-export type AddSpyToObservableMethod<ObservableReturnType> = {
+type AddObservablesToJasmineFunctionSpy<ObservableReturnType> = {
   and: AddObservableSpyMethods<ObservableReturnType>;
-  calledWith(...args: any[]): AddObservableSpyMethods<ObservableReturnType>;
-  mustBeCalledWith(...args: any[]): AddObservableSpyMethods<ObservableReturnType>;
-} & jasmine.Spy;
+};
 
-export interface AddObservableSpyMethods<T> {
-  nextWith(value?: T): void;
-  nextOneTimeWith(value?: T): void; // emit one value and completes
-  throwWith(value: any): void;
-  complete(): void;
-  returnSubject(): Subject<T>;
-}
-
-export interface MethodSpy {
+export interface AddCalledWithToJasmineFunctionSpy {
   calledWith(
     ...args: any[]
   ): {
@@ -78,25 +72,3 @@ export interface MethodSpy {
     returnValue: (value: any) => void;
   };
 }
-
-export type AddSpyToMethod<T extends Func> = T & MethodSpy & jasmine.Spy;
-
-type KeysForPropertyType<ObjectType, PropType> = Extract<
-  {
-    [Key in keyof ObjectType]: ObjectType[Key] extends PropType ? Key : never;
-  }[keyof ObjectType],
-  string
->;
-
-export type OnlyMethodKeysOf<T> = KeysForPropertyType<T, { (...args: any[]): any }>;
-
-export type OnlyObservablePropsOf<T> = KeysForPropertyType<T, Observable<any>>;
-
-export type GetObservableReturnType<OT> = OT extends Observable<infer OR> ? OR : never;
-
-export type OnlyPropsOf<ObjectType> = Extract<
-  {
-    [Key in keyof ObjectType]: ObjectType[Key] extends Func ? never : Key;
-  }[keyof ObjectType],
-  string
->;

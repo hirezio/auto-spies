@@ -1,4 +1,4 @@
-import { throwArgumentsError } from './error-handling';
+import { errorHandler } from '@hirez_io/auto-spies-core';
 
 describe('throwArgumentsError', () => {
   let fakeExpectedArgs: any[];
@@ -11,7 +11,7 @@ describe('throwArgumentsError', () => {
 
   When(() => {
     try {
-      throwArgumentsError(fakeActualArgs);
+      errorHandler.throwArgumentsError(fakeActualArgs);
     } catch (error) {
       actualError = error.message;
     }

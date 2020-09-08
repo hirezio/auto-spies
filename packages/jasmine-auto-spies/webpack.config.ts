@@ -1,17 +1,13 @@
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 import * as webpack from 'webpack';
-
-import { resolve } from 'path';
 
 export function getWebpackConfig(forTest: boolean = false): webpack.Configuration {
   return {
-    devtool: 'inline-source-map',
-    entry: './src/index.ts',
-    output: {
-      filename: 'jasmine-auto-spies.js',
-      path: resolve('./dist'),
-    },
+    // devtool: 'inline-source-map',
     resolve: {
       extensions: ['.ts', '.js'],
+      plugins: [new TsconfigPathsPlugin({ configFile: '../../tsconfig.json' })],
     },
     module: {
       rules: [
@@ -19,10 +15,10 @@ export function getWebpackConfig(forTest: boolean = false): webpack.Configuratio
           test: /\.ts/,
           use: [
             {
-              loader: 'awesome-typescript-loader',
+              loader: 'ts-loader',
               options: {
-                declaration: false,
-                configFileName: forTest ? 'tsconfig.spec.json' : 'tsconfig.json',
+                configFile: forTest ? 'tsconfig.spec.json' : 'tsconfig.json',
+                projectReferences: true,
               },
             },
           ],
@@ -32,7 +28,12 @@ export function getWebpackConfig(forTest: boolean = false): webpack.Configuratio
           loader: 'istanbul-instrumenter-loader',
           options: { esModules: true },
           enforce: 'post',
-          exclude: [/\.(e2e|spec)\.ts$/, /node_modules/, /fake-classes-to-test.ts/],
+          exclude: [
+            /\.(e2e|spec)\.ts$/,
+            /node_modules/,
+            /dist/,
+            /fake-classes-to-test.ts/,
+          ],
         },
       ],
     },
