@@ -2,8 +2,7 @@
   "name": "@hirez_io/auto-spies-core",
   "version": "1.0.1",
   "publishConfig": {
-    "access": "public",
-    "registry": "https://registry.npmjs.com"
+    "access": "public"
   },
   "author": {
     "name": "Shai Reznik",
