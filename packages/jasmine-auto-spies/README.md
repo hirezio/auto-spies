@@ -107,7 +107,7 @@ describe('MyComponent', () => {
   it('should fetch data on init', () => {
     const fakeData = [{ fake: 'data' }];
 
-    myServiceSpy.getData.and.returnWith(fakeData);
+    myServiceSpy.getData.and.returnValue(fakeData);
 
     componentUnderTest.init();
 

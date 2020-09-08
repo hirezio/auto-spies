@@ -12,7 +12,6 @@ export default function (config: any) {
       require('@hirez_io/karma-jasmine-given'),
       require('karma-sourcemap-loader'),
       require('karma-chrome-launcher'),
-      require('karma-typescript'),
       require('karma-webpack'),
       require('karma-coverage-istanbul-reporter'),
       require('karma-mocha-reporter'),

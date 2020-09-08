@@ -142,9 +142,7 @@ describe('createSpyFromClass', () => {
     });
   });
 
-  describe(`GIVEN a synchronous method calledWith is configured to throw on mismatch
-            WHEN called twice with the right parameters
-            THEN DO NOT throw an error`, () => {
+  describe(`GIVEN a synchronous method is configured with mustBeCalledWith twice with different values`, () => {
     let fakeArgs2: any[];
     Given(() => {
       fakeArgs = [1, { a: 2 }];

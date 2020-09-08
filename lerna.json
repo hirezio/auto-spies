@@ -10,6 +10,7 @@
     "version": {
       "conventionalCommits": true,
       "push": true,
+      "exact": true,
       "gitTagVersion": true,
       "createRelease": "github",
       "allowBranch": "master",
