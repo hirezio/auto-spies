@@ -61,7 +61,7 @@
     "webpack": "4.44.1"
   },
   "dependencies": {
-    "@hirez_io/auto-spies-core": "^0.0.0",
+    "@hirez_io/auto-spies-core": "1.0.0",
     "deep-equal": "2.0.3"
   },
   "peerDependencies": {
