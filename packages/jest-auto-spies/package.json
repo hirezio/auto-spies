@@ -1,16 +1,15 @@
 {
-  "name": "@hirez_io/auto-spies-core",
-  "version": "1.0.2",
-  "publishConfig": {
-    "access": "public"
-  },
+  "name": "jest-auto-spies",
+  "version": "1.0.0-alpha.1",
   "author": {
     "name": "Shai Reznik",
     "company": "HiRez.io"
   },
-  "description": "Create automatic spies from classes in tests, also for promises and observables, used as a common code for jasmine-auto-spies and jest-auto-spies",
+  "description": "Create automatic spies from classes in Jest tests, also for promises and observables",
   "license": "MIT",
   "keywords": [
+    "jest",
+    "jest-given",
     "spies",
     "mocks",
     "async methods",
@@ -18,17 +17,17 @@
     "RxJS testing",
     "Promises tests"
   ],
-  "homepage": "https://github.com/hirezio/auto-spies/tree/master/packages/auto-spies-core",
+  "homepage": "https://github.com/hirezio/auto-spies/tree/master/packages/jest-auto-spies",
   "repository": {
     "type": "git",
-    "url": "https://github.com/hirezio/auto-spies",
-    "directory": "packages/auto-spies-core"
+    "url": "https://github.com/hirezio/auto-spies.git",
+    "directory": "packages/jest-auto-spies"
   },
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
     "clean": "rimraf dist",
-    "compile": "tsc -p tsconfig.build.json",
+    "compile": "tsc -b tsconfig.build.json",
     "build": "run-s clean compile",
     "test": "jest",
     "test:watch": "jest --watchAll"
@@ -36,21 +35,19 @@
   "devDependencies": {
     "@hirez_io/jest-given": "1.0.3",
     "@types/jest": "26.0.13",
-    "@hirez_io/observer-spy": "^1.3.0",
-    "@types/deep-equal": "1.0.1",
+    "@types/node": "14.6.4",
     "jest": "26.4.2",
     "npm-run-all": "4.1.5",
-    "prettier": "2.1.0",
     "rimraf": "3.0.2",
     "rxjs": "^6.0.0",
-    "ts-node": "^3.0.6",
     "ts-jest": "26.3.0",
     "typescript": "^3.9.7"
   },
   "dependencies": {
-    "deep-equal": "2.0.3"
+    "@hirez_io/auto-spies-core": "1.0.2"
   },
   "peerDependencies": {
+    "jest": "< 27.x",
     "rxjs": "^6.0.0",
     "typescript": ">=2.8.1"
   }

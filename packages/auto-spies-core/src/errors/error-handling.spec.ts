@@ -1,4 +1,4 @@
-import { errorHandler } from '@hirez_io/auto-spies-core';
+import { errorHandler } from './error-handler';
 
 describe('throwArgumentsError', () => {
   let fakeExpectedArgs: any[];

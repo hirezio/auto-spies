@@ -12,7 +12,7 @@ const FAKE_VALUE = 'FAKE SYNC VALUE';
 let actualResult: any;
 let fakeArgs: any[];
 const WRONG_VALUE = 'WRONG VALUE';
-let throwArgumentsErrorSpyFunction: jasmine.Spy;
+let throwArgumentsErrorSpyFunction: jest.SpyInstance;
 
 function verifyArgumentsErrorWasThrown({ actualArgs }: { actualArgs: any[] }) {
   expect(throwArgumentsErrorSpyFunction).toHaveBeenCalledWith(actualArgs);
@@ -23,13 +23,15 @@ describe('createSpyFromClass', () => {
     actualResult = null;
     fakeArgs = [];
 
-    throwArgumentsErrorSpyFunction = spyOn(errorHandler, 'throwArgumentsError');
+    throwArgumentsErrorSpyFunction = jest
+      .spyOn(errorHandler, 'throwArgumentsError')
+      .mockImplementation(() => {});
     fakeClassSpy = createSpyFromClass(FakeClass);
   });
 
   describe('GIVEN a synchronous method is being configured', () => {
     Given(() => {
-      fakeClassSpy.getSyncValue.and.returnValue(FAKE_VALUE);
+      fakeClassSpy.getSyncValue.mockReturnValue(FAKE_VALUE);
     });
 
     When(() => {
@@ -44,7 +46,7 @@ describe('createSpyFromClass', () => {
   describe('GIVEN a synchronous method is being manually configured', () => {
     Given(() => {
       fakeClassSpy = createSpyFromClass(FakeClass, ['arrowMethod']);
-      fakeClassSpy.arrowMethod.and.returnValue(FAKE_VALUE);
+      fakeClassSpy.arrowMethod.mockReturnValue(FAKE_VALUE);
     });
 
     When(() => {
@@ -61,7 +63,7 @@ describe('createSpyFromClass', () => {
       fakeClassSpy = createSpyFromClass(FakeClass, {
         methodsToSpyOn: ['arrowMethod'],
       });
-      fakeClassSpy.arrowMethod.and.returnValue(FAKE_VALUE);
+      fakeClassSpy.arrowMethod.mockReturnValue(FAKE_VALUE);
     });
 
     When(() => {
@@ -76,7 +78,7 @@ describe('createSpyFromClass', () => {
   describe('GIVEN a synchronous method is being configured with specific parameters', () => {
     Given(() => {
       fakeArgs = [1, { a: 2 }];
-      fakeClassSpy.getSyncValue.calledWith(...fakeArgs).returnValue(FAKE_VALUE);
+      fakeClassSpy.getSyncValue.calledWith(...fakeArgs).mockReturnValue(FAKE_VALUE);
     });
 
     describe('WHEN it is called with the expected parameters THEN return the value', () => {
@@ -99,7 +101,7 @@ describe('createSpyFromClass', () => {
         actualResult2 = undefined;
         fakeValue2 = 'FAKE VALUE 2';
         fakeArgs2 = [3, 4];
-        fakeClassSpy.getSyncValue.calledWith(...fakeArgs2).returnValue(fakeValue2);
+        fakeClassSpy.getSyncValue.calledWith(...fakeArgs2).mockReturnValue(fakeValue2);
       });
 
       When(() => {
@@ -129,7 +131,7 @@ describe('createSpyFromClass', () => {
             THEN throw an error`, () => {
     Given(() => {
       fakeArgs = [1, { a: 2 }];
-      fakeClassSpy.getSyncValue.mustBeCalledWith(...fakeArgs).returnValue(FAKE_VALUE);
+      fakeClassSpy.getSyncValue.mustBeCalledWith(...fakeArgs).mockReturnValue(FAKE_VALUE);
     });
     When(() => {
       actualResult = fakeClassSpy.getSyncValue(WRONG_VALUE);
@@ -147,9 +149,11 @@ describe('createSpyFromClass', () => {
     Given(() => {
       fakeArgs = [1, { a: 2 }];
       fakeArgs2 = [1, { a: 3 }];
-      fakeClassSpy.getSyncValue.mustBeCalledWith(...fakeArgs).returnValue(FAKE_VALUE);
+      fakeClassSpy.getSyncValue.mustBeCalledWith(...fakeArgs).mockReturnValue(FAKE_VALUE);
 
-      fakeClassSpy.getSyncValue.mustBeCalledWith(...fakeArgs2).returnValue(FAKE_VALUE);
+      fakeClassSpy.getSyncValue
+        .mustBeCalledWith(...fakeArgs2)
+        .mockReturnValue(FAKE_VALUE);
     });
 
     describe(`WHEN called twice with the right parameters
@@ -185,7 +189,7 @@ describe('createSpyFromClass', () => {
       abstractClassSpy = createSpyFromClass(
         class SomeFakeClass extends FakeAbstractClass {}
       );
-      abstractClassSpy.getSyncValue.and.returnValue('FAKE');
+      abstractClassSpy.getSyncValue.mockReturnValue('FAKE');
     });
 
     When(() => {
@@ -210,7 +214,7 @@ describe('getters and setters', () => {
     });
     describe('GIVEN getter spy configured with fake return value', () => {
       Given(() => {
-        fakeGetterSetterClass.accessorSpies.getters.myProp.and.returnValue(FAKE_VALUE);
+        fakeGetterSetterClass.accessorSpies.getters.myProp.mockReturnValue(FAKE_VALUE);
       });
       Then('return the fake value', () => {
         expect(fakeGetterSetterClass.myProp).toBe(FAKE_VALUE);
@@ -234,7 +238,7 @@ describe('getters and setters', () => {
         gettersToSpyOn: ['anotherGetter'],
       });
 
-      fakeGetterSetterClass.accessorSpies.getters.anotherGetter.and.returnValue(222);
+      fakeGetterSetterClass.accessorSpies.getters.anotherGetter.mockReturnValue(222);
     });
 
     Then('return the fake value', () => {

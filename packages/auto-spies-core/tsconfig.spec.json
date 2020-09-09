@@ -1,0 +1,11 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "rootDir": "./",
+    "target": "es2015",
+    "typeRoots": ["../../node_modules/@hirez_io", "../../node_modules/@types"],
+    "types": ["@hirez_io/jasmine-given", "jest", "node"]
+  },
+  "include": ["src/**/*.spec.ts"],
+  "exclude": []
+}

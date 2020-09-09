@@ -14,7 +14,8 @@
     "downlevelIteration": true,
     "paths": {
       "@hirez_io/auto-spies-core": ["auto-spies-core/src"],
-      "jasmine-auto-spies": ["jasmine-auto-spies/src"]
+      "jasmine-auto-spies": ["jasmine-auto-spies/src"],
+      "jest-auto-spies": ["jest-auto-spies/src"]
     }
   },
   "exclude": ["node_modules"]

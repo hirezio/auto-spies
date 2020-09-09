@@ -7,10 +7,14 @@ This is the monorepo of:
 | Project              | Status                                                     | Description                                             |
 | -------------------- | ---------------------------------------------------------- | ------------------------------------------------------- |
 | [jasmine-auto-spies] | [![jasmine-auto-spies-status]][jasmine-auto-spies-package] | Easy and type safe way to write spies for jasmine tests |
+| [jest-auto-spies]    | [![jest-auto-spies-status]][jest-auto-spies-package]       | Easy and type safe way to write spies for jest tests    |
 
 [jasmine-auto-spies]: https://github.com/hirezio/auto-spies/tree/master/packages/jasmine-auto-spies
 [jasmine-auto-spies-status]: https://img.shields.io/npm/v/jasmine-auto-spies.svg
 [jasmine-auto-spies-package]: https://npmjs.com/package/jasmine-auto-spies
+[jest-auto-spies]: https://github.com/hirezio/auto-spies/tree/master/packages/jest-auto-spies
+[jest-auto-spies-status]: https://img.shields.io/npm/v/jest-auto-spies.svg
+[jest-auto-spies-package]: https://npmjs.com/package/jest-auto-spies
 
 ## Contributing
 

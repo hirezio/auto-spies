@@ -1,0 +1,14 @@
+{
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "rootDir": "./",
+    "target": "es2015",
+    "typeRoots": ["../../node_modules/@hirez_io", "../../node_modules/@types"],
+    "types": ["@hirez_io/jest-given", "jest", "node"],
+    "paths": {
+      "@hirez_io/auto-spies-core": ["../auto-spies-core/src"]
+    }
+  },
+  "include": ["src/**/*.spec.ts"],
+  "exclude": []
+}

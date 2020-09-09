@@ -96,11 +96,23 @@ jobs:
       - name: Run Lint and Tests
         run: yarn test:full
 
+      - name: Upload coverage reports of auto-spies-core
+        uses: codecov/codecov-action@v1
+        with:
+          file: ./packages/auto-spies-core/coverage/lcov.info
+          flags: auto-spies-core
+
       - name: Upload coverage reports of jasmine-auto-spies
         uses: codecov/codecov-action@v1
         with:
           file: ./packages/jasmine-auto-spies/coverage/lcov.info
           flags: jasmine-auto-spies
+
+      - name: Upload coverage reports of jest-auto-spies
+        uses: codecov/codecov-action@v1
+        with:
+          file: ./packages/jest-auto-spies/coverage/lcov.info
+          flags: jest-auto-spies
 
       - name: Configure CI Git User
         run: |

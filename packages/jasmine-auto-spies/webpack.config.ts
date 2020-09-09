@@ -33,6 +33,7 @@ export function getWebpackConfig(forTest: boolean = false): webpack.Configuratio
             /node_modules/,
             /dist/,
             /fake-classes-to-test.ts/,
+            /error-handler.ts/,
           ],
         },
       ],
