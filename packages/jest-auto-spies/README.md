@@ -164,6 +164,26 @@ it(() => {
 });
 ```
 
+although with `jest` you don't really have to do that as you have the native `mockResolvedValue` and `mockRejectedValue` -
+
+```ts
+import { Spy, createSpyFromClass } from 'jest-auto-spies';
+
+let myServiceSpy: Spy<MyService>;
+
+beforeEach(() => {
+  myServiceSpy = createSpyFromClass(MyService);
+});
+
+it(() => {
+  myServiceSpy.getItems.mockResolvedValue(fakeItemsList);
+  // OR
+  myServiceSpy.getItems.mockRejectedValue(fakeError);
+});
+```
+
+So the `resolveWith` and `rejectWith` are useful for backward compatibility if you're migrating from `jasmine-auto-spies`.
+
 ### 3. Spy on an `Observable` returning method
 
 Use the `nextWith` or `throwWith` and other methods -
