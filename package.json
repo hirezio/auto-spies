@@ -12,7 +12,7 @@
     "commit": "git-cz",
     "build": "lerna run build",
     "format:fix": "pretty-quick --staged",
-    "lerna:publish": "lerna publish from-git --yes",
+    "lerna:publish": "lerna publish from-package --yes",
     "lerna:version": "lerna version",
     "lerna:version:ci": "lerna version --yes",
     "lint": "eslint . --ext .js,.ts",
