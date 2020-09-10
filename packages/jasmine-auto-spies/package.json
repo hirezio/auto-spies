@@ -61,7 +61,7 @@
     "@hirez_io/auto-spies-core": "1.1.0"
   },
   "peerDependencies": {
-    "jasmine-core": ">=2.6.0 <=3.6.0",
+    "jasmine-core": ">=2.6.0 < 4",
     "rxjs": "^6.0.0",
     "typescript": ">=2.8.1"
   }
