@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.3.2](https://github.com/hirezio/auto-spies/compare/jasmine-auto-spies@6.3.1...jasmine-auto-spies@6.3.2) (2020-09-10)
+
+
+### Bug Fixes
+
+* **global:** add .npmignore ([b6f8ff7](https://github.com/hirezio/auto-spies/commit/b6f8ff7008634c377d541803beaf0d3068343a8b))
+
+
+
+
+
 ## [6.3.1](https://github.com/hirezio/auto-spies/compare/jasmine-auto-spies@6.3.0...jasmine-auto-spies@6.3.1) (2020-09-10)
 
 **Note:** Version bump only for package jasmine-auto-spies
