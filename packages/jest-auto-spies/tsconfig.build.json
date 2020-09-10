@@ -10,5 +10,5 @@
       "path": "../auto-spies-core/tsconfig.build.json"
     }
   ],
-  "exclude": ["**/*.spec.ts"]
+  "exclude": ["**/*.spec.ts", "src/**/fake-classes-to-test.ts"]
 }
