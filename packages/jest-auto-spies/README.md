@@ -18,11 +18,6 @@ Easy and type safe way to write spies for jest tests, for both sync and async (p
   </a>
 </div>
 
-## IMPORTANT: compatibility
-
-- Version `2.x` and above requires **RxJS 6.0** and above.
-- Version `3.x` and above requires **TypeScript 2.8** and above.
-
 ## What is it?
 
 Creating spies has never been EASIER! 💪👏
@@ -107,7 +102,7 @@ describe('MyComponent', () => {
   it('should fetch data on init', () => {
     const fakeData = [{ fake: 'data' }];
 
-    myServiceSpy.getData.and.returnValue(fakeData);
+    myServiceSpy.getData.mockReturnValue(fakeData);
 
     componentUnderTest.init();
 
@@ -134,7 +129,7 @@ beforeEach( ()=> {
 });
 
 it('should do something' ()=> {
-  myServiceSpy.getName.and.returnValue('Fake Name');
+  myServiceSpy.getName.mockReturnValue('Fake Name');
 
   ... (the rest of the test) ...
 });
@@ -163,9 +158,9 @@ beforeEach(() => {
 });
 
 it(() => {
-  myServiceSpy.getItems.and.resolveWith(fakeItemsList);
+  myServiceSpy.getItems.resolveWith(fakeItemsList);
   // OR
-  myServiceSpy.getItems.and.rejectWith(fakeError);
+  myServiceSpy.getItems.rejectWith(fakeError);
 });
 ```
 
@@ -183,13 +178,13 @@ beforeEach(() => {
 });
 
 it(() => {
-  myServiceSpy.getProducts.and.nextWith(fakeProductsList);
+  myServiceSpy.getProducts.nextWith(fakeProductsList);
   // OR
-  myServiceSpy.getProducts.and.nextOneTimeWith(fakeProductsList); // emits one value and completes
+  myServiceSpy.getProducts.nextOneTimeWith(fakeProductsList); // emits one value and completes
   // OR
-  myServiceSpy.getProducts.and.throwWith(fakeError);
+  myServiceSpy.getProducts.throwWith(fakeError);
   // OR
-  myServiceSpy.getProducts.and.complete();
+  myServiceSpy.getProducts.complete();
 });
 ```
 
@@ -225,7 +220,7 @@ myServiceSpy.getProducts.mustBeCalledWith(1).returnValue(true);
 is equal to:
 
 ```ts
-myServiceSpy.getProducts.and.returnValue(true);
+myServiceSpy.getProducts.mockReturnValue(true);
 
 expect(myServiceSpy.getProducts).toHaveBeenCalledWith(1);
 ```
@@ -251,7 +246,7 @@ let spy = createSpyFromClass(MyClass, {
 And then you could just configure them:
 
 ```ts
-spy.customMethod1.and.returnValue('bla bla bla...');
+spy.customMethod1.mockReturnValue('bla bla bla...');
 ```
 
 This is good for times where a method is not part of the `prototype` of the Class but instead being defined in its constructor.
@@ -328,7 +323,7 @@ MyClass{
 
   it('should return the fake value', () => {
 
-      classSpy.accessorSpies.getters.myProp.and.returnValue(10);
+      classSpy.accessorSpies.getters.myProp.mockReturnValue(10);
 
       expect(classSpy.myProp).toBe(10);
   });
@@ -359,7 +354,7 @@ describe('Testing a function', () => {
 
     const functionSpy = createFunctionSpy<typeof addTwoNumbers>('addTwoNumbers');
 
-    functionSpy.and.returnValue(4);
+    functionSpy.mockReturnValue(4);
 
     expect(functionSpy()).toBe(4);
   });
@@ -383,7 +378,7 @@ describe('Testing an observable function', () => {
       'getResultsObservable'
     );
 
-    functionSpy.and.nextWith(4);
+    functionSpy.nextWith(4);
     const observerSpy = new ObserverSpy();
     functionSpy.subscribe(observerSpy);
 
