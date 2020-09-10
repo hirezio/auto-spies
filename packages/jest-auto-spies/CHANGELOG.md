@@ -7,4 +7,4 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### Features
 
-- **jest-auto-spies:** added jest-auto-spiesfinally! jest-auto-spies is here! ([5bd3102](https://github.com/hirezio/auto-spies/commit/5bd31023064288a0589677192620650b295984a0))
+- **jest-auto-spies:** added jest-auto-spies ([5bd3102](https://github.com/hirezio/auto-spies/commit/5bd31023064288a0589677192620650b295984a0))

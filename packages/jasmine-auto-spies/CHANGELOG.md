@@ -7,15 +7,11 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 **Note:** Version bump only for package jasmine-auto-spies
 
-
-
-
-
 # [6.3.0](https://github.com/hirezio/auto-spies/compare/jasmine-auto-spies@6.2.5...jasmine-auto-spies@6.3.0) (2020-09-10)
 
 ### Features
 
-- **jest-auto-spies:** added jest-auto-spiesfinally! jest-auto-spies is here! ([5bd3102](https://github.com/hirezio/auto-spies/commit/5bd31023064288a0589677192620650b295984a0))
+- **jasmine-auto-spies:** fixed tests ([5bd3102](https://github.com/hirezio/auto-spies/commit/5bd31023064288a0589677192620650b295984a0))
 
 ## [6.2.5](https://github.com/hirezio/auto-spies/compare/jasmine-auto-spies@6.2.4...jasmine-auto-spies@6.2.5) (2020-09-08)
 
