@@ -18,5 +18,10 @@
       "message": "chore(release): publish new version"
     }
   },
-  "ignoreChanges": ["**/*.md", "**/*.spec.ts", "**/*.spec.js"]
+  "ignoreChanges": [
+    "**/*.md",
+    "**/*.spec.ts",
+    "**/*.spec.js",
+    "**/fake-classes-to-test.ts"
+  ]
 }

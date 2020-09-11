@@ -183,83 +183,100 @@ describe('createSpyFromClass', () => {
     });
   });
 
-  describe('An example of how to write spies for abstract class', () => {
+  describe('GIVEN an abstract class', () => {
     let abstractClassSpy: Spy<FakeAbstractClass>;
-    Given(() => {
-      abstractClassSpy = createSpyFromClass(
-        class SomeFakeClass extends FakeAbstractClass {}
-      );
-      abstractClassSpy.getSyncValue.mockReturnValue('FAKE');
+    Given(() => {});
+
+    describe('should be able to spy on regular methods', () => {
+      Given(() => {
+        abstractClassSpy = createSpyFromClass(FakeAbstractClass as any);
+        abstractClassSpy.getSyncValue.mockReturnValue('FAKE');
+      });
+
+      When(() => {
+        actualResult = abstractClassSpy.getSyncValue();
+      });
+      Then(() => {
+        expect(actualResult).toBe('FAKE');
+      });
     });
 
-    When(() => {
-      actualResult = abstractClassSpy.getSyncValue();
-    });
+    describe('should be able to spy on abstract methods', () => {
+      Given(() => {
+        abstractClassSpy = createSpyFromClass(FakeAbstractClass as any, [
+          'needToImplementThis',
+        ]);
+        abstractClassSpy.needToImplementThis.mockReturnValue('FAKE');
+      });
 
-    Then(() => {
-      expect(actualResult).toBe('FAKE');
+      When(() => {
+        actualResult = abstractClassSpy.needToImplementThis();
+      });
+      Then(() => {
+        expect(actualResult).toBe('FAKE');
+      });
     });
   });
-});
 
-describe('getters and setters', () => {
-  let fakeGetterSetterClass: Spy<FakeGetterSetterClass>;
+  describe('getters and setters', () => {
+    let fakeGetterSetterClass: Spy<FakeGetterSetterClass>;
 
-  describe('GIVEN spying on class with a property that has both getter and setter', () => {
-    Given(() => {
-      fakeGetterSetterClass = createSpyFromClass(FakeGetterSetterClass, {
-        gettersToSpyOn: ['myProp'],
-        settersToSpyOn: ['myProp'],
-      });
-    });
-    describe('GIVEN getter spy configured with fake return value', () => {
+    describe('GIVEN spying on class with a property that has both getter and setter', () => {
       Given(() => {
-        fakeGetterSetterClass.accessorSpies.getters.myProp.mockReturnValue(FAKE_VALUE);
+        fakeGetterSetterClass = createSpyFromClass(FakeGetterSetterClass, {
+          gettersToSpyOn: ['myProp'],
+          settersToSpyOn: ['myProp'],
+        });
       });
-      Then('return the fake value', () => {
-        expect(fakeGetterSetterClass.myProp).toBe(FAKE_VALUE);
+      describe('GIVEN getter spy configured with fake return value', () => {
+        Given(() => {
+          fakeGetterSetterClass.accessorSpies.getters.myProp.mockReturnValue(FAKE_VALUE);
+        });
+        Then('return the fake value', () => {
+          expect(fakeGetterSetterClass.myProp).toBe(FAKE_VALUE);
+        });
+      });
+
+      describe('GIVEN setter spy configured WHEN setting the var', () => {
+        When(() => {
+          fakeGetterSetterClass.myProp = '2';
+        });
+        Then('allow spying on setter', () => {
+          expect(fakeGetterSetterClass.accessorSpies.setters.myProp).toHaveBeenCalled();
+        });
       });
     });
 
-    describe('GIVEN setter spy configured WHEN setting the var', () => {
+    describe(`GIVEN spying on class with a property that has only a getter
+              and getter spy configured with fake return value`, () => {
+      Given(() => {
+        fakeGetterSetterClass = createSpyFromClass(FakeGetterSetterClass, {
+          gettersToSpyOn: ['anotherGetter'],
+        });
+
+        fakeGetterSetterClass.accessorSpies.getters.anotherGetter.mockReturnValue(222);
+      });
+
+      Then('return the fake value', () => {
+        expect(fakeGetterSetterClass.anotherGetter).toBe(222);
+      });
+    });
+
+    describe(`GIVEN spying on class with a property that has only a setter
+              WHEN variable is set`, () => {
+      Given(() => {
+        fakeGetterSetterClass = createSpyFromClass(FakeGetterSetterClass, {
+          settersToSpyOn: ['mySetter'],
+        });
+      });
       When(() => {
-        fakeGetterSetterClass.myProp = '2';
+        fakeGetterSetterClass.mySetter = 2222;
       });
       Then('allow spying on setter', () => {
-        expect(fakeGetterSetterClass.accessorSpies.setters.myProp).toHaveBeenCalled();
+        expect(fakeGetterSetterClass.accessorSpies.setters.mySetter).toHaveBeenCalledWith(
+          2222
+        );
       });
-    });
-  });
-
-  describe(`GIVEN spying on class with a property that has only a getter
-            and getter spy configured with fake return value`, () => {
-    Given(() => {
-      fakeGetterSetterClass = createSpyFromClass(FakeGetterSetterClass, {
-        gettersToSpyOn: ['anotherGetter'],
-      });
-
-      fakeGetterSetterClass.accessorSpies.getters.anotherGetter.mockReturnValue(222);
-    });
-
-    Then('return the fake value', () => {
-      expect(fakeGetterSetterClass.anotherGetter).toBe(222);
-    });
-  });
-
-  describe(`GIVEN spying on class with a property that has only a setter
-            WHEN variable is set`, () => {
-    Given(() => {
-      fakeGetterSetterClass = createSpyFromClass(FakeGetterSetterClass, {
-        settersToSpyOn: ['mySetter'],
-      });
-    });
-    When(() => {
-      fakeGetterSetterClass.mySetter = 2222;
-    });
-    Then('allow spying on setter', () => {
-      expect(fakeGetterSetterClass.accessorSpies.setters.mySetter).toHaveBeenCalledWith(
-        2222
-      );
     });
   });
 });

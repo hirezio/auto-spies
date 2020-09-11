@@ -50,4 +50,6 @@ export abstract class FakeAbstractClass {
   public getSyncValue(): string {
     return '';
   }
+
+  abstract needToImplementThis(): string;
 }

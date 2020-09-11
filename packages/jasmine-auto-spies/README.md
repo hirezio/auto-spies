@@ -404,8 +404,26 @@ abstract class MyAbstractClass {
 }
 
 describe(() => {
-  abstractClassSpy = createSpyFromClass(class MyClassSpy extends MyAbstractClass {});
+  abstractClassSpy = createSpyFromClass(MyAbstractClass as any);
   abstractClassSpy.getName.and.returnValue('Evil Baboon');
+});
+```
+
+And if you have abstract methods on that abstract class -
+
+```ts
+abstract class MyAbstractClass {
+  abstract getAnimalName(): string;
+}
+
+describe(() => {
+  abstractClassSpy = createSpyFromClass(MyAbstractClass as any, ['getAnimalName']);
+  // OR
+  abstractClassSpy = createSpyFromClass(MyAbstractClass as any, {
+    methodsToSpyOn: ['getAnimalName'],
+  });
+
+  abstractClassSpy.getAnimalName.and.returnValue('Evil Badger');
 });
 ```
 

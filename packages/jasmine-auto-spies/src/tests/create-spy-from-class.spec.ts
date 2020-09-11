@@ -179,21 +179,38 @@ describe('createSpyFromClass', () => {
     });
   });
 
-  describe('An example of how to write spies for abstract class', () => {
+  describe('GIVEN an abstract class', () => {
     let abstractClassSpy: Spy<FakeAbstractClass>;
-    Given(() => {
-      abstractClassSpy = createSpyFromClass(
-        class SomeFakeClass extends FakeAbstractClass {}
-      );
-      abstractClassSpy.getSyncValue.and.returnValue('FAKE');
+    Given(() => {});
+
+    describe('should be able to spy on regular methods', () => {
+      Given(() => {
+        abstractClassSpy = createSpyFromClass(FakeAbstractClass as any);
+        abstractClassSpy.getSyncValue.and.returnValue('FAKE');
+      });
+
+      When(() => {
+        actualResult = abstractClassSpy.getSyncValue();
+      });
+      Then(() => {
+        expect(actualResult).toBe('FAKE');
+      });
     });
 
-    When(() => {
-      actualResult = abstractClassSpy.getSyncValue();
-    });
+    describe('should be able to spy on abstract methods', () => {
+      Given(() => {
+        abstractClassSpy = createSpyFromClass(FakeAbstractClass as any, [
+          'needToImplementThis',
+        ]);
+        abstractClassSpy.needToImplementThis.and.returnValue('FAKE');
+      });
 
-    Then(() => {
-      expect(actualResult).toBe('FAKE');
+      When(() => {
+        actualResult = abstractClassSpy.needToImplementThis();
+      });
+      Then(() => {
+        expect(actualResult).toBe('FAKE');
+      });
     });
   });
 });
