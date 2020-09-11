@@ -406,3 +406,42 @@ describe('Testing an observable function', () => {
   });
 });
 ```
+
+### 10. Spying on abstract classes
+
+Here's a nice trick you could apply in order to spy on abstract classes -
+
+```ts
+abstract class MyAbstractClass {
+  getName(): string {
+    return 'Bonnie';
+  }
+}
+
+describe(() => {
+  abstractClassSpy = createSpyFromClass(class MyClassSpy extends MyAbstractClass {});
+  abstractClassSpy.getName.and.returnValue('Evil Baboon');
+});
+```
+
+.
+
+---
+
+.
+
+## Contributing
+
+Want to contribute? Yayy! 🎉
+
+Please read and follow our [Contributing Guidelines](../../CONTRIBUTING.md) to learn what are the right steps to take before contributing your time, effort and code.
+
+Thanks 🙏
+
+## Code Of Conduct
+
+Be kind to each other and please read our [code of conduct](../../CODE_OF_CONDUCT.md).
+
+## License
+
+MIT
