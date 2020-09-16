@@ -48,6 +48,16 @@
         "ideas",
         "test"
       ]
+    },
+    {
+      "login": "meksof",
+      "name": "Meksi",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/5671930?v=4",
+      "profile": "https://dev-front.herokuapp.com/",
+      "contributions": [
+        "code",
+        "test"
+      ]
     }
   ],
   "contributorsPerLine": 7
