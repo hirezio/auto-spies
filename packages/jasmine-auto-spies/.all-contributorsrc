@@ -67,6 +67,15 @@
       "contributions": [
         "ideas"
       ]
+    },
+    {
+      "login": "YonatanKra",
+      "name": "Yonatan Kra",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/6459899?v=4",
+      "profile": "https://yonatankra.com/",
+      "contributions": [
+        "code"
+      ]
     }
   ],
   "contributorsPerLine": 7

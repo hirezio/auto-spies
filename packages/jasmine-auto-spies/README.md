@@ -8,7 +8,7 @@ Easy and type safe way to write spies for jasmine tests, for both sync and async
 [![codecov](https://img.shields.io/codecov/c/github/hirezio/auto-spies.svg?flags=jasmine-auto-spies)](https://codecov.io/gh/hirezio/auto-spies)
 [![Code of Conduct](https://img.shields.io/badge/code%20of-conduct-ff69b4.svg?style=flat-square)](../../CODE_OF_CONDUCT.md)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT) <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-5-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-6-orange.svg?style=flat-square)](#contributors-)
 
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
@@ -466,6 +466,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://github.com/shuebner"><img src="https://avatars0.githubusercontent.com/u/1770684?v=4?s=100" width="100px;" alt=""/><br /><sub><b>shuebner</b></sub></a><br /><a href="https://github.com/hirezio/auto-spies/commits?author=shuebner" title="Code">💻</a> <a href="#ideas-shuebner" title="Ideas, Planning, & Feedback">🤔</a> <a href="https://github.com/hirezio/auto-spies/commits?author=shuebner" title="Tests">⚠️</a></td>
     <td align="center"><a href="https://dev-front.herokuapp.com/"><img src="https://avatars0.githubusercontent.com/u/5671930?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Meksi</b></sub></a><br /><a href="https://github.com/hirezio/auto-spies/commits?author=meksof" title="Code">💻</a> <a href="https://github.com/hirezio/auto-spies/commits?author=meksof" title="Tests">⚠️</a></td>
     <td align="center"><a href="https://github.com/taylor-ben"><img src="https://avatars0.githubusercontent.com/u/37868849?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Taylor Ben</b></sub></a><br /><a href="#ideas-taylor-ben" title="Ideas, Planning, & Feedback">🤔</a></td>
+    <td align="center"><a href="https://yonatankra.com/"><img src="https://avatars0.githubusercontent.com/u/6459899?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Yonatan Kra</b></sub></a><br /><a href="https://github.com/hirezio/auto-spies/commits?author=YonatanKra" title="Code">💻</a></td>
   </tr>
 </table>
 
