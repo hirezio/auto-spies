@@ -5,10 +5,10 @@ Easy and type safe way to write spies for jest tests, for both sync and async (p
 [![npm version](https://img.shields.io/npm/v/jest-auto-spies.svg?style=flat-square)](https://www.npmjs.org/package/jest-auto-spies)
 [![npm downloads](https://img.shields.io/npm/dm/jest-auto-spies.svg?style=flat-square)](http://npm-stat.com/charts.html?package=jest-auto-spies&from=2017-07-26)
 ![Build](https://github.com/hirezio/auto-spies/workflows/Build/badge.svg)
-[![codecov](https://img.shields.io/codecov/c/github/hirezio/auto-spies.svg?flags=jest-auto-spies)](https://codecov.io/gh/hirezio/auto-spies) <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)<!-- ALL-CONTRIBUTORS-BADGE:END -->
+[![codecov](https://img.shields.io/codecov/c/github/hirezio/auto-spies.svg?flags=jest-auto-spies)](https://codecov.io/gh/hirezio/auto-spies)
 [![Code of Conduct](https://img.shields.io/badge/code%20of-conduct-ff69b4.svg?style=flat-square)](../../CODE_OF_CONDUCT.md)
-[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT) <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)<!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 <div align="center">
   <a href="http://testangular.com/?utm_source=github&utm_medium=link&utm_campaign=jest+auto+spies">

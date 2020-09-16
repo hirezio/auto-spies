@@ -5,13 +5,12 @@ Easy and type safe way to write spies for jasmine tests, for both sync and async
 [![npm version](https://img.shields.io/npm/v/jasmine-auto-spies.svg?style=flat-square)](https://www.npmjs.org/package/jasmine-auto-spies)
 [![npm downloads](https://img.shields.io/npm/dm/jasmine-auto-spies.svg?style=flat-square)](http://npm-stat.com/charts.html?package=jasmine-auto-spies&from=2017-07-26)
 ![Build](https://github.com/hirezio/auto-spies/workflows/Build/badge.svg)
-[![codecov](https://img.shields.io/codecov/c/github/hirezio/auto-spies.svg?flags=jasmine-auto-spies)](https://codecov.io/gh/hirezio/auto-spies) <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-4-orange.svg?style=flat-square)](#contributors-)
+[![codecov](https://img.shields.io/codecov/c/github/hirezio/auto-spies.svg?flags=jasmine-auto-spies)](https://codecov.io/gh/hirezio/auto-spies)
+[![Code of Conduct](https://img.shields.io/badge/code%20of-conduct-ff69b4.svg?style=flat-square)](../../CODE_OF_CONDUCT.md)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT) <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+[![All Contributors](https://img.shields.io/badge/all_contributors-5-orange.svg?style=flat-square)](#contributors-)
 
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
-
-[![Code of Conduct](https://img.shields.io/badge/code%20of-conduct-ff69b4.svg?style=flat-square)](../../CODE_OF_CONDUCT.md)
-[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT)
 
 <div align="center">
   <a href="http://testangular.com/?utm_source=github&utm_medium=link&utm_campaign=jasmine+auto+spies">
@@ -466,6 +465,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://github.com/Bnaya"><img src="https://avatars0.githubusercontent.com/u/1304862?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Bnaya Peretz</b></sub></a><br /><a href="https://github.com/hirezio/auto-spies/commits?author=Bnaya" title="Code">💻</a> <a href="#ideas-Bnaya" title="Ideas, Planning, & Feedback">🤔</a> <a href="#tool-Bnaya" title="Tools">🔧</a></td>
     <td align="center"><a href="https://github.com/shuebner"><img src="https://avatars0.githubusercontent.com/u/1770684?v=4?s=100" width="100px;" alt=""/><br /><sub><b>shuebner</b></sub></a><br /><a href="https://github.com/hirezio/auto-spies/commits?author=shuebner" title="Code">💻</a> <a href="#ideas-shuebner" title="Ideas, Planning, & Feedback">🤔</a> <a href="https://github.com/hirezio/auto-spies/commits?author=shuebner" title="Tests">⚠️</a></td>
     <td align="center"><a href="https://dev-front.herokuapp.com/"><img src="https://avatars0.githubusercontent.com/u/5671930?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Meksi</b></sub></a><br /><a href="https://github.com/hirezio/auto-spies/commits?author=meksof" title="Code">💻</a> <a href="https://github.com/hirezio/auto-spies/commits?author=meksof" title="Tests">⚠️</a></td>
+    <td align="center"><a href="https://github.com/taylor-ben"><img src="https://avatars0.githubusercontent.com/u/37868849?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Taylor Ben</b></sub></a><br /><a href="#ideas-taylor-ben" title="Ideas, Planning, & Feedback">🤔</a></td>
   </tr>
 </table>
 
