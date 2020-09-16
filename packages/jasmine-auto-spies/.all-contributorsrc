@@ -76,6 +76,16 @@
       "contributions": [
         "code"
       ]
+    },
+    {
+      "login": "treestructure",
+      "name": "Martin Baum",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/780083?v=4",
+      "profile": "http://www.treestructure.net/",
+      "contributions": [
+        "code",
+        "test"
+      ]
     }
   ],
   "contributorsPerLine": 7

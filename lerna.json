@@ -22,6 +22,7 @@
     "**/*.md",
     "**/*.spec.ts",
     "**/*.spec.js",
-    "**/fake-classes-to-test.ts"
+    "**/fake-classes-to-test.ts",
+    "**/.all-contributorsrc"
   ]
 }
