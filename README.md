@@ -2,7 +2,7 @@
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 
-[![All Contributors](https://img.shields.io/badge/all_contributors-2-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-3-orange.svg?style=flat-square)](#contributors-)
 
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
@@ -45,6 +45,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
   <tr>
     <td align="center"><a href="http://www.hirez.io/"><img src="https://avatars1.githubusercontent.com/u/1430726?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Shai Reznik</b></sub></a><br /><a href="https://github.com/hirezio/auto-spies/commits?author=shairez" title="Code">💻</a> <a href="https://github.com/hirezio/auto-spies/commits?author=shairez" title="Documentation">📖</a> <a href="#ideas-shairez" title="Ideas, Planning, & Feedback">🤔</a> <a href="#infra-shairez" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="#maintenance-shairez" title="Maintenance">🚧</a> <a href="#mentoring-shairez" title="Mentoring">🧑‍🏫</a> <a href="https://github.com/hirezio/auto-spies/pulls?q=is%3Apr+reviewed-by%3Ashairez" title="Reviewed Pull Requests">👀</a> <a href="https://github.com/hirezio/auto-spies/commits?author=shairez" title="Tests">⚠️</a></td>
     <td align="center"><a href="https://github.com/Bnaya"><img src="https://avatars0.githubusercontent.com/u/1304862?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Bnaya Peretz</b></sub></a><br /><a href="https://github.com/hirezio/auto-spies/commits?author=Bnaya" title="Code">💻</a> <a href="#ideas-Bnaya" title="Ideas, Planning, & Feedback">🤔</a> <a href="#tool-Bnaya" title="Tools">🔧</a></td>
+    <td align="center"><a href="https://github.com/shuebner"><img src="https://avatars0.githubusercontent.com/u/1770684?v=4?s=100" width="100px;" alt=""/><br /><sub><b>shuebner</b></sub></a><br /><a href="https://github.com/hirezio/auto-spies/commits?author=shuebner" title="Code">💻</a> <a href="#ideas-shuebner" title="Ideas, Planning, & Feedback">🤔</a> <a href="https://github.com/hirezio/auto-spies/commits?author=shuebner" title="Tests">⚠️</a></td>
   </tr>
 </table>
 
