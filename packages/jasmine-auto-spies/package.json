@@ -30,7 +30,8 @@
     "compile": "tsc -b tsconfig.build.json",
     "build": "run-s clean compile",
     "test": "karma start --browsers ChromeHeadless",
-    "test:watch": "karma start --auto-watch --no-single-run"
+    "test:watch": "karma start --auto-watch --no-single-run",
+    "contributors:add": "all-contributors add"
   },
   "devDependencies": {
     "@hirez_io/jasmine-given": "1.0.4",

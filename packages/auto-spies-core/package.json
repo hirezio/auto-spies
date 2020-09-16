@@ -31,7 +31,8 @@
     "compile": "tsc -p tsconfig.build.json",
     "build": "run-s clean compile",
     "test": "jest",
-    "test:watch": "jest --watchAll"
+    "test:watch": "jest --watchAll",
+    "contributors:add": "all-contributors add"
   },
   "devDependencies": {
     "@hirez_io/jest-given": "1.0.3",

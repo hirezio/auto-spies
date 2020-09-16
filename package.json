@@ -48,6 +48,7 @@
     "@commitlint/config-conventional": "9.1.2",
     "@typescript-eslint/eslint-plugin": "^3.10.1",
     "@typescript-eslint/parser": "^3.10.1",
+    "all-contributors-cli": "6.17.2",
     "awesome-typescript-loader": "^5.2.1",
     "commitizen": "4.2.0",
     "cz-conventional-changelog": "3.2.1",
