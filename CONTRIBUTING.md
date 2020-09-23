@@ -15,7 +15,7 @@ Help us keep this project open and inclusive. Please read and follow our [Code o
 
 .
 
-### ✅ 1. [Search this repo first](https://github.com/hirezio/given/pulls)...
+### ✅ 1. [Search this repo first](https://github.com/hirezio/auto-spies/pulls)...
 
 for an open or closed PR that relates to the change you want to introduce.
 
