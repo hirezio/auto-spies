@@ -14,7 +14,10 @@ module.exports = {
     },
   },
   coveragePathIgnorePatterns: ['/node_modules/', 'src/tests'],
-  setupFilesAfterEnv: ['../../node_modules/@hirez_io/jest-given/dist/jest-given.js'],
+  setupFilesAfterEnv: [
+    '../../node_modules/@hirez_io/jest-given/dist/jest-given.js',
+    '../../node_modules/@hirez_io/observer-spy/dist/setup-auto-unsubscribe.js',
+  ],
   globals: {
     'ts-jest': {
       tsConfig: '<rootDir>/tsconfig.spec.json',
