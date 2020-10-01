@@ -17,32 +17,32 @@ describe('throwArgumentsError', () => {
     }
   });
 
-  describe('Given actual args are empty and do not match THEN throw the empty error', () => {
+  describe('Given actual args are empty and do not match', () => {
     Given(() => {
       fakeActualArgs = [];
     });
 
-    Then(() => {
+    Then('throw the empty error', () => {
       expect(actualError).toContain('But the function was called without any arguments');
     });
   });
 
-  describe('Given actual args do not match THEN throw error with arguments', () => {
+  describe('Given actual args do not match', () => {
     Given(() => {
       fakeActualArgs = [1, 2];
     });
 
-    Then(() => {
+    Then('throw error with arguments', () => {
       expect(actualError).toContain('But the actual arguments were: 1,2');
     });
   });
 
-  describe('Given actual args of type object do not match THEN throw error with arguments', () => {
+  describe('Given actual args of type object do not match', () => {
     Given(() => {
       fakeActualArgs = [{ yep: 1 }];
     });
 
-    Then(() => {
+    Then('throw error with arguments', () => {
       expect(actualError).toContain('But the actual arguments were: {"yep":1}');
     });
   });

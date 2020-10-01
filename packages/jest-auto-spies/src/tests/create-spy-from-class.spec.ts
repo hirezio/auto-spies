@@ -53,7 +53,7 @@ describe('createSpyFromClass', () => {
       actualResult = fakeClassSpy.arrowMethod();
     });
 
-    Then(() => {
+    Then('return the correct value', () => {
       expect(actualResult).toBe(FAKE_VALUE);
     });
   });
@@ -70,7 +70,7 @@ describe('createSpyFromClass', () => {
       actualResult = fakeClassSpy.arrowMethod();
     });
 
-    Then(() => {
+    Then('return the correct value', () => {
       expect(actualResult).toBe(FAKE_VALUE);
     });
   });
@@ -81,19 +81,18 @@ describe('createSpyFromClass', () => {
       fakeClassSpy.getSyncValue.calledWith(...fakeArgs).mockReturnValue(FAKE_VALUE);
     });
 
-    describe('WHEN it is called with the expected parameters THEN return the value', () => {
+    describe('WHEN it is called with the expected parameters', () => {
       When(() => {
         actualResult = fakeClassSpy.getSyncValue(...fakeArgs);
       });
 
-      Then(() => {
+      Then('return the correct value', () => {
         expect(actualResult).toBe(FAKE_VALUE);
       });
     });
 
     describe(`GIVEN another calledWith is configured
-                WHEN method is called twice
-                THEN return the correct value for each call`, () => {
+                WHEN method is called twice`, () => {
       let actualResult2: any;
       let fakeArgs2: any[];
       let fakeValue2: any;
@@ -109,26 +108,25 @@ describe('createSpyFromClass', () => {
         actualResult2 = fakeClassSpy.getSyncValue(...fakeArgs2);
       });
 
-      Then(() => {
+      Then('return the correct value for each call', () => {
         expect(actualResult).toBe(FAKE_VALUE);
         expect(actualResult2).toBe(fakeValue2);
       });
     });
 
-    describe('WHEN called with the wrong parameters THEN DO NOT throw an error', () => {
+    describe('WHEN called with the wrong parameters', () => {
       When(() => {
         actualResult = fakeClassSpy.getSyncValue(WRONG_VALUE);
       });
 
-      Then(() => {
+      Then('do NOT throw an error', () => {
         expect(throwArgumentsErrorSpyFunction).not.toHaveBeenCalled();
       });
     });
   });
 
   describe(`GIVEN a synchronous method is configured to throw on mismatch
-            WHEN called with the wrong parameters
-            THEN throw an error`, () => {
+            WHEN called with the wrong parameters`, () => {
     Given(() => {
       fakeArgs = [1, { a: 2 }];
       fakeClassSpy.getSyncValue.mustBeCalledWith(...fakeArgs).mockReturnValue(FAKE_VALUE);
@@ -137,7 +135,7 @@ describe('createSpyFromClass', () => {
       actualResult = fakeClassSpy.getSyncValue(WRONG_VALUE);
     });
 
-    Then(() => {
+    Then('throw an error', () => {
       verifyArgumentsErrorWasThrown({
         actualArgs: [WRONG_VALUE],
       });
@@ -156,26 +154,24 @@ describe('createSpyFromClass', () => {
         .mockReturnValue(FAKE_VALUE);
     });
 
-    describe(`WHEN called twice with the right parameters
-             THEN DO NOT throw an error`, () => {
+    describe(`WHEN called twice with the right parameters`, () => {
       When(() => {
         actualResult = fakeClassSpy.getSyncValue(...fakeArgs);
         actualResult = fakeClassSpy.getSyncValue(...fakeArgs2);
       });
 
-      Then(() => {
+      Then('do NOT throw an error', () => {
         expect(throwArgumentsErrorSpyFunction).not.toHaveBeenCalled();
       });
     });
 
-    describe(`WHEN called second time with the wrong parameters
-             THEN throw an error with the wrong value`, () => {
+    describe(`WHEN called second time with the wrong parameters`, () => {
       When(() => {
         actualResult = fakeClassSpy.getSyncValue(...fakeArgs);
         actualResult = fakeClassSpy.getSyncValue(WRONG_VALUE);
       });
 
-      Then(() => {
+      Then('throw an error with the wrong value', () => {
         verifyArgumentsErrorWasThrown({
           actualArgs: [WRONG_VALUE],
         });
@@ -185,9 +181,8 @@ describe('createSpyFromClass', () => {
 
   describe('GIVEN an abstract class', () => {
     let abstractClassSpy: Spy<FakeAbstractClass>;
-    Given(() => {});
 
-    describe('should be able to spy on regular methods', () => {
+    describe('GIVEN sync method is configured', () => {
       Given(() => {
         abstractClassSpy = createSpyFromClass(FakeAbstractClass as any);
         abstractClassSpy.getSyncValue.mockReturnValue('FAKE');
@@ -196,12 +191,12 @@ describe('createSpyFromClass', () => {
       When(() => {
         actualResult = abstractClassSpy.getSyncValue();
       });
-      Then(() => {
+      Then('return the correct value', () => {
         expect(actualResult).toBe('FAKE');
       });
     });
 
-    describe('should be able to spy on abstract methods', () => {
+    describe('GIVEN abstract method is configured', () => {
       Given(() => {
         abstractClassSpy = createSpyFromClass(FakeAbstractClass as any, [
           'needToImplementThis',
@@ -212,7 +207,7 @@ describe('createSpyFromClass', () => {
       When(() => {
         actualResult = abstractClassSpy.needToImplementThis();
       });
-      Then(() => {
+      Then('return the correct value', () => {
         expect(actualResult).toBe('FAKE');
       });
     });

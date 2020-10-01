@@ -88,8 +88,7 @@ describe('createSpyFromClass - promises', () => {
       });
 
       describe(`GIVEN another calledWith is configured
-                WHEN method is called twice
-                THEN return the correct value for each call`, () => {
+                WHEN method is called twice`, () => {
         let actualResult2: any;
         let fakeArgs2: any[];
         let fakeValue2: any;
@@ -111,77 +110,75 @@ describe('createSpyFromClass - promises', () => {
           }
         });
 
-        Then(() => {
+        Then('return the correct value for each call', () => {
           expect(actualResult).toBe(fakeValue);
           expect(actualResult2).toBe(fakeValue2);
         });
       });
     });
 
-    describe('GIVEN calledWith of resolveWith is configured with wrong params THEN do not throw an error', () => {
+    describe('GIVEN calledWith of resolveWith is configured with wrong params', () => {
       Given(() => {
         fakeClassSpy.getPromise.calledWith(WRONG_VALUE).resolveWith(fakeValue);
       });
 
-      Then(() => {
+      Then('do NOT throw an error', () => {
         expect(throwArgumentsErrorSpyFunction).not.toHaveBeenCalled();
       });
     });
 
     describe(`GIVEN a calledWith of resolveWith is configured to throw on mismatch
-            WHEN called with the wrong parameters
-            THEN throw an error`, () => {
+              WHEN called with the wrong parameters`, () => {
       Given(() => {
         fakeClassSpy.getPromise.mustBeCalledWith(WRONG_VALUE).resolveWith(fakeValue);
       });
 
-      Then(() => {
+      Then('throw an error', () => {
         verifyArgumentsErrorWasThrown({
           actualArgs: fakeArgs,
         });
       });
     });
 
-    describe('GIVEN calledWith of rejectWith is configured with exact params THEN reject with value', () => {
+    describe('GIVEN calledWith of rejectWith is configured with exact params', () => {
       Given(() => {
         errorIsExpected = true;
         fakeClassSpy.getPromise.calledWith(...fakeArgs).rejectWith(fakeValue);
       });
 
-      Then(() => {
+      Then('reject with value', () => {
         expect(actualError).toBe(fakeValue);
       });
     });
 
-    describe('GIVEN mustBeCalledWith of rejectWith is configured with exact params THEN reject with value', () => {
+    describe('GIVEN mustBeCalledWith of rejectWith is configured with exact params', () => {
       Given(() => {
         errorIsExpected = true;
         fakeClassSpy.getPromise.mustBeCalledWith(...fakeArgs).rejectWith(fakeValue);
       });
 
-      Then(() => {
+      Then('reject with value', () => {
         expect(actualError).toBe(fakeValue);
       });
     });
 
-    describe('GIVEN calledWith of rejectWith is configured with wrong params THEN do not throw an error', () => {
+    describe('GIVEN calledWith of rejectWith is configured with wrong params', () => {
       Given(() => {
         fakeClassSpy.getPromise.calledWith(WRONG_VALUE).rejectWith(fakeValue);
       });
 
-      Then(() => {
+      Then('do NOT throw an error', () => {
         expect(throwArgumentsErrorSpyFunction).not.toHaveBeenCalled();
       });
     });
 
     describe(`GIVEN calledWith of rejectWith is configured to throw on mismatch
-            WHEN called with the wrong parameters
-            THEN throw an error`, () => {
+              WHEN called with the wrong parameters`, () => {
       Given(() => {
         fakeClassSpy.getPromise.mustBeCalledWith(WRONG_VALUE).rejectWith(fakeValue);
       });
 
-      Then(() => {
+      Then('throw an error', () => {
         verifyArgumentsErrorWasThrown({
           actualArgs: fakeArgs,
         });
