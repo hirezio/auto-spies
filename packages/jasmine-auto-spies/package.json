@@ -34,29 +34,12 @@
     "contributors:add": "all-contributors add"
   },
   "devDependencies": {
-    "@hirez_io/jasmine-given": "1.0.4",
-    "@hirez_io/observer-spy": "^2.0.0",
     "@types/jasmine": "^3.5.14",
-    "@types/tapable": "1.0.6",
-    "@types/webpack": "4.41.21",
-    "istanbul-instrumenter-loader": "3.0.1",
     "jasmine-core": "3.6.0",
-    "karma": "^5.1.1",
-    "karma-chrome-launcher": "3.1.0",
-    "karma-coverage-istanbul-reporter": "3.0.3",
-    "karma-jasmine": "4.0.1",
-    "karma-jasmine-diff-reporter": "2.0.0",
-    "karma-mocha-reporter": "2.2.5",
-    "karma-sourcemap-loader": "^0.3.8",
-    "karma-webpack": "^4.0.2",
-    "npm-run-all": "4.1.5",
     "rimraf": "3.0.2",
     "rxjs": "^6.0.0",
-    "ts-loader": "8.0.3",
     "ts-node": "^3.0.6",
-    "tsconfig-paths-webpack-plugin": "^3.3.0",
-    "typescript": "^3.9.7",
-    "webpack": "4.44.1"
+    "typescript": "^3.9.7"
   },
   "dependencies": {
     "@hirez_io/auto-spies-core": "1.1.2"
