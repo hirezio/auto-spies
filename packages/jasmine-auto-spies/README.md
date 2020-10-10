@@ -12,6 +12,8 @@ Easy and type safe way to write spies for jasmine tests, for both sync and async
 
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
+<br/>
+
 <div align="center">
   <a href="http://testangular.com/?utm_source=github&utm_medium=link&utm_campaign=jasmine+auto+spies">
     <img src="../../for-readme/test-angular.jpg"
@@ -21,14 +23,91 @@ Easy and type safe way to write spies for jasmine tests, for both sync and async
   </a>
 </div>
 
+<br/>
+
 ## IMPORTANT: compatibility
 
 - Version `2.x` and above requires **RxJS 6.0** and above.
 - Version `3.x` and above requires **TypeScript 2.8** and above.
 
-## What is it?
+<br/>
 
-Creating spies has never been EASIER! 💪👏
+# Table of Contents
+
+<!-- START doctoc generated TOC please keep comment here to allow auto update -->
+<!-- DON'T EDIT THIS SECTION, INSTEAD RE-RUN doctoc TO UPDATE -->
+
+- [Installation](#installation)
+
+- [THE PROBLEM: writing manual spies is tedious](#the-problem-writing-manual-spies-is-tedious)
+- [THE SOLUTION: Auto Spies! 💪](#the-solution-auto-spies-)
+
+- [Usage (JavaScript)](#usage-javascript)
+
+- [Usage (TypeScript)](#usage-typescript)
+
+  - [▶ Angular developers - use `TestBed.inject<any>(...)`](#-angular-developers---use-testbedinjectany)
+  - [▶ Spying on synchronous methods](#-spying-on-synchronous-methods)
+  - [▶ Spying on methods (manually)](#-spying-on-methods-manually)
+  - [▶ Spying on Promises](#-spying-on-promises)
+  - [▶ Spying on Observables](#-spying-on-observables)
+  - [▶ Spying on observable properties](#-spying-on-observable-properties)
+  - [▶ `calledWith()` - conditional return values](#-calledwith---conditional-return-values)
+
+  - [▶ `mustBeCalledWith()` - conditional return values that throw errors (Mocks)](#-mustbecalledwith---conditional-return-values-that-throw-errors-mocks)
+  - [▶ Create accessors spies (getters and setters)](#-create-accessors-spies-getters-and-setters)
+  - [▶ Spying on a function](#-spying-on-a-function)
+  - [▶ Spying on abstract classes](#-spying-on-abstract-classes)
+
+- [Contributing](#contributing)
+- [Code Of Conduct](#code-of-conduct)
+- [Contributors ✨](#contributors-)
+- [License](#license)
+
+<!-- END doctoc generated TOC please keep comment here to allow auto update -->
+
+<br/>
+
+## Installation
+
+```console
+yarn add -D jasmine-auto-spies
+```
+
+or
+
+```console
+npm install -D jasmine-auto-spies
+```
+
+<br/>
+
+## THE PROBLEM: writing manual spies is tedious
+
+You've probably seen this type of manual spies in tests:
+
+```js
+let mySpy = {
+  myMethod: jasmine.createSpy('myMethod'),
+};
+```
+
+or even:
+
+```js
+let mySpy = jasmine.createSpyObj('mySpy', ['myMethod']);
+```
+
+The problem with that is first -
+
+- ⛔ You need to repeat the method names in each test.
+- ⛔ Strings are not "type safe" or "refactor friendly"
+- ⛔ You only have **synchronous** configuration helpers (like `returnValue`)
+- ⛔ You don't have the ability to write conditional return values
+
+<br>
+
+# THE SOLUTION: Auto Spies! 💪
 
 If you need to create a spy from any class, just do:
 
@@ -44,23 +123,23 @@ If you're using TypeScript, you get EVEN MORE BENEFITS:
 const myServiceSpy: Spy<MyService> = createSpyFromClass(MyService);
 ```
 
-Now you can autocomplete AND have an auto spy for each method, returning Observable / Promise specific control methods.
+Now that you have an auto spy you'll be able to:
 
-## What is it good for?
+- ✅ Have a spy with all of its methods generated **automatically** as "spy methods".
 
-✅ **Keep your tests DRY** - no more repeated spy setup code, no need for separate spy files
+- ✅ Rename/refactor your methods and have them **change in ALL tests at once**
 
-✅ **Type completion** for both the original Class and the spy methods
+- ✅ Asynchronous helpers for **Promises** and **Observables**.
 
-✅ **Automatic return type detection** by using a conditional types
+- ✅ Conditional return values with `calledWith` and `mustBeCalledWith`
 
-## Installation
+- ✅ Have **Type completion** for both the original Class and the spy methods
 
-`yarn add -D jasmine-auto-spies`
+- ✅ Spy on **getters** and **setters**
 
-or
+- ✅ Spy on **Observable properties**
 
-`npm install -D jasmine-auto-spies`
+<br/>
 
 ## Usage (JavaScript)
 
@@ -102,6 +181,7 @@ describe('MyComponent', () => {
   let componentUnderTest;
 
   beforeEach(() => {
+    //                      👇
     myServiceSpy = createSpyFromClass(MyService); // <- THIS IS THE IMPORTANT LINE
 
     componentUnderTest = new MyComponent(myServiceSpy);
@@ -120,29 +200,44 @@ describe('MyComponent', () => {
 });
 ```
 
+<br/>
+
 ## Usage (TypeScript)
 
-### 1. Spying on regular sync methods
+### ▶ Angular developers - use `TestBed.inject<any>(...)`
+
+⚠ Make sure you cast your spy with `any` when you inject it:
 
 ```ts
-// my-spec.ts
-
-import { Spy, createSpyFromClass } from 'jasmine-auto-spies';
 import { MyService } from './my-service';
+import { Spy, createSpyFromClass } from 'jest-auto-spies';
 
-let myServiceSpy: Spy<MyService>; // <- THIS IS THE IMPORTANT LINE
+let serviceUnderTest: MyService;
 
-beforeEach( ()=> {
-  myServiceSpy = createSpyFromClass( MyService );
+//                 👇
+let apiServiceSpy: Spy<ApiService>;
+
+beforeEach(() => {
+  TestBed.configureTestingModule({
+    providers: [
+      MyService,
+      //                                       👇
+      { provide: ApiService, useValue: createSpyFromClass(ApiService) },
+    ],
+  });
+
+  serviceUnderTest = TestBed.inject(MyService);
+
+  //                             👇
+  apiServiceSpy = TestBed.inject<any>(ApiService);
 });
+```
 
-it('should do something' ()=> {
-  myServiceSpy.getName.and.returnValue('Fake Name');
+<br/>
 
-  ... (the rest of the test) ...
-});
+### ▶ Spying on synchronous methods
 
-
+```ts
 // my-service.ts
 
 class MyService{
@@ -150,114 +245,33 @@ class MyService{
     return 'Bonnie';
   }
 }
-```
 
-### 2. Spy on a `Promise` returning method
+// my-spec.ts
 
-Use the `resolveWith` or `rejectWith` methods -
-
-```ts
 import { Spy, createSpyFromClass } from 'jasmine-auto-spies';
+import { MyService } from './my-service';
 
-let myServiceSpy: Spy<MyService>;
+//                👇
+let myServiceSpy: Spy<MyService>; // <- THIS IS THE IMPORTANT LINE
 
-beforeEach(() => {
-  myServiceSpy = createSpyFromClass(MyService);
+beforeEach( ()=> {
+  //                     👇
+  myServiceSpy = createSpyFromClass( MyService );
 });
 
-it(() => {
-  myServiceSpy.getItems.and.resolveWith(fakeItemsList);
-  // OR
-  myServiceSpy.getItems.and.rejectWith(fakeError);
-});
-```
+it('should do something', ()=> {
+  myServiceSpy.getName.and.returnValue('Fake Name');
 
-### 3. Spy on an `Observable` returning method
-
-Use the `nextWith` or `throwWith` and other methods -
-
-```ts
-import { Spy, createSpyFromClass } from 'jasmine-auto-spies';
-
-let myServiceSpy: Spy<MyService>;
-
-beforeEach(() => {
-  myServiceSpy = createSpyFromClass(MyService);
+  ... (the rest of the test) ...
 });
 
-it(() => {
-  myServiceSpy.getProducts.and.nextWith(fakeProductsList);
-  // OR
-  myServiceSpy.getProducts.and.nextOneTimeWith(fakeProductsList); // emits one value and completes
-  // OR
-  myServiceSpy.getProducts.and.throwWith(fakeError);
-  // OR
-  myServiceSpy.getProducts.and.complete();
-});
 ```
 
-### 4. Use `calledWith()` to configure conditional return values
+<br/>
 
-You can setup the expected arguments ahead of time
-by using `calledWith` like so:
+### ▶ Spying on methods (manually)
 
-```ts
-myServiceSpy.getProducts.calledWith(1).returnValue(true);
-```
-
-and it will only return this value if your subject was called with `getProducts(1)`.
-
-#### Oh, and it also works with Promises / Observables:
-
-```ts
-myServiceSpy.getProductsPromise.calledWith(1).resolveWith(true);
-
-// OR
-
-myServiceSpy.getProducts$.calledWith(1).nextWith(true);
-
-// OR ANY OTHER ASYNC CONFIGURATION METHOD...
-```
-
-### 5. Use `mustBeCalledWith()` to create a mock instead of a stub
-
-```ts
-myServiceSpy.getProducts.mustBeCalledWith(1).returnValue(true);
-```
-
-is equal to:
-
-```ts
-myServiceSpy.getProducts.and.returnValue(true);
-
-expect(myServiceSpy.getProducts).toHaveBeenCalledWith(1);
-```
-
-But the difference is that the error is being thrown during `getProducts()` call and not in the `expect(...)` call.
-
-### 6. Creating method spies manually
-
-If you need to manually add methods that you want to be spies by passing an array of names as the second param of the `createSpyFromClass` function:
-
-```ts
-let spy = createSpyFromClass(MyClass, ['customMethod1', 'customMethod2']);
-```
-
-or as a property on the config object:
-
-```ts
-let spy = createSpyFromClass(MyClass, {
-  methodsToSpyOn: ['customMethod1', 'customMethod2'],
-});
-```
-
-And then you could just configure them:
-
-```ts
-spy.customMethod1.and.returnValue('bla bla bla...');
-```
-
-This is good for times where a method is not part of the `prototype` of the Class but instead being defined in its constructor.
+For cases that you have methods which are not part of the Class prototype (but instead being defined in the constructor), for example:
 
 ```ts
 class MyClass {
@@ -269,7 +283,120 @@ class MyClass {
 }
 ```
 
-### 7. Create observable properties spies
+You can **FORCE** the creation of this methods spies like this:
+
+```
+//                                   👇
+let spy = createSpyFromClass(MyClass, ['customMethod1', 'customMethod2']);
+```
+
+**OR THIS WAY** -
+
+```ts
+let spy = createSpyFromClass(MyClass, {
+  //     👇
+  methodsToSpyOn: ['customMethod1', 'customMethod2'],
+});
+```
+
+<br/>
+
+### ▶ Spying on Promises
+
+Use the `resolveWith` or `rejectWith` methods.
+
+⚠ You **must define a return type** `: Promise<SomeType>` for it to work!
+
+```ts
+// SERVICE:
+
+class MyService {
+  // (you must define a return type)
+  //             👇
+  getItems(): Promise<Item[]> {
+    return http.get('/items');
+  }
+}
+
+// TEST:
+
+import { Spy, createSpyFromClass } from 'jasmine-auto-spies';
+
+let myServiceSpy: Spy<MyService>;
+
+beforeEach(() => {
+  myServiceSpy = createSpyFromClass(MyService);
+});
+
+it(() => {
+  //                            👇
+  myServiceSpy.getItems.and.resolveWith(fakeItemsList);
+
+  // OR
+  //                            👇
+  myServiceSpy.getItems.and.rejectWith(fakeError);
+});
+```
+
+<br/>
+
+### ▶ Spying on Observables
+
+Use the `nextWith` or `throwWith` and other helper methods.
+
+⚠ You **must define a return type** `: Observable<SomeType>` for it to work!
+
+```ts
+// SERVICE:
+
+class MyService {
+  // (you must define a return type)
+  //             👇
+  getItems(): Observable<Item[]> {
+    return http.get('/items');
+  }
+}
+
+// TEST:
+
+import { Spy, createSpyFromClass } from 'jasmine-auto-spies';
+
+let myServiceSpy: Spy<MyService>;
+
+beforeEach(() => {
+  myServiceSpy = createSpyFromClass(MyService);
+});
+
+it(() => {
+  //                           👇
+  myServiceSpy.getItems.and.nextWith(fakeItemsList);
+
+  // OR
+  //                              👇
+  myServiceSpy.getItems.and.nextOneTimeWith(fakeItemsList); // emits one value and completes
+
+  // OR
+  //                            👇
+  myServiceSpy.getItems.and.throwWith(fakeError);
+
+  // OR
+  //                            👇
+  myServiceSpy.getItems.and.complete();
+
+  // OR
+
+  // "returnSubject" is good for cases where you want
+  // to separate the Spy Observable creation from it's usage.
+
+  //                                             👇
+  const subject = myServiceSpy.getItems.and.returnSubject(); // create and get a ReplaySubject
+  subject.next(fakeItemsList);
+});
+```
+
+<br/>
+
+### ▶ Spying on observable properties
 
 If you have a property that extends the `Observable` type, you can create a spy for it as follows:
 
@@ -283,12 +410,13 @@ MyClass{
 it('should spy on observable properties', ()=>{
 
   let classSpy = createSpyFromClass(MyClass, {
+      //         👇
       observablePropsToSpyOn: ['myObservable', 'mySubject']
     }
   );
 
   // and then you could configure it with methods like `nextWith`:
-
+  //                      👇
   classSpy.myObservable.nextWith('FAKE VALUE');
 
   let actualValue;
@@ -300,7 +428,55 @@ it('should spy on observable properties', ()=>{
 
 ```
 
-### 8. Create accessors spies (getters and setters)
+<br/>
+
+### ▶ `calledWith()` - conditional return values
+
+You can setup the expected arguments ahead of time
+by using `calledWith` like so:
+
+```ts
+//                           👇
+myServiceSpy.getProducts.calledWith(1).returnValue(true);
+```
+
+and it will only return this value if your subject was called with `getProducts(1)`.
+
+#### Oh, and it also works with Promises / Observables:
+
+```ts
+//                                  👇             👇
+myServiceSpy.getProductsPromise.calledWith(1).resolveWith(true);
+
+// OR
+
+myServiceSpy.getProducts$.calledWith(1).nextWith(true);
+
+// OR ANY OTHER ASYNC CONFIGURATION METHOD...
+```
+
+<br/>
+
+### ▶ `mustBeCalledWith()` - conditional return values that throw errors (Mocks)
+
+```ts
+//                              👇
+myServiceSpy.getProducts.mustBeCalledWith(1).returnValue(true);
+```
+
+is the same as:
+
+```ts
+myServiceSpy.getProducts.and.returnValue(true);
+
+expect(myServiceSpy.getProducts).toHaveBeenCalledWith(1);
+```
+
+But the difference is that the error is being thrown during `getProducts()` call and not in the `expect(...)` call.
+
+<br/>
+
+### ▶ Create accessors spies (getters and setters)
 
 If you have a property that extends the `Observable` type, you can create a spy for it.
 
@@ -309,6 +485,8 @@ You need to configure whether you'd like to create a "SetterSpy" or a "GetterSpy
 This will create an object on the Spy called `accessorSpies` and through that you'll gain access to either the "setter spies" or the "getter spies":
 
 ```ts
+
+// CLASS:
 
 MyClass{
   private _myProp: number;
@@ -320,34 +498,42 @@ MyClass{
   }
 }
 
-  let classSpy: Spy<MyClass>;
+// TEST:
 
-  beforeEach(()=>{
-    classSpy = createSpyFromClass(MyClass, {
-      gettersToSpyOn: ['myProp'],
-      settersToSpyOn: ['myProp']
-    });
-  })
+let classSpy: Spy<MyClass>;
 
-  it('should return the fake value', () => {
+beforeEach(()=>{
+  classSpy = createSpyFromClass(MyClass, {
 
-      classSpy.accessorSpies.getters.myProp.and.returnValue(10);
+    //      👇
+    gettersToSpyOn: ['myProp'],
 
-      expect(classSpy.myProp).toBe(10);
+    //      👇
+    settersToSpyOn: ['myProp']
   });
-
-  it('allow spying on setter', () => {
-
-    classSpy.myProp = 2;
-
-    expect(classSpy.accessorSpies.setters.myProp).toHaveBeenCalledWith(2);
-  });
-
 })
+
+it('should return the fake value', () => {
+
+    //            👇          👇     👇
+    classSpy.accessorSpies.getters.myProp.and.returnValue(10);
+
+    expect(classSpy.myProp).toBe(10);
+});
+
+it('allow spying on setter', () => {
+
+  classSpy.myProp = 2;
+
+  //                  👇          👇     👇
+  expect(classSpy.accessorSpies.setters.myProp).toHaveBeenCalledWith(2);
+});
 
 ```
 
-### 9. Spying on a function
+<br/>
+
+### ▶ Spying on a function
 
 You can create an "auto spy" for a function using:
 
@@ -359,7 +545,7 @@ describe('Testing a function', () => {
     function addTwoNumbers(a, b) {
       return a + b;
     }
-
+    //                         👇           👇
     const functionSpy = createFunctionSpy<typeof addTwoNumbers>('addTwoNumbers');
 
     functionSpy.and.returnValue(4);
@@ -369,37 +555,36 @@ describe('Testing a function', () => {
 });
 ```
 
-This is useful if you have an observable returning function and you want to use `nextWith` for example:
+Could also be useful for Observables -
 
 ```ts
-import { createFunctionSpy } from 'jasmine-auto-spies';
-import { Observable, of } from 'rxjs';
-import { ObserverSpy } from '@hirez_io/observer-spy';
+// FUNCTION:
 
-describe('Testing an observable function', () => {
-  it('should be able to spy on observable', () => {
-    function getResultsObservable(): Observable<number> {
-      return of(1, 2, 3);
-    }
+function getResultsObservable(): Observable<number> {
+  return of(1, 2, 3);
+}
 
-    const functionSpy = createFunctionSpy<typeof getResultsObservable>(
-      'getResultsObservable'
-    );
+// TEST:
 
-    functionSpy.and.nextWith(4);
-    const observerSpy = new ObserverSpy();
-    functionSpy.subscribe(observerSpy);
+it('should ...', () => {
+  const functionSpy = createFunctionSpy<typeof getResultsObservable>(
+    'getResultsObservable'
+  );
 
-    expect(observerSpy.getLastValue()).toBe(4);
-  });
+  functionSpy.nextWith(4);
+
+  // ... rest of the test
 });
 ```
 
-### 10. Spying on abstract classes
+<br/>
+
+### ▶ Spying on abstract classes
 
 Here's a nice trick you could apply in order to spy on abstract classes -
 
 ```ts
+//  👇
 abstract class MyAbstractClass {
   getName(): string {
     return 'Bonnie';
@@ -407,34 +592,34 @@ abstract class MyAbstractClass {
 }
 
 describe(() => {
+  //                                                    👇
   abstractClassSpy = createSpyFromClass(MyAbstractClass as any);
   abstractClassSpy.getName.and.returnValue('Evil Baboon');
 });
 ```
 
-And if you have abstract methods on that abstract class -
+And if you have **abstract methods** on that abstract class -
 
 ```ts
 abstract class MyAbstractClass {
+  // 👇
   abstract getAnimalName(): string;
 }
 
 describe(() => {
+  //                                                                     👇
   abstractClassSpy = createSpyFromClass(MyAbstractClass as any, ['getAnimalName']);
   // OR
-  abstractClassSpy = createSpyFromClass(MyAbstractClass as any, {
-    methodsToSpyOn: ['getAnimalName'],
-  });
 
   abstractClassSpy.getAnimalName.and.returnValue('Evil Badger');
 });
 ```
 
-.
+<br/>
 
 ---
 
-.
+<br/>
 
 ## Contributing
 
@@ -444,13 +629,13 @@ Please read and follow our [Contributing Guidelines](../../CONTRIBUTING.md) to l
 
 Thanks 🙏
 
+<br/>
+
 ## Code Of Conduct
 
 Be kind to each other and please read our [code of conduct](../../CODE_OF_CONDUCT.md).
 
-## License
-
-MIT
+<br/>
 
 ## Contributors ✨
 
@@ -477,3 +662,9 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <!-- ALL-CONTRIBUTORS-LIST:END -->
 
 This project follows the [all-contributors](https://github.com/all-contributors/all-contributors) specification. Contributions of any kind welcome!
+
+<br/>
+
+## License
+
+MIT
