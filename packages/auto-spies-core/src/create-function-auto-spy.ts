@@ -42,24 +42,8 @@ export type FunctionSpyFactory = (
 export function createFunctionAutoSpy<ReturnType, LibSpecificType>(
   name: string,
   syncSpyMethodsDecorator: SyncSpyMethodsDecorator<LibSpecificType>,
-  functionSpyFactory: FunctionSpyFactory
+  frameworkFunctionSpyFactory: FunctionSpyFactory
 ): ReturnType {
-  // Function to pass to the specific testing library to call
-  // whenever someone calls the spied on method
-  function spyFunctionImpl(...actualArgs: any[]) {
-    return returnTheCorrectFakeValue(
-      calledWithObject,
-      mustBeCalledWithObject,
-      valueContainer,
-      actualArgs
-    );
-  }
-
-  const { functionSpy, objectToAddSpyMethodsTo } = functionSpyFactory(
-    name,
-    spyFunctionImpl
-  );
-
   const calledWithObject: CalledWithObject = {
     wasConfigured: false,
     argsToValuesMap: new Map(),
@@ -73,6 +57,22 @@ export function createFunctionAutoSpy<ReturnType, LibSpecificType>(
   const valueContainer: FunctionSpyReturnValueContainer = {
     value: undefined,
   };
+
+  // Function to pass to the specific testing library to call
+  // whenever someone calls the spied on method
+  function spyFunctionImpl(...actualArgs: any[]) {
+    return returnTheCorrectFakeValue(
+      calledWithObject,
+      mustBeCalledWithObject,
+      valueContainer,
+      actualArgs
+    );
+  }
+
+  const { functionSpy, objectToAddSpyMethodsTo } = frameworkFunctionSpyFactory(
+    name,
+    spyFunctionImpl
+  );
 
   addPromiseHelpersToFunctionSpy(objectToAddSpyMethodsTo, valueContainer);
   addObservableHelpersToFunctionSpy(objectToAddSpyMethodsTo, valueContainer);
