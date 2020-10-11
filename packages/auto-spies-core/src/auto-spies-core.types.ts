@@ -2,6 +2,8 @@ import { Observable } from 'rxjs';
 
 export type Func = (...args: any[]) => any;
 
+export type ClassType<T> = { new (...args: any[]): T; [key: string]: any };
+
 export type CreateSyncAutoSpy<
   Method extends Func,
   LibSpecificFunctionSpy,

@@ -4,12 +4,13 @@ import {
   OnlyMethodKeysOf,
   ClassSpyConfiguration,
   createAutoSpyFromClass,
+  ClassType,
 } from '@hirez_io/auto-spies-core';
 
 export { ClassSpyConfiguration } from '@hirez_io/auto-spies-core';
 
 export function createSpyFromClass<T>(
-  ObjectClass: { new (...args: any[]): T; [key: string]: any },
+  ObjectClass: ClassType<T>,
   methodsToSpyOnOrConfig?: OnlyMethodKeysOf<T>[] | ClassSpyConfiguration<T>
 ): Spy<T> {
   const autoSpy = createAutoSpyFromClass(
