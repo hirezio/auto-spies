@@ -218,6 +218,32 @@ beforeEach(() => {
 });
 ```
 
+### ▶ NestJS Testing Module injection
+
+```ts
+import { MyService } from './my-service';
+import { Spy, createSpyFromClass } from 'jest-auto-spies';
+
+let serviceUnderTest: MyService;
+
+//                 👇
+let apiServiceSpy: Spy<ApiService>;
+
+beforeEach(async () => {
+  const testBest = await Test.createTestingModule({
+    providers: [
+      MyService,
+      //                                       👇
+      { provide: ApiService, useValue: createSpyFromClass(ApiService) },
+    ]
+  }).compile()
+
+  serviceUnderTest = testBest.get(MyService);
+
+  apiServiceSpy = testBest.get(ApiService);
+});
+```
+
 <br/>
 
 ### ▶ Spying on synchronous methods
