@@ -14,8 +14,14 @@ let fakeArgs: any[];
 const WRONG_VALUE = 'WRONG VALUE';
 let throwArgumentsErrorSpyFunction: jasmine.Spy;
 
-function verifyArgumentsErrorWasThrown({ actualArgs }: { actualArgs: any[] }) {
-  expect(throwArgumentsErrorSpyFunction).toHaveBeenCalledWith(actualArgs);
+function verifyArgumentsErrorWasThrown({
+  actualArgs,
+  expectedMethodName,
+}: {
+  actualArgs: any[];
+  expectedMethodName: string;
+}) {
+  expect(throwArgumentsErrorSpyFunction).toHaveBeenCalledWith(actualArgs, expectedMethodName);
 }
 
 describe('createSpyFromClass', () => {
@@ -125,7 +131,9 @@ describe('createSpyFromClass', () => {
 
   describe(`GIVEN a synchronous method is configured to throw on mismatch
             WHEN called with the wrong parameters`, () => {
+    let expectedMethodName: string;
     Given(() => {
+      expectedMethodName = 'getSyncValue';
       fakeArgs = [1, { a: 2 }];
       fakeClassSpy.getSyncValue.mustBeCalledWith(...fakeArgs).returnValue(FAKE_VALUE);
     });
@@ -135,6 +143,7 @@ describe('createSpyFromClass', () => {
 
     Then('throw an error', () => {
       verifyArgumentsErrorWasThrown({
+        expectedMethodName,
         actualArgs: [WRONG_VALUE],
       });
     });
@@ -161,6 +170,11 @@ describe('createSpyFromClass', () => {
     });
 
     describe(`WHEN called second time with the wrong parameters`, () => {
+      let expectedMethodName: string;
+      Given(() => {
+        expectedMethodName = 'getSyncValue';
+      });
+
       When(() => {
         actualResult = fakeClassSpy.getSyncValue(...fakeArgs);
         actualResult = fakeClassSpy.getSyncValue(WRONG_VALUE);
@@ -168,6 +182,7 @@ describe('createSpyFromClass', () => {
 
       Then('throw an error with the wrong value', () => {
         verifyArgumentsErrorWasThrown({
+          expectedMethodName,
           actualArgs: [WRONG_VALUE],
         });
       });

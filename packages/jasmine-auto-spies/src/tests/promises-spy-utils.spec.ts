@@ -12,8 +12,14 @@ const WRONG_VALUE = 'WRONG VALUE';
 let throwArgumentsErrorSpyFunction: jasmine.Spy;
 let errorIsExpected: boolean;
 
-function verifyArgumentsErrorWasThrown({ actualArgs }: { actualArgs: any[] }) {
-  expect(throwArgumentsErrorSpyFunction).toHaveBeenCalledWith(actualArgs);
+function verifyArgumentsErrorWasThrown({
+  actualArgs,
+  expectedMethodName,
+}: {
+  actualArgs: any[];
+  expectedMethodName: string;
+}) {
+  expect(throwArgumentsErrorSpyFunction).toHaveBeenCalledWith(actualArgs, expectedMethodName);
 }
 
 describe('createSpyFromClass - promises', () => {
@@ -129,12 +135,15 @@ describe('createSpyFromClass - promises', () => {
 
     describe(`GIVEN a calledWith of resolveWith is configured to throw on mismatch
               WHEN called with the wrong parameters`, () => {
+      let expectedMethodName: string;
       Given(() => {
+        expectedMethodName = 'getPromise';
         fakeClassSpy.getPromise.mustBeCalledWith(WRONG_VALUE).resolveWith(fakeValue);
       });
 
       Then('throw an error', () => {
         verifyArgumentsErrorWasThrown({
+          expectedMethodName,
           actualArgs: fakeArgs,
         });
       });
@@ -174,12 +183,15 @@ describe('createSpyFromClass - promises', () => {
 
     describe(`GIVEN calledWith of rejectWith is configured to throw on mismatch
               WHEN called with the wrong parameters`, () => {
+      let expectedMethodName: string;
       Given(() => {
+        expectedMethodName = 'getPromise';
         fakeClassSpy.getPromise.mustBeCalledWith(WRONG_VALUE).rejectWith(fakeValue);
       });
 
       Then('throw an error', () => {
         verifyArgumentsErrorWasThrown({
+          expectedMethodName,
           actualArgs: fakeArgs,
         });
       });

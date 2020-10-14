@@ -13,8 +13,14 @@ let errorIsExpected: boolean;
 let observerSpy: SubscriberSpy<any>;
 let throwArgumentsErrorSpyFunction: jasmine.Spy;
 
-function verifyArgumentsErrorWasThrown({ actualArgs }: { actualArgs: any[] }) {
-  expect(throwArgumentsErrorSpyFunction).toHaveBeenCalledWith(actualArgs);
+function verifyArgumentsErrorWasThrown({
+  actualArgs,
+  expectedMethodName,
+}: {
+  actualArgs: any[];
+  expectedMethodName: string;
+}) {
+  expect(throwArgumentsErrorSpyFunction).toHaveBeenCalledWith(actualArgs, expectedMethodName);
 }
 
 describe('createSpyFromClass - Observables', () => {
@@ -102,6 +108,7 @@ describe('createSpyFromClass - Observables', () => {
     });
 
     describe('WHEN Observable returning method is called with exact params', () => {
+      let expectedMethodName: string;
       Given(() => {
         fakeArgs = [1, 2];
       });
@@ -160,11 +167,13 @@ describe('createSpyFromClass - Observables', () => {
 
       describe('GIVEN calledWith of nextWith is configured with the wrong params', () => {
         Given(() => {
+          expectedMethodName = 'getObservable';
           fakeClassSpy.getObservable.mustBeCalledWith(WRONG_VALUE).nextWith(FAKE_VALUE);
         });
 
         Then('throw an error', () => {
           verifyArgumentsErrorWasThrown({
+            expectedMethodName,
             actualArgs: fakeArgs,
           });
         });
@@ -193,6 +202,7 @@ describe('createSpyFromClass - Observables', () => {
 
       describe('GIVEN calledWith of nextOneTimeWith is configured with the wrong params', () => {
         Given(() => {
+          expectedMethodName = 'getObservable';
           fakeClassSpy.getObservable
             .mustBeCalledWith(WRONG_VALUE)
             .nextOneTimeWith(FAKE_VALUE);
@@ -200,6 +210,7 @@ describe('createSpyFromClass - Observables', () => {
 
         Then('throw an error', () => {
           verifyArgumentsErrorWasThrown({
+            expectedMethodName,
             actualArgs: fakeArgs,
           });
         });
@@ -228,11 +239,13 @@ describe('createSpyFromClass - Observables', () => {
 
       describe('GIVEN calledWith of throwWith is configured with the wrong params', () => {
         Given(() => {
+          expectedMethodName = 'getObservable';
           fakeClassSpy.getObservable.mustBeCalledWith(WRONG_VALUE).throwWith(FAKE_VALUE);
         });
 
         Then('throw an error', () => {
           verifyArgumentsErrorWasThrown({
+            expectedMethodName,
             actualArgs: fakeArgs,
           });
         });
@@ -260,11 +273,13 @@ describe('createSpyFromClass - Observables', () => {
 
       describe('GIVEN mustBeCalledWith of complete is configured with the wrong params', () => {
         Given(() => {
+          expectedMethodName = 'getObservable';
           fakeClassSpy.getObservable.mustBeCalledWith(WRONG_VALUE).complete();
         });
 
         Then('throw an error', () => {
           verifyArgumentsErrorWasThrown({
+            expectedMethodName,
             actualArgs: fakeArgs,
           });
         });
@@ -294,12 +309,15 @@ describe('createSpyFromClass - Observables', () => {
       });
 
       describe(`GIVEN mustBeCalledWith of returnSubject is configured with the wrong params`, () => {
+        let expectedMethodName: string;
         Given(() => {
+          expectedMethodName = 'getObservable';
           fakeClassSpy.getObservable.mustBeCalledWith(WRONG_VALUE).returnSubject();
         });
 
         Then('throw an error', () => {
           verifyArgumentsErrorWasThrown({
+            expectedMethodName,
             actualArgs: fakeArgs,
           });
         });

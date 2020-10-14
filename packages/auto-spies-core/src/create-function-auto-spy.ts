@@ -32,7 +32,7 @@ export type SyncSpyMethodsDecorator<FrameworkSpecificType> = (
 ) => CalledWithObject & FrameworkSpecificType;
 
 export type FunctionSpyFactory = (
-  name: string,
+  functionName: string,
   spyFunctionImplementation: Func
 ) => {
   functionSpy: any;
@@ -40,7 +40,7 @@ export type FunctionSpyFactory = (
 };
 
 export function createFunctionAutoSpy<ReturnType, LibSpecificType>(
-  name: string,
+  functionName: string,
   syncSpyMethodsDecorator: SyncSpyMethodsDecorator<LibSpecificType>,
   frameworkFunctionSpyFactory: FunctionSpyFactory
 ): ReturnType {
@@ -65,12 +65,13 @@ export function createFunctionAutoSpy<ReturnType, LibSpecificType>(
       calledWithObject,
       mustBeCalledWithObject,
       valueContainer,
-      actualArgs
+      actualArgs,
+      functionName
     );
   }
 
   const { functionSpy, objectToAddSpyMethodsTo } = frameworkFunctionSpyFactory(
-    name,
+    functionName,
     spyFunctionImpl
   );
 
@@ -112,7 +113,8 @@ function returnTheCorrectFakeValue(
   calledWithObject: CalledWithObject,
   mustBeCalledWithObject: CalledWithObject,
   valueContainer: FunctionSpyReturnValueContainer,
-  actualArgs: any[]
+  actualArgs: any[],
+  functionName: string
 ) {
   if (calledWithObject.wasConfigured) {
     for (const storedCalledWithArgs of calledWithObject.argsToValuesMap.keys()) {
@@ -139,7 +141,7 @@ function returnTheCorrectFakeValue(
         return expectedReturnValue;
       }
     }
-    errorHandler.throwArgumentsError(actualArgs);
+    errorHandler.throwArgumentsError(actualArgs, functionName);
   }
   if (valueContainer._isRejectedPromise) {
     return Promise.reject(valueContainer.value);
