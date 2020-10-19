@@ -26,6 +26,16 @@
         "review",
         "test"
       ]
+    },
+    {
+      "login": "GuilleEneas",
+      "name": "Guille Eneas Timón Grau",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/5407478?v=4",
+      "profile": "https://github.com/GuilleEneas",
+      "contributions": [
+        "code",
+        "test"
+      ]
     }
   ],
   "contributorsPerLine": 7

@@ -8,7 +8,7 @@ Easy and type safe way to write spies for jest tests, for both sync and async (p
 [![codecov](https://img.shields.io/codecov/c/github/hirezio/auto-spies.svg?flags=jest-auto-spies)](https://codecov.io/gh/hirezio/auto-spies)
 [![Code of Conduct](https://img.shields.io/badge/code%20of-conduct-ff69b4.svg?style=flat-square)](../../CODE_OF_CONDUCT.md)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT) <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)<!-- ALL-CONTRIBUTORS-BADGE:END -->
+[![All Contributors](https://img.shields.io/badge/all_contributors-2-green.svg?style=flat-square)](#contributors-)<!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 <br/>
 
@@ -653,6 +653,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
 <table>
   <tr>
     <td align="center"><a href="http://www.hirez.io/"><img src="https://avatars1.githubusercontent.com/u/1430726?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Shai Reznik</b></sub></a><br /><a href="https://github.com/hirezio/auto-spies/commits?author=shairez" title="Code">💻</a> <a href="https://github.com/hirezio/auto-spies/commits?author=shairez" title="Documentation">📖</a> <a href="#ideas-shairez" title="Ideas, Planning, & Feedback">🤔</a> <a href="#infra-shairez" title="Infrastructure (Hosting, Build-Tools, etc)">🚇</a> <a href="#maintenance-shairez" title="Maintenance">🚧</a> <a href="#mentoring-shairez" title="Mentoring">🧑‍🏫</a> <a href="https://github.com/hirezio/auto-spies/pulls?q=is%3Apr+reviewed-by%3Ashairez" title="Reviewed Pull Requests">👀</a> <a href="https://github.com/hirezio/auto-spies/commits?author=shairez" title="Tests">⚠️</a></td>
+    <td align="center"><a href="https://github.com/GuilleEneas"><img src="https://avatars0.githubusercontent.com/u/5407478?v=4" width="100px;" alt=""/><br /><sub><b>Guille Eneas Timón Grau</b></sub></a><br /><a href="https://github.com/hirezio/auto-spies/commits?author=GuilleEneas" title="Code">💻</a> <a href="https://github.com/hirezio/auto-spies/commits?author=GuilleEneas" title="Tests">⚠️</a></td>
   </tr>
 </table>
 
