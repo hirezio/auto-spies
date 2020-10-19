@@ -2,6 +2,7 @@ node_modules
 dist
 coverage
 .vscode
+.idea
 TODO
 yarn-error.log
 lerna-debug.log
