@@ -3,8 +3,85 @@
     "README.md"
   ],
   "imageSize": 100,
-  "commit": false,
+  "commit": true,
+  "commitConvention": "angular",
   "contributors": [
+     {
+      "login": "shairez",
+      "name": "Shai Reznik",
+      "avatar_url": "https://avatars1.githubusercontent.com/u/1430726?v=4",
+      "profile": "http://www.hirez.io/",
+      "contributions": [
+        "code",
+        "doc",
+        "ideas",
+        "infra",
+        "maintenance",
+        "mentoring",
+        "review",
+        "test"
+      ]
+    },
+    {
+      "login": "Bnaya",
+      "name": "Bnaya Peretz",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/1304862?v=4",
+      "profile": "https://github.com/Bnaya",
+      "contributions": [
+        "code",
+        "ideas",
+        "tool"
+      ]
+    },
+    {
+      "login": "shuebner",
+      "name": "shuebner",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/1770684?v=4",
+      "profile": "https://github.com/shuebner",
+      "contributions": [
+        "code",
+        "ideas",
+        "test"
+      ]
+    },
+    {
+      "login": "meksof",
+      "name": "Meksi",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/5671930?v=4",
+      "profile": "https://dev-front.herokuapp.com/",
+      "contributions": [
+        "code",
+        "test"
+      ]
+    },
+    {
+      "login": "taylor-ben",
+      "name": "Taylor Ben",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/37868849?v=4",
+      "profile": "https://github.com/taylor-ben",
+      "contributions": [
+        "ideas"
+      ]
+    },
+    {
+      "login": "YonatanKra",
+      "name": "Yonatan Kra",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/6459899?v=4",
+      "profile": "https://yonatankra.com/",
+      "contributions": [
+        "code"
+      ]
+    },
+    {
+      "login": "treestructure",
+      "name": "Martin Baum",
+      "avatar_url": "https://avatars3.githubusercontent.com/u/780083?v=4",
+      "profile": "http://www.treestructure.net/",
+      "contributions": [
+        "code",
+        "test"
+      ]
+    },
     {
       "login": "GuilleEneas",
       "name": "Guille Eneas Timón Grau",

@@ -1,11 +1,8 @@
 # auto-spies monorepo
-<!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-1-orange.svg?style=flat-square)](#contributors-)
-<!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
 
-[![All Contributors](https://img.shields.io/badge/all_contributors-7-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-8-green.svg?style=flat-square)](#contributors-)
 
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
@@ -40,18 +37,6 @@ Be kind to each other and please read our [code of conduct](CODE_OF_CONDUCT.md).
 ## Contributors ✨
 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):
-<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
-<!-- prettier-ignore-start -->
-<!-- markdownlint-disable -->
-<table>
-  <tr>
-    <td align="center"><a href="https://github.com/GuilleEneas"><img src="https://avatars0.githubusercontent.com/u/5407478?v=4" width="100px;" alt=""/><br /><sub><b>Guille Eneas Timón Grau</b></sub></a><br /><a href="https://github.com/hirezio/auto-spies/commits?author=GuilleEneas" title="Code">💻</a> <a href="https://github.com/hirezio/auto-spies/commits?author=GuilleEneas" title="Tests">⚠️</a></td>
-  </tr>
-</table>
-
-<!-- markdownlint-enable -->
-<!-- prettier-ignore-end -->
-<!-- ALL-CONTRIBUTORS-LIST:END -->
 
 <!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
 <!-- prettier-ignore-start -->
@@ -65,6 +50,9 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://github.com/taylor-ben"><img src="https://avatars0.githubusercontent.com/u/37868849?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Taylor Ben</b></sub></a><br /><a href="#ideas-taylor-ben" title="Ideas, Planning, & Feedback">🤔</a></td>
     <td align="center"><a href="https://yonatankra.com/"><img src="https://avatars0.githubusercontent.com/u/6459899?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Yonatan Kra</b></sub></a><br /><a href="https://github.com/hirezio/auto-spies/commits?author=YonatanKra" title="Code">💻</a></td>
     <td align="center"><a href="http://www.treestructure.net/"><img src="https://avatars3.githubusercontent.com/u/780083?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Martin Baum</b></sub></a><br /><a href="https://github.com/hirezio/auto-spies/commits?author=treestructure" title="Code">💻</a> <a href="https://github.com/hirezio/auto-spies/commits?author=treestructure" title="Tests">⚠️</a></td>
+  </tr>
+  <tr>
+    <td align="center"><a href="https://github.com/GuilleEneas"><img src="https://avatars0.githubusercontent.com/u/5407478?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Guille Eneas Timón Grau</b></sub></a><br /><a href="https://github.com/hirezio/auto-spies/commits?author=GuilleEneas" title="Code">💻</a> <a href="https://github.com/hirezio/auto-spies/commits?author=GuilleEneas" title="Tests">⚠️</a></td>
   </tr>
 </table>
 
