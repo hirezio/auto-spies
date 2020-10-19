@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.2.0](https://github.com/hirezio/auto-spies/compare/@hirez_io/auto-spies-core@1.1.3...@hirez_io/auto-spies-core@1.2.0) (2020-10-19)
+
+
+### Features
+
+* **global:** printing function name in error when mustBeCalledWith is configured ([b5e0dbd](https://github.com/hirezio/auto-spies/commit/b5e0dbdf812d4c45f8109397e5aa4d33ffc37d82)), closes [#27](https://github.com/hirezio/auto-spies/issues/27)
+
+
+
+
+
 ## [1.1.3](https://github.com/hirezio/auto-spies/compare/@hirez_io/auto-spies-core@1.1.2...@hirez_io/auto-spies-core@1.1.3) (2020-10-01)
 
 **Note:** Version bump only for package @hirez_io/auto-spies-core
