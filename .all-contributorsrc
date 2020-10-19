@@ -1,0 +1,25 @@
+{
+  "files": [
+    "README.md"
+  ],
+  "imageSize": 100,
+  "commit": false,
+  "contributors": [
+    {
+      "login": "GuilleEneas",
+      "name": "Guille Eneas Timón Grau",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/5407478?v=4",
+      "profile": "https://github.com/GuilleEneas",
+      "contributions": [
+        "code",
+        "test"
+      ]
+    }
+  ],
+  "contributorsPerLine": 7,
+  "projectName": "auto-spies",
+  "projectOwner": "hirezio",
+  "repoType": "github",
+  "repoHost": "https://github.com",
+  "skipCi": true
+}
