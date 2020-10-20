@@ -70,7 +70,7 @@ MIT
 ## Want to learn more?
 
 <div align="center">
-  <a href="http://testangular.com/?utm_source=github&utm_medium=link&utm_campaign=auto+spies">
+  <a href="https://learn.hirez.io/?utm_source=github&utm_medium=link&utm_campaign=auto+spies">
     <img src="for-readme/test-angular.jpg"
       alt="TestAngular.com - Free Angular Testing Workshop - The Roadmap to Angular Testing Mastery"
       width="600"
