@@ -22,6 +22,19 @@ This is the monorepo of:
 [jest-auto-spies-status]: https://img.shields.io/npm/v/jest-auto-spies.svg
 [jest-auto-spies-package]: https://npmjs.com/package/jest-auto-spies
 
+<br/>
+
+<div>
+  <a href="https://twitter.com/angular/status/1318492030016884736">
+    <img src="https://user-images.githubusercontent.com/1430726/97088487-c9d41b00-1639-11eb-814f-2c2c7258448e.png"
+      alt="Angular Tweet about Jasmine-auto-spies"
+      width="500"
+    />
+  </a>
+</div>
+
+<br/>
+
 ## Contributing
 
 Want to contribute? Yayy! 🎉
