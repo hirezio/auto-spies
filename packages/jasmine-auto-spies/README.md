@@ -32,6 +32,17 @@ Easy and type safe way to write spies for jasmine tests, for both sync and async
 
 <br/>
 
+<div  align="center">
+  <a href="https://twitter.com/angular/status/1318492030016884736">
+    <img src="https://user-images.githubusercontent.com/1430726/97088487-c9d41b00-1639-11eb-814f-2c2c7258448e.png"
+      alt="Angular Tweet about Jasmine-auto-spies"
+      width="500"
+    />
+  </a>
+</div>
+
+<br/>
+
 # Table of Contents
 
 <!-- START doctoc generated TOC please keep comment here to allow auto update -->
