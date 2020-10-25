@@ -19,7 +19,8 @@
     "lint:fix": "eslint . --ext .js,.ts --fix",
     "lint:commitmsg": "commitlint -E HUSKY_GIT_PARAMS",
     "test": "lerna run test",
-    "test:full": "run-s lint:fix test"
+    "test:full": "run-s lint:fix test",
+    "postinstall": "lerna bootstrap"
   },
   "workspaces": [
     "packages/*"
