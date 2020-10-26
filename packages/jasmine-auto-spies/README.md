@@ -221,7 +221,7 @@ describe('MyComponent', () => {
 
 ```ts
 import { MyService } from './my-service';
-import { Spy, createSpyFromClass } from 'jest-auto-spies';
+import { Spy, createSpyFromClass } from 'jasmine-auto-spies';
 
 let serviceUnderTest: MyService;
 
