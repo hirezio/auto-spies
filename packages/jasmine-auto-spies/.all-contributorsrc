@@ -86,6 +86,25 @@
         "code",
         "test"
       ]
+    },
+    {
+      "login": "GuilleEneas",
+      "name": "Guille Eneas Timón Grau",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/5407478?v=4",
+      "profile": "https://github.com/GuilleEneas",
+      "contributions": [
+        "code",
+        "test"
+      ]
+    },
+    {
+      "login": "ldex",
+      "name": "Laurent Duveau ",
+      "avatar_url": "https://avatars0.githubusercontent.com/u/2942116?v=4",
+      "profile": "https://www.coding-academy.ca/",
+      "contributions": [
+        "doc"
+      ]
     }
   ],
   "contributorsPerLine": 7

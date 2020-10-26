@@ -8,7 +8,7 @@ Easy and type safe way to write spies for jasmine tests, for both sync and async
 [![codecov](https://img.shields.io/codecov/c/github/hirezio/auto-spies.svg?flags=jasmine-auto-spies)](https://codecov.io/gh/hirezio/auto-spies)
 [![Code of Conduct](https://img.shields.io/badge/code%20of-conduct-ff69b4.svg?style=flat-square)](../../CODE_OF_CONDUCT.md)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](https://opensource.org/licenses/MIT) <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-7-green.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-8-green.svg?style=flat-square)](#contributors-)
 
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
@@ -666,7 +666,8 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="http://www.treestructure.net/"><img src="https://avatars3.githubusercontent.com/u/780083?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Martin Baum</b></sub></a><br /><a href="https://github.com/hirezio/auto-spies/commits?author=treestructure" title="Code">💻</a> <a href="https://github.com/hirezio/auto-spies/commits?author=treestructure" title="Tests">⚠️</a></td>
   </tr>
   <tr>
-    <td align="center"><a href="https://github.com/GuilleEneas"><img src="https://avatars0.githubusercontent.com/u/5407478?v=4" width="100px;" alt=""/><br /><sub><b>Guille Eneas Timón Grau</b></sub></a><br /><a href="https://github.com/hirezio/auto-spies/commits?author=GuilleEneas" title="Code">💻</a> <a href="https://github.com/hirezio/auto-spies/commits?author=GuilleEneas" title="Tests">⚠️</a></td>
+  <td align="center"><a href="https://github.com/GuilleEneas"><img src="https://avatars0.githubusercontent.com/u/5407478?v=4" width="100px;" alt=""/><br /><sub><b>Guille Eneas Timón Grau</b></sub></a><br /><a href="https://github.com/hirezio/auto-spies/commits?author=GuilleEneas" title="Code">💻</a> <a href="https://github.com/hirezio/auto-spies/commits?author=GuilleEneas" title="Tests">⚠️</a></td>
+    <td align="center"><a href="https://www.coding-academy.ca/"><img src="https://avatars0.githubusercontent.com/u/2942116?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Laurent Duveau </b></sub></a><br /><a href="https://github.com/hirezio/auto-spies/commits?author=ldex" title="Documentation">📖</a></td>
   </tr>
 </table>
 
