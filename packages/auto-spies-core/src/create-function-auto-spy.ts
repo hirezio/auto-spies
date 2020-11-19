@@ -122,7 +122,7 @@ function returnTheCorrectFakeValue(
         const expectedReturnValue = calledWithObject.argsToValuesMap.get(
           storedCalledWithArgs
         );
-        if (expectedReturnValue._isRejectedPromise) {
+        if (expectedReturnValue && expectedReturnValue._isRejectedPromise) {
           return Promise.reject(expectedReturnValue.value);
         }
         return expectedReturnValue;

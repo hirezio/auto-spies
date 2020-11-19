@@ -21,7 +21,10 @@ function verifyArgumentsErrorWasThrown({
   actualArgs: any[];
   expectedMethodName: string;
 }) {
-  expect(throwArgumentsErrorSpyFunction).toHaveBeenCalledWith(actualArgs, expectedMethodName);
+  expect(throwArgumentsErrorSpyFunction).toHaveBeenCalledWith(
+    actualArgs,
+    expectedMethodName
+  );
 }
 
 describe('createSpyFromClass', () => {
@@ -79,7 +82,8 @@ describe('createSpyFromClass', () => {
     });
   });
 
-  describe('GIVEN a synchronous method is being configured with specific parameters', () => {
+  describe(`GIVEN a synchronous method is being configured with specific parameters
+            and returns a non undefined value`, () => {
     Given(() => {
       fakeArgs = [1, { a: 2 }];
       fakeClassSpy.getSyncValue.calledWith(...fakeArgs).returnValue(FAKE_VALUE);
@@ -92,6 +96,16 @@ describe('createSpyFromClass', () => {
 
       Then('return the correct value', () => {
         expect(actualResult).toBe(FAKE_VALUE);
+      });
+    });
+
+    describe('WHEN it is called with the wrong parameters', () => {
+      When(() => {
+        actualResult = fakeClassSpy.getSyncValue(WRONG_VALUE);
+      });
+
+      Then('return undefined', () => {
+        expect(actualResult).toBeUndefined();
       });
     });
 
@@ -126,6 +140,23 @@ describe('createSpyFromClass', () => {
       Then('do NOT throw an error', () => {
         expect(throwArgumentsErrorSpyFunction).not.toHaveBeenCalled();
       });
+    });
+  });
+
+  describe(`GIVEN a synchronous method is being configured with specific parameters
+            and returns a null value
+            WHEN called with the matching parameters`, () => {
+    Given(() => {
+      fakeArgs = [1, { a: 2 }];
+      fakeClassSpy.getSyncValue.calledWith(...fakeArgs).returnValue(null);
+    });
+
+    When(() => {
+      actualResult = fakeClassSpy.getSyncValue(...fakeArgs);
+    });
+
+    Then('return null', () => {
+      expect(actualResult).toBeNull();
     });
   });
 
