@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.1](https://github.com/hirezio/auto-spies/compare/jest-auto-spies@1.1.0...jest-auto-spies@1.1.1) (2020-11-19)
+
+
+### Bug Fixes
+
+* **global:** fix null return value bug ([a9bb0a9](https://github.com/hirezio/auto-spies/commit/a9bb0a988d913f3a1192d736a583c34fbc5aefb1)), closes [#38](https://github.com/hirezio/auto-spies/issues/38)
+
+
+
+
+
 # [1.1.0](https://github.com/hirezio/auto-spies/compare/jest-auto-spies@1.0.3...jest-auto-spies@1.1.0) (2020-10-19)
 
 

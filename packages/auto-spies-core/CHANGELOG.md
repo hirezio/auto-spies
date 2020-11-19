@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.2.1](https://github.com/hirezio/auto-spies/compare/@hirez_io/auto-spies-core@1.2.0...@hirez_io/auto-spies-core@1.2.1) (2020-11-19)
+
+
+### Bug Fixes
+
+* **global:** fix null return value bug ([a9bb0a9](https://github.com/hirezio/auto-spies/commit/a9bb0a988d913f3a1192d736a583c34fbc5aefb1)), closes [#38](https://github.com/hirezio/auto-spies/issues/38)
+
+
+
+
+
 # [1.2.0](https://github.com/hirezio/auto-spies/compare/@hirez_io/auto-spies-core@1.1.3...@hirez_io/auto-spies-core@1.2.0) (2020-10-19)
 
 
