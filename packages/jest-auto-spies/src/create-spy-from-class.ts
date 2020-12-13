@@ -1,4 +1,4 @@
-import { Spy } from './auto-spies.types';
+import { Spy } from './jest-auto-spies.types';
 import { createFunctionSpy } from './create-function-spy';
 import {
   OnlyMethodKeysOf,

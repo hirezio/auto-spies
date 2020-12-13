@@ -1,6 +1,5 @@
 module.exports = {
   preset: 'ts-jest',
-
   verbose: false,
   testEnvironment: 'node',
   resetMocks: true,

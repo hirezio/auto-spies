@@ -29,3 +29,5 @@ export type OnlyPropsOf<ObjectType> = Extract<
   }[keyof ObjectType],
   string
 >;
+
+export type ValueConfigPerCall<T> = { value: T; delay?: number };

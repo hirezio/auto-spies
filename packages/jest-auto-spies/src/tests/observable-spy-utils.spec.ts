@@ -1,7 +1,8 @@
 import { errorHandler } from '@hirez_io/auto-spies-core';
-import { Subject } from 'rxjs';
+import { merge, Subject } from 'rxjs';
+import { take } from 'rxjs/operators';
 import { SubscriberSpy, subscribeSpyTo } from '@hirez_io/observer-spy';
-import { Spy } from '../auto-spies.types';
+import { Spy } from '../jest-auto-spies.types';
 import { FakeClass, FakeChildClass } from './fake-classes-to-test';
 import { createSpyFromClass } from '../create-spy-from-class';
 
@@ -20,7 +21,10 @@ function verifyArgumentsErrorWasThrown({
   actualArgs: any[];
   expectedMethodName: string;
 }) {
-  expect(throwArgumentsErrorSpyFunction).toHaveBeenCalledWith(actualArgs, expectedMethodName);
+  expect(throwArgumentsErrorSpyFunction).toHaveBeenCalledWith(
+    actualArgs,
+    expectedMethodName
+  );
 }
 
 describe('createSpyFromClass - Observables', () => {
@@ -104,6 +108,29 @@ describe('createSpyFromClass - Observables', () => {
             expect(observerSpy.getLastValue()).toBe(FAKE_VALUE);
           });
         });
+      });
+    });
+
+    describe(`GIVEN nextWithPerCall is configured with 2 values (first one with a delay)
+              WHEN calling an observable returning method TWICE`, () => {
+      Given(() => {
+        fakeClassSpy.getObservable.nextWithPerCall([
+          { value: FAKE_VALUE, delay: 2 }, // <-- first call
+          { value: 'SECOND_FAKE_VALUE' }, // <-- second call
+        ]);
+      });
+
+      When(async () => {
+        const firstCall = fakeClassSpy.getObservable();
+        const secondCall = fakeClassSpy.getObservable();
+        const mergedObservables = merge(firstCall, secondCall).pipe(take(2));
+        observerSpy = subscribeSpyTo(mergedObservables);
+
+        await observerSpy.onComplete();
+      });
+
+      Then('the first value should appear in second place because of the delay', () => {
+        expect(observerSpy.getValues()).toEqual(['SECOND_FAKE_VALUE', FAKE_VALUE]);
       });
     });
 

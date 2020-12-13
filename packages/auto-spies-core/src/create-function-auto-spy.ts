@@ -24,9 +24,10 @@ export interface CalledWithObject {
 export interface FunctionSpyReturnValueContainer {
   value: any;
   _isRejectedPromise?: boolean;
+  valuesPerCalls?: any[];
 }
 
-export type SyncSpyMethodsDecorator<FrameworkSpecificType> = (
+export type CalledWithFrameworkMethodsDecorator<FrameworkSpecificType> = (
   calledWithObject: CalledWithObject,
   calledWithArgs: any[]
 ) => CalledWithObject & FrameworkSpecificType;
@@ -41,7 +42,9 @@ export type FunctionSpyFactory = (
 
 export function createFunctionAutoSpy<ReturnType, LibSpecificType>(
   functionName: string,
-  syncSpyMethodsDecorator: SyncSpyMethodsDecorator<LibSpecificType>,
+  addFrameworkMethodsToCalledWithObject: CalledWithFrameworkMethodsDecorator<
+    LibSpecificType
+  >,
   frameworkFunctionSpyFactory: FunctionSpyFactory
 ): ReturnType {
   const calledWithObject: CalledWithObject = {
@@ -61,6 +64,8 @@ export function createFunctionAutoSpy<ReturnType, LibSpecificType>(
   // Function to pass to the specific testing library to call
   // whenever someone calls the spied on method
   function spyFunctionImpl(...actualArgs: any[]) {
+    // >>> Add "per call" logic here
+
     return returnTheCorrectFakeValue(
       calledWithObject,
       mustBeCalledWithObject,
@@ -82,7 +87,7 @@ export function createFunctionAutoSpy<ReturnType, LibSpecificType>(
     return addMethodsToCalledWith(
       calledWithObject,
       calledWithArgs,
-      syncSpyMethodsDecorator
+      addFrameworkMethodsToCalledWithObject
     );
   };
 
@@ -90,7 +95,7 @@ export function createFunctionAutoSpy<ReturnType, LibSpecificType>(
     return addMethodsToCalledWith(
       mustBeCalledWithObject,
       calledWithArgs,
-      syncSpyMethodsDecorator
+      addFrameworkMethodsToCalledWithObject
     );
   };
 
@@ -100,10 +105,12 @@ export function createFunctionAutoSpy<ReturnType, LibSpecificType>(
 function addMethodsToCalledWith<LibSpecificType>(
   calledWith: CalledWithObject,
   calledWithArgs: any[],
-  syncSpyMethodsDecorator: SyncSpyMethodsDecorator<LibSpecificType>
+  addFrameworkMethodsToCalledWithObject: CalledWithFrameworkMethodsDecorator<
+    LibSpecificType
+  >
 ): CalledWithObject {
   calledWith.wasConfigured = true;
-  calledWith = syncSpyMethodsDecorator(calledWith, calledWithArgs);
+  calledWith = addFrameworkMethodsToCalledWithObject(calledWith, calledWithArgs);
   calledWith = addPromiseHelpersToCalledWithObject(calledWith, calledWithArgs);
   calledWith = addObservableHelpersToCalledWithObject(calledWith, calledWithArgs);
   return calledWith;
@@ -143,8 +150,15 @@ function returnTheCorrectFakeValue(
     }
     errorHandler.throwArgumentsError(actualArgs, functionName);
   }
+
   if (valueContainer._isRejectedPromise) {
     return Promise.reject(valueContainer.value);
   }
+
+  if (valueContainer.valuesPerCalls?.length) {
+    const valueForNextCall = valueContainer.valuesPerCalls.shift();
+    return valueForNextCall;
+  }
+
   return valueContainer.value;
 }

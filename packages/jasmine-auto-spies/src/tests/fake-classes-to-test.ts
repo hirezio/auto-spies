@@ -9,7 +9,7 @@ export class FakeClass {
     return '';
   }
 
-  public getPromise(): Promise<void> {
+  public getPromise(): Promise<any> {
     return Promise.resolve();
   }
 

@@ -1,3 +1,5 @@
+import { ValueConfigPerCall } from '../auto-spies-core.types';
+
 export type CreatePromiseAutoSpy<
   LibSpecificFunctionSpy,
   LibSpecificFunctionSpyWithPromisesMethods,
@@ -14,4 +16,5 @@ export type AddCalledWithToPromiseFunctionSpy<PromiseReturnType> = {
 export interface AddPromiseSpyMethods<T> {
   resolveWith(value?: T): void;
   rejectWith(value?: any): void;
+  resolveWithPerCall(valuesPerCall?: ValueConfigPerCall<T>[]): void;
 }

@@ -1,4 +1,8 @@
-import { FunctionSpyReturnValueContainer, CalledWithObject } from '../';
+import {
+  FunctionSpyReturnValueContainer,
+  CalledWithObject,
+  ValueConfigPerCall,
+} from '../';
 
 export function addPromiseHelpersToFunctionSpy(
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -11,6 +15,32 @@ export function addPromiseHelpersToFunctionSpy(
   spyFunction.rejectWith = function (value?: any) {
     valueContainer.value = value;
     valueContainer._isRejectedPromise = true;
+  };
+
+  spyFunction.resolveWithPerCall = function resolveWithPerCall<T>(
+    valueConfigsPerCall: ValueConfigPerCall<T>[]
+  ) {
+    /* istanbul ignore else */
+    if (valueConfigsPerCall && valueConfigsPerCall.length > 0) {
+      valueContainer.valuesPerCalls = [];
+
+      let returnedPromise: Promise<T>;
+
+      valueConfigsPerCall.forEach((valueConfiguration) => {
+        returnedPromise = Promise.resolve(valueConfiguration.value);
+        if (valueConfiguration.delay) {
+          returnedPromise = new Promise((resolve) => {
+            setTimeout(() => {
+              resolve(valueConfiguration.value);
+            }, valueConfiguration.delay);
+          });
+        }
+        /* istanbul ignore else */
+        if (valueContainer.valuesPerCalls) {
+          valueContainer.valuesPerCalls.push(returnedPromise);
+        }
+      });
+    }
   };
 }
 

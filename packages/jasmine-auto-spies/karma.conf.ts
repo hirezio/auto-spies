@@ -96,7 +96,8 @@ export default function (config: any) {
 
     autoWatch: false,
 
-    browsers: ['Chrome'],
+    browsers: ['ChromeHeadless'],
+    // browsers: ['Chrome'],
 
     singleRun: true,
 

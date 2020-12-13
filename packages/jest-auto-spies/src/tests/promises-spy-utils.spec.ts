@@ -1,5 +1,5 @@
 import { errorHandler } from '@hirez_io/auto-spies-core';
-import { Spy } from '../auto-spies.types';
+import { Spy } from '../jest-auto-spies.types';
 import { FakeClass } from './fake-classes-to-test';
 import { createSpyFromClass } from '../create-spy-from-class';
 
@@ -19,7 +19,10 @@ function verifyArgumentsErrorWasThrown({
   actualArgs: any[];
   expectedMethodName: string;
 }) {
-  expect(throwArgumentsErrorSpyFunction).toHaveBeenCalledWith(actualArgs, expectedMethodName);
+  expect(throwArgumentsErrorSpyFunction).toHaveBeenCalledWith(
+    actualArgs,
+    expectedMethodName
+  );
 }
 
 describe('createSpyFromClass - promises', () => {
@@ -64,6 +67,32 @@ describe('createSpyFromClass - promises', () => {
       Then(() => {
         expect(actualError).toBe(fakeValue);
       });
+    });
+  });
+
+  describe(`GIVEN resolveWithPerCall is configured with 2 values (first one with a delay)
+            WHEN calling an promise returning method TWICE`, () => {
+    let actualResults: any[];
+    Given(() => {
+      actualResults = [];
+      fakeClassSpy.getPromise.resolveWithPerCall([
+        { value: fakeValue, delay: 2 }, // <-- first call
+        { value: 'SECOND_FAKE_VALUE' }, // <-- second call
+      ]);
+    });
+
+    When(async () => {
+      const firstCall = fakeClassSpy
+        .getPromise()
+        .then((value) => actualResults.push(value));
+      const secondCall = fakeClassSpy
+        .getPromise()
+        .then((value) => actualResults.push(value));
+      await Promise.all([firstCall, secondCall]);
+    });
+
+    Then('the first value should appear in second place because of the delay', () => {
+      expect(actualResults).toEqual(['SECOND_FAKE_VALUE', fakeValue]);
     });
   });
 

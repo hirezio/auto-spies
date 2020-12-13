@@ -4,7 +4,7 @@ import {
   FakeAbstractClass,
   FakeGetterSetterClass,
 } from './fake-classes-to-test';
-import { Spy } from '../auto-spies.types';
+import { Spy } from '../jasmine-auto-spies.types';
 import { errorHandler } from '@hirez_io/auto-spies-core';
 
 let fakeClassSpy: Spy<FakeClass>;
