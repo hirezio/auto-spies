@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.3.0](https://github.com/hirezio/auto-spies/compare/@hirez_io/auto-spies-core@1.2.1...@hirez_io/auto-spies-core@1.3.0) (2020-12-13)
+
+
+### Features
+
+* **global:** add `resolveWithPerCall` and `nextWithPerCall` ([aaf2de8](https://github.com/hirezio/auto-spies/commit/aaf2de83fe9edc02dfc81da5e4b617343ea3b4b0))
+
+
+
+
+
 ## [1.2.1](https://github.com/hirezio/auto-spies/compare/@hirez_io/auto-spies-core@1.2.0...@hirez_io/auto-spies-core@1.2.1) (2020-11-19)
 
 

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [6.5.0](https://github.com/hirezio/auto-spies/compare/jasmine-auto-spies@6.4.1...jasmine-auto-spies@6.5.0) (2020-12-13)
+
+
+### Features
+
+* **global:** add `resolveWithPerCall` and `nextWithPerCall` ([aaf2de8](https://github.com/hirezio/auto-spies/commit/aaf2de83fe9edc02dfc81da5e4b617343ea3b4b0))
+
+
+
+
+
 ## [6.4.1](https://github.com/hirezio/auto-spies/compare/jasmine-auto-spies@6.4.0...jasmine-auto-spies@6.4.1) (2020-11-19)
 
 
