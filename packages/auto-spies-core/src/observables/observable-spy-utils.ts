@@ -42,7 +42,7 @@ export function addObservableHelpersToFunctionSpy(
         }
         /* istanbul ignore else */
         if (valueContainer.valuesPerCalls) {
-          valueContainer.valuesPerCalls.push(returnedObservable);
+          valueContainer.valuesPerCalls.push({ wrappedValue: returnedObservable });
         }
       });
     }

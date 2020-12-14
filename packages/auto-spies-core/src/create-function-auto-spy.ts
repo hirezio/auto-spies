@@ -4,6 +4,7 @@ import {
   addPromiseHelpersToCalledWithObject,
   addObservableHelpersToCalledWithObject,
   Func,
+  WrappedValueConfigPerCall,
 } from '.';
 import deepEqual from 'deep-equal';
 import { errorHandler } from './errors/error-handler';
@@ -24,7 +25,7 @@ export interface CalledWithObject {
 export interface FunctionSpyReturnValueContainer {
   value: any;
   _isRejectedPromise?: boolean;
-  valuesPerCalls?: any[];
+  valuesPerCalls?: WrappedValueConfigPerCall[];
 }
 
 export type CalledWithFrameworkMethodsDecorator<FrameworkSpecificType> = (
@@ -156,8 +157,20 @@ function returnTheCorrectFakeValue(
   }
 
   if (valueContainer.valuesPerCalls?.length) {
-    const valueForNextCall = valueContainer.valuesPerCalls.shift();
-    return valueForNextCall;
+    const wrappedValueConfigForNextCall = valueContainer.valuesPerCalls.shift();
+    let returnedValue = wrappedValueConfigForNextCall?.wrappedValue;
+    if (wrappedValueConfigForNextCall?.delay) {
+      // if it has a delay at this point, it must be a promise
+      returnedValue = (returnedValue as Promise<any>).then(
+        (value) =>
+          new Promise((resolve) => {
+            setTimeout(() => {
+              resolve(value);
+            }, wrappedValueConfigForNextCall.delay);
+          })
+      );
+    }
+    return returnedValue;
   }
 
   return valueContainer.value;

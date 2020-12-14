@@ -28,16 +28,13 @@ export function addPromiseHelpersToFunctionSpy(
 
       valueConfigsPerCall.forEach((valueConfiguration) => {
         returnedPromise = Promise.resolve(valueConfiguration.value);
-        if (valueConfiguration.delay) {
-          returnedPromise = new Promise((resolve) => {
-            setTimeout(() => {
-              resolve(valueConfiguration.value);
-            }, valueConfiguration.delay);
-          });
-        }
+
         /* istanbul ignore else */
         if (valueContainer.valuesPerCalls) {
-          valueContainer.valuesPerCalls.push(returnedPromise);
+          valueContainer.valuesPerCalls.push({
+            wrappedValue: returnedPromise,
+            delay: valueConfiguration.delay,
+          });
         }
       });
     }
