@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.3.0](https://github.com/hirezio/auto-spies/compare/jest-auto-spies@1.2.1...jest-auto-spies@1.3.0) (2020-12-14)
+
+
+### Features
+
+* **global:** modify `nextWithPerCall` to return subjects and complete ([8d2b107](https://github.com/hirezio/auto-spies/commit/8d2b107b6c713773e5073ff8c22e3db58cbbcb51))
+
+
+
+
+
 ## [1.2.1](https://github.com/hirezio/auto-spies/compare/jest-auto-spies@1.2.0...jest-auto-spies@1.2.1) (2020-12-14)
 
 **Note:** Version bump only for package jest-auto-spies
