@@ -1,5 +1,5 @@
 import { Observable, ReplaySubject } from 'rxjs';
-import { delay } from 'rxjs/operators';
+import { delay, take } from 'rxjs/operators';
 import {
   FunctionSpyReturnValueContainer,
   CalledWithObject,
@@ -27,7 +27,9 @@ export function addObservableHelpersToFunctionSpy(
 
   spyFunction.nextWithPerCall = function nextWithPerCall<T>(
     valueConfigsPerCall: ValueConfigPerCall<T>[]
-  ) {
+  ): ReplaySubject<T>[] {
+    const returnedSubjects: ReplaySubject<T>[] = [];
+
     /* istanbul ignore else */
     if (valueConfigsPerCall && valueConfigsPerCall.length > 0) {
       valueContainer.valuesPerCalls = [];
@@ -35,17 +37,23 @@ export function addObservableHelpersToFunctionSpy(
       valueConfigsPerCall.forEach((valueConfiguration) => {
         const replaySubject = new ReplaySubject<T>(1);
         replaySubject.next(valueConfiguration.value);
+        returnedSubjects.push(replaySubject);
 
         let returnedObservable: Observable<T> = replaySubject.asObservable();
         if (valueConfiguration.delay) {
           returnedObservable = returnedObservable.pipe(delay(valueConfiguration.delay));
         }
+        if (!valueConfiguration.doNotComplete) {
+          returnedObservable = returnedObservable.pipe(take(1));
+        }
+
         /* istanbul ignore else */
         if (valueContainer.valuesPerCalls) {
           valueContainer.valuesPerCalls.push({ wrappedValue: returnedObservable });
         }
       });
     }
+    return returnedSubjects;
   };
 
   spyFunction.throwWith = function throwWith(value: any) {

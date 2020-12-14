@@ -392,12 +392,19 @@ it(() => {
 
   // OR
   //                              👇
-  myServiceSpy.getItems.nextWithPerCall([
+  const subjects = myServiceSpy.getItems.nextWithPerCall([
     // 👇 return this observable for the FIRST getItems() call
     { value: fakeItemsList },
-    // 👇 return this observable after 2 seconds for the SECOND getItems
-    { value: someOtherItemsList, delay: 2000 } () call
+
+    // 👇 return this observable after 2 seconds for the SECOND getItems call()
+    { value: someOtherItemsList, delay: 2000 },
+
+    // 👇 by default, the observable completes after 1 value
+    // set "doNotComplete" if you want to keep manually emit values
+    { value: someOtherItemsList, doNotComplete: true },
   ]);
+  subjects[2].next('yet another emit');
+  subjects[2].complete();
 
   // OR
   //                        👇

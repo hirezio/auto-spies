@@ -158,8 +158,11 @@ function returnTheCorrectFakeValue(
 
   if (valueContainer.valuesPerCalls?.length) {
     const wrappedValueConfigForNextCall = valueContainer.valuesPerCalls.shift();
+    /* istanbul ignore next */
     let returnedValue = wrappedValueConfigForNextCall?.wrappedValue;
-    if (wrappedValueConfigForNextCall?.delay) {
+
+    /* istanbul ignore else */
+    if (wrappedValueConfigForNextCall && wrappedValueConfigForNextCall.delay) {
       // if it has a delay at this point, it must be a promise
       returnedValue = (returnedValue as Promise<any>).then(
         (value) =>

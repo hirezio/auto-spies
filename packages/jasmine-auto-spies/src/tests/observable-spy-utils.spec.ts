@@ -1,5 +1,5 @@
 import { errorHandler } from '@hirez_io/auto-spies-core';
-import { Subject, merge } from 'rxjs';
+import { Subject, merge, ReplaySubject } from 'rxjs';
 import { SubscriberSpy, subscribeSpyTo } from '@hirez_io/observer-spy';
 import { Spy } from '../jasmine-auto-spies.types';
 import { FakeClass, FakeChildClass } from './fake-classes-to-test';
@@ -111,26 +111,65 @@ describe('createSpyFromClass - Observables', () => {
       });
     });
 
-    describe(`GIVEN nextWithPerCall is configured with 2 values (first one with a delay)
-              WHEN calling an observable returning method TWICE`, () => {
-      Given(() => {
-        fakeClassSpy.getObservable.and.nextWithPerCall([
-          { value: FAKE_VALUE, delay: 2 }, // <-- first call
-          { value: 'SECOND_FAKE_VALUE' }, // <-- second call
-        ]);
+    describe('nextWithPerCall', () => {
+      describe(`GIVEN nextWithPerCall is configured with 2 values (first one with a delay)
+                WHEN calling an observable returning method TWICE`, () => {
+        Given(() => {
+          fakeClassSpy.getObservable.and.nextWithPerCall([
+            { value: FAKE_VALUE, delay: 2 }, // <-- first call
+            { value: 'SECOND_FAKE_VALUE' }, // <-- second call
+          ]);
+        });
+
+        When(async () => {
+          const firstCall = fakeClassSpy.getObservable();
+          const secondCall = fakeClassSpy.getObservable();
+          const mergedObservables = merge(firstCall, secondCall).pipe(take(2));
+          observerSpy = subscribeSpyTo(mergedObservables);
+
+          await observerSpy.onComplete();
+        });
+
+        Then('the first value should appear in second place because of the delay', () => {
+          expect(observerSpy.getValues()).toEqual(['SECOND_FAKE_VALUE', FAKE_VALUE]);
+        });
       });
 
-      When(async () => {
-        const firstCall = fakeClassSpy.getObservable();
-        const secondCall = fakeClassSpy.getObservable();
-        const mergedObservables = merge(firstCall, secondCall).pipe(take(2));
-        observerSpy = subscribeSpyTo(mergedObservables);
+      describe(`GIVEN nextWithPerCall is configured not to complete
+                WHEN subscribing and manually emitting via the returned subject`, () => {
+        let returnedSubject: ReplaySubject<any>;
+        Given(() => {
+          const returnedSubjects = fakeClassSpy.getObservable.and.nextWithPerCall([
+            { value: FAKE_VALUE, doNotComplete: true },
+          ]);
 
-        await observerSpy.onComplete();
+          returnedSubject = returnedSubjects[0];
+        });
+
+        When(async () => {
+          observerSpy = subscribeSpyTo(fakeClassSpy.getObservable());
+          returnedSubject.next('SECOND_FAKE_VALUE');
+          returnedSubject.complete();
+        });
+
+        Then('should emit both values', () => {
+          expect(observerSpy.getValues()).toEqual([FAKE_VALUE, 'SECOND_FAKE_VALUE']);
+        });
       });
 
-      Then('the first value should appear in second place because of the delay', () => {
-        expect(observerSpy.getValues()).toEqual(['SECOND_FAKE_VALUE', FAKE_VALUE]);
+      describe(`GIVEN nextWithPerCall is configured with a value
+                WHEN subscribing`, () => {
+        Given(() => {
+          fakeClassSpy.getObservable.and.nextWithPerCall([{ value: FAKE_VALUE }]);
+        });
+
+        When(async () => {
+          observerSpy = subscribeSpyTo(fakeClassSpy.getObservable());
+        });
+
+        Then('should should complete by default', () => {
+          expect(observerSpy.receivedComplete()).toBeTrue();
+        });
       });
     });
 

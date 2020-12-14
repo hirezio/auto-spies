@@ -30,7 +30,7 @@ export type OnlyPropsOf<ObjectType> = Extract<
   string
 >;
 
-export type ValueConfigPerCall<T> = { value: T; delay?: number };
+export type ValueConfigPerCall<T> = { value: T; delay?: number; doNotComplete?: boolean };
 
 export type WrappedValueConfigPerCall<T = any> = {
   wrappedValue: Promise<T> | Observable<T>;
