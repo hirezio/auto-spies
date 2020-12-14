@@ -346,6 +346,15 @@ it(() => {
   // OR
   //                            👇
   myServiceSpy.getItems.and.rejectWith(fakeError);
+
+  // OR
+  //                              👇
+  myServiceSpy.getItems.and.resolveWithPerCall([
+    // 👇 return this promise for the FIRST getItems() call
+    { value: fakeItemsList },
+    // 👇 return this promise with a delay of 2 seconds (2000ms) for the SECOND getItems() call
+    { value: someOtherItemsList, delay: 2000 },
+  ]);
 });
 ```
 
@@ -385,6 +394,15 @@ it(() => {
   // OR
   //                              👇
   myServiceSpy.getItems.and.nextOneTimeWith(fakeItemsList); // emits one value and completes
+
+  // OR
+  //                              👇
+  myServiceSpy.getItems.and.nextWithPerCall([
+    // 👇 return this observable for the FIRST getItems() call
+    { value: fakeItemsList },
+    // 👇 return this observable after 2 seconds for the SECOND getItems
+    { value: someOtherItemsList, delay: 2000 } () call
+  ]);
 
   // OR
   //                            👇
