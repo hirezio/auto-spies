@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [6.7.0](https://github.com/hirezio/auto-spies/compare/jasmine-auto-spies@6.6.0...jasmine-auto-spies@6.7.0) (2020-12-18)
+
+
+### Features
+
+* **global:** add `nextWithValues` ([de3c30b](https://github.com/hirezio/auto-spies/commit/de3c30b6c6bcc54db6c95f8247ed0bdd5c918493)), closes [#20](https://github.com/hirezio/auto-spies/issues/20)
+
+
+
+
+
 # [6.6.0](https://github.com/hirezio/auto-spies/compare/jasmine-auto-spies@6.5.1...jasmine-auto-spies@6.6.0) (2020-12-14)
 
 

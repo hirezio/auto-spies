@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.5.0](https://github.com/hirezio/auto-spies/compare/@hirez_io/auto-spies-core@1.4.0...@hirez_io/auto-spies-core@1.5.0) (2020-12-18)
+
+
+### Features
+
+* **global:** add `nextWithValues` ([de3c30b](https://github.com/hirezio/auto-spies/commit/de3c30b6c6bcc54db6c95f8247ed0bdd5c918493)), closes [#20](https://github.com/hirezio/auto-spies/issues/20)
+
+
+
+
+
 # [1.4.0](https://github.com/hirezio/auto-spies/compare/@hirez_io/auto-spies-core@1.3.1...@hirez_io/auto-spies-core@1.4.0) (2020-12-14)
 
 
