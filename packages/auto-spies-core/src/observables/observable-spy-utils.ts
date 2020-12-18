@@ -1,11 +1,21 @@
-import { Observable, ReplaySubject } from 'rxjs';
-import { delay, take } from 'rxjs/operators';
+import {
+  EMPTY,
+  from,
+  merge,
+  Observable,
+  of,
+  ReplaySubject,
+  throwError,
+  timer,
+} from 'rxjs';
+import { concatMap, delay, switchMap, take, takeUntil, takeWhile } from 'rxjs/operators';
 import {
   FunctionSpyReturnValueContainer,
   CalledWithObject,
   AddObservableSpyMethods,
   ValueConfigPerCall,
 } from '..';
+import { ValueConfig } from './observable-spy.types';
 
 export function addObservableHelpersToFunctionSpy(
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
@@ -23,6 +33,49 @@ export function addObservableHelpersToFunctionSpy(
     valueContainer.value = subject;
     subject.next(value);
     subject.complete();
+  };
+
+  spyFunction.nextWithValues = function nextWith<T>(valuesConfigs: ValueConfig<T>[]) {
+    /* istanbul ignore else */
+    if (valuesConfigs && valuesConfigs.length > 0) {
+      const results$ = from(valuesConfigs).pipe(
+        // Add delay to "complete" if needed
+        concatMap((valueConfig) => {
+          if ('complete' in valueConfig && valueConfig.complete && valueConfig.delay) {
+            return of(valueConfig).pipe(delay(valueConfig.delay));
+          }
+          return of(valueConfig);
+        }),
+        // Complete if needed
+        takeWhile((valueConfig) => {
+          if (!('complete' in valueConfig)) {
+            return true;
+          }
+          return !valueConfig.complete;
+        }),
+        // Handle regular values or errors
+        concatMap((valueConfig) => {
+          if ('value' in valueConfig && valueConfig.value) {
+            if (valueConfig.delay) {
+              return of(valueConfig.value).pipe(delay(valueConfig.delay));
+            }
+            return of(valueConfig.value);
+          }
+          /* istanbul ignore else */
+          if ('errorValue' in valueConfig && valueConfig.errorValue) {
+            if (valueConfig.delay) {
+              return timer(valueConfig.delay).pipe(
+                switchMap(() => throwError(valueConfig.errorValue))
+              );
+            }
+            return throwError(valueConfig.errorValue);
+          }
+          /* istanbul ignore next */
+          return EMPTY;
+        })
+      );
+      valueContainer.value = merge(results$, subject.pipe(takeUntil(results$)));
+    }
   };
 
   spyFunction.nextWithPerCall = function nextWithPerCall<T>(

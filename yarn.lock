@@ -581,10 +581,10 @@
   resolved "https://registry.yarnpkg.com/@hirez_io/karma-jasmine-given/-/karma-jasmine-given-1.0.3.tgz#55261842ee4d22831619904d48ddd45a3e5a57e1"
   integrity sha512-K8KkUKHSa0GCARkk/OtPhjyZxHlKV+XID3VyNMMtQCfp64le23zuIRqHyl5R+rRPiHG3V+NWOf3Y8F10+wrm0A==
 
-"@hirez_io/observer-spy@^2.0.0":
-  version "2.0.0"
-  resolved "https://registry.yarnpkg.com/@hirez_io/observer-spy/-/observer-spy-2.0.0.tgz#660fe288e42c5c4883714d27205682c1ff0e3cd9"
-  integrity sha512-vDxM5ZxI/7/i7Vtg7bhp4oJC8LtkLm+Fag70DBW3k7KYFyHYFYz75Wshf0nQzETIHFdwZEQa1ERmmjk2vnfaUw==
+"@hirez_io/observer-spy@^2.1.0":
+  version "2.1.0"
+  resolved "https://registry.yarnpkg.com/@hirez_io/observer-spy/-/observer-spy-2.1.0.tgz#2c531366385763437d18af8b751e0eb0f2ad82f6"
+  integrity sha512-wGLRpUq3Qhcyyx2oQmx2HWe2trp6tpkUvz3U9Uqq5eywXL9uV0W9+QkeBzif8axhOQlq7Xngs9pC0S611+hkLg==
 
 "@istanbuljs/load-nyc-config@^1.0.0":
   version "1.1.0"

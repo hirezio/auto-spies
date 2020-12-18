@@ -396,6 +396,15 @@ it(() => {
   myServiceSpy.getItems.and.nextOneTimeWith(fakeItemsList); // emits one value and completes
 
   // OR
+  //                            👇
+  myServiceSpy.getItems.and.nextWithValues([
+    { value: fakeItemsList },
+    { value: fakeItemsList, delay: 1000 },
+    { errorValue: someError }, // <- will throw this arrow, you can also add a "delay"
+    { complete: true }, // <- you can add a "delay" as well
+  ]);
+
+  // OR
   //                              👇
   const subjects = myServiceSpy.getItems.and.nextWithPerCall([
     // 👇 return this observable for the FIRST getItems() call

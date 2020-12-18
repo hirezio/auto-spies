@@ -17,8 +17,26 @@ export type AddCalledWithToObservableFunctionSpy<ObservableReturnType> = {
 export interface AddObservableSpyMethods<T> {
   nextWith(value?: T): void;
   nextOneTimeWith(value?: T): void; // emit one value and completes
+  nextWithValues(valuesConfigs: ValueConfig<T>[]): void;
   nextWithPerCall(valuesPerCall?: ValueConfigPerCall<T>[]): ReplaySubject<T>[];
   throwWith(value: any): void;
   complete(): void;
   returnSubject(): Subject<T>;
 }
+
+export type ValueConfig<T> = NextValueConfig<T> | ErrorValueConfig | CompleteValueConfig;
+
+export type NextValueConfig<T> = {
+  value: T;
+  delay?: number;
+};
+
+export type ErrorValueConfig = {
+  errorValue: any;
+  delay?: number;
+};
+
+export type CompleteValueConfig = {
+  complete?: boolean;
+  delay?: number;
+};

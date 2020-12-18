@@ -111,6 +111,89 @@ describe('createSpyFromClass - Observables', () => {
       });
     });
 
+    describe('nextWithValues', () => {
+      When(() => {
+        observerSpy = subscribeSpyTo(fakeClassSpy.getObservable(), {
+          expectErrors: errorIsExpected,
+        });
+      });
+
+      describe('GIVEN nextWithValues is configured with values and complete', () => {
+        Given(() => {
+          fakeClassSpy.getObservable.and.nextWithValues([
+            { value: 'FAKE_VALUE1' },
+            { value: 'FAKE_VALUE2', delay: 1 },
+            { value: 'FAKE_VALUE3' },
+            { complete: true },
+          ]);
+        });
+
+        Then('emit the correct values in order', async () => {
+          await observerSpy.onComplete();
+
+          expect(observerSpy.getValues()).toEqual([
+            'FAKE_VALUE1',
+            'FAKE_VALUE2',
+            'FAKE_VALUE3',
+          ]);
+        });
+      });
+
+      describe('GIVEN nextWithValues is configured with delayed complete', () => {
+        Given(() => {
+          fakeClassSpy.getObservable.and.nextWithValues([
+            { value: 'FAKE_VALUE1' },
+            { complete: true, delay: 1 },
+            { value: 'FAKE_VALUE2' },
+          ]);
+        });
+
+        Then('emit the correct values in order', async () => {
+          await observerSpy.onComplete();
+
+          expect(observerSpy.getValues()).toEqual(['FAKE_VALUE1']);
+        });
+      });
+
+      describe('GIVEN nextWithValues is configured to throw', () => {
+        Given(() => {
+          errorIsExpected = true;
+
+          fakeClassSpy.getObservable.and.nextWithValues([
+            { value: 'FAKE_VALUE1' },
+            { errorValue: 'FAKE_ERROR' },
+            { value: 'FAKE_VALUE3' },
+          ]);
+        });
+
+        Then('emit the correct values in order', async () => {
+          await observerSpy.onError();
+
+          expect(observerSpy.getValues()).toEqual(['FAKE_VALUE1']);
+          expect(observerSpy.getError()).toEqual('FAKE_ERROR');
+        });
+      });
+
+      describe('GIVEN nextWithValues is configured to throw with delay', () => {
+        Given(() => {
+          errorIsExpected = true;
+
+          fakeClassSpy.getObservable.and.nextWithValues([
+            { value: 'FAKE_VALUE1' },
+            { errorValue: 'FAKE_ERROR', delay: 1 },
+            { value: 'FAKE_VALUE3' },
+          ]);
+        });
+
+        Then('emit the correct values in order', async () => {
+          await observerSpy.onError();
+
+          expect(observerSpy.getValues()).toEqual(['FAKE_VALUE1']);
+          expect(observerSpy.getError()).toEqual('FAKE_ERROR');
+        });
+      });
+    });
+
     describe('nextWithPerCall', () => {
       describe(`GIVEN nextWithPerCall is configured with 2 values (first one with a delay)
                 WHEN calling an observable returning method TWICE`, () => {
