@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.6.0](https://github.com/hirezio/auto-spies/compare/@hirez_io/auto-spies-core@1.5.0...@hirez_io/auto-spies-core@1.6.0) (2020-12-20)
+
+
+### Features
+
+* **global:** add `createObservableWithValues` ([d2966f1](https://github.com/hirezio/auto-spies/commit/d2966f1db54dba5adcf2ee051ba0962eb9c14e7c))
+
+
+
+
+
 # [1.5.0](https://github.com/hirezio/auto-spies/compare/@hirez_io/auto-spies-core@1.4.0...@hirez_io/auto-spies-core@1.5.0) (2020-12-18)
 
 

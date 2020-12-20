@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [6.8.0](https://github.com/hirezio/auto-spies/compare/jasmine-auto-spies@6.7.0...jasmine-auto-spies@6.8.0) (2020-12-20)
+
+
+### Features
+
+* **global:** add `createObservableWithValues` ([d2966f1](https://github.com/hirezio/auto-spies/commit/d2966f1db54dba5adcf2ee051ba0962eb9c14e7c))
+
+
+
+
+
 # [6.7.0](https://github.com/hirezio/auto-spies/compare/jasmine-auto-spies@6.6.0...jasmine-auto-spies@6.7.0) (2020-12-18)
 
 
