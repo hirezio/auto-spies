@@ -34,6 +34,7 @@ export function getWebpackConfig(forTest: boolean = false): webpack.Configuratio
             /dist/,
             /fake-classes-to-test.ts/,
             /error-handler.ts/,
+            /create-observable-with-values.ts/,
           ],
         },
       ],

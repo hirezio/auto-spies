@@ -1,4 +1,4 @@
-import { ReplaySubject, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { ValueConfigPerCall } from '../auto-spies-core.types';
 
 export type CreateObservableAutoSpy<
@@ -18,7 +18,7 @@ export interface AddObservableSpyMethods<T> {
   nextWith(value?: T): void;
   nextOneTimeWith(value?: T): void; // emit one value and completes
   nextWithValues(valuesConfigs: ValueConfig<T>[]): void;
-  nextWithPerCall(valuesPerCall?: ValueConfigPerCall<T>[]): ReplaySubject<T>[];
+  nextWithPerCall(valuesPerCall?: ValueConfigPerCall<T>[]): Subject<T>[];
   throwWith(value: any): void;
   complete(): void;
   returnSubject(): Subject<T>;

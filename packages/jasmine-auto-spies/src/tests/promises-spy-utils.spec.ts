@@ -225,5 +225,25 @@ describe('createSpyFromClass - promises', () => {
         });
       });
     });
+
+    describe('GIVEN calledWith of resolveWith is configured with resolveWithPerCall', () => {
+      let actualResult2: any;
+      Given(() => {
+        actualResult2 = undefined;
+
+        fakeClassSpy.getPromise
+          .calledWith(...fakeArgs)
+          .resolveWithPerCall([{ value: fakeValue }, { value: 'fakeValue2' }]);
+      });
+
+      When(async () => {
+        actualResult2 = await fakeClassSpy.getPromise(...fakeArgs);
+      });
+
+      Then('should get the correct value', () => {
+        expect(actualResult).toEqual(fakeValue);
+        expect(actualResult2).toEqual('fakeValue2');
+      });
+    });
   });
 });

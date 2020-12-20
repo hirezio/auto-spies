@@ -27,7 +27,7 @@ function addJestSyncMethodsToCalledWithObject(
   calledWithArgs: any[]
 ): CalledWithObject & JestCalledWithObject {
   calledWithObject.mockReturnValue = (value: any) => {
-    calledWithObject.argsToValuesMap.set(calledWithArgs, value);
+    calledWithObject.argsToValuesMap.set(calledWithArgs, { value });
   };
   return calledWithObject;
 }

@@ -400,7 +400,7 @@ it(() => {
   myServiceSpy.getItems.and.nextWithValues([
     { value: fakeItemsList },
     { value: fakeItemsList, delay: 1000 },
-    { errorValue: someError }, // <- will throw this arrow, you can also add a "delay"
+    { errorValue: someError }, // <- will throw this error, you can also add a "delay"
     { complete: true }, // <- you can add a "delay" as well
   ]);
 
@@ -651,12 +651,57 @@ abstract class MyAbstractClass {
   abstract getAnimalName(): string;
 }
 
-describe(() => {
+describe('...', () => {
   //                                                                     👇
   abstractClassSpy = createSpyFromClass(MyAbstractClass as any, ['getAnimalName']);
   // OR
 
   abstractClassSpy.getAnimalName.and.returnValue('Evil Badger');
+});
+```
+
+<br/>
+
+### ▶ `createObservableWithValues` - Create a pre-configured standalone observable
+
+**MOTIVATION:** You can use this in order to create fake observable inputs with delayed values (instead of using marbles).
+
+Accepts the same configuration as `nextWithValues` but returns a standalone observable.
+
+**EXAMPLE:**
+
+```ts
+//
+import { createObservableWithValues } from 'jasmine-auto-spies';
+
+it('should emit the correct values', () => {
+  //                                      👇
+  const observableUnderTest = createObservableWithValues([
+    { value: fakeItemsList },
+    { value: secondFakeItemsList, delay: 1000 },
+    { errorValue: someError }, // <- will throw this error, you can also add a "delay" to the error
+    { complete: true }, // <- you can also add a "delay" to the complete
+  ]);
+});
+```
+
+And if you need to emit more values, you can set `returnSubject` to true and get the subject as well.
+
+```ts
+it('should emit the correct values', () => {
+  //        👇       👇
+  const { subject, values$ } = createObservableWithValues(
+    [
+      { value: fakeItemsList },
+      { value: secondFakeItemsList, delay: 1000 },
+      { errorValue: someError }, // <- will throw this error, you can also add a "delay" to the error
+      { complete: true }, // <- you can also add a "delay" to the complete
+    ],
+    //      👇
+    { returnSubject: true }
+  );
+
+  subject.next(moreValues);
 });
 ```
 

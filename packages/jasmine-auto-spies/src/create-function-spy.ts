@@ -27,7 +27,7 @@ function addJasmineSyncMethodsToCalledWithObject(
   calledWithArgs: any[]
 ): CalledWithObject & JasmineCalledWithObject {
   calledWithObject.returnValue = (value: any) => {
-    calledWithObject.argsToValuesMap.set(calledWithArgs, value);
+    calledWithObject.argsToValuesMap.set(calledWithArgs, { value });
   };
   return calledWithObject;
 }

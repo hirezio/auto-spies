@@ -1,6 +1,7 @@
 export * from './create-function-auto-spy';
 export * from './observables/observable-spy-utils';
 export * from './observables/observable-spy.types';
+export * from './observables/create-observable-with-values';
 export * from './promises/promises-spy-utils';
 export * from './promises/promises-spy.types';
 export * from './auto-spies-core.types';

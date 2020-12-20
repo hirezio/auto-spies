@@ -5,6 +5,8 @@ import {
   addObservableHelpersToCalledWithObject,
   Func,
   WrappedValueConfigPerCall,
+  ValueConfigPerCall,
+  ValueConfig,
 } from '.';
 import deepEqual from 'deep-equal';
 import { errorHandler } from './errors/error-handler';
@@ -14,15 +16,18 @@ export interface CalledWithObject {
   wasConfigured: boolean;
   argsToValuesMap: Map<any, any>;
   resolveWith?: (value?: any) => void;
+  resolveWithPerCall?<T = any>(valuesPerCall?: ValueConfigPerCall<T>[]): void;
   rejectWith?: (value?: any) => void;
   nextWith?(value?: any): void;
   nextOneTimeWith?(value?: any): void;
+  nextWithValues?<T = any>(valuesConfigs: ValueConfig<T>[]): void;
+  nextWithPerCall?<T = any>(valuesPerCall?: ValueConfigPerCall<T>[]): Subject<T>[];
   throwWith?(value: any): void;
   complete?(): void;
   returnSubject?<R = any>(): Subject<R>;
 }
 
-export interface FunctionSpyReturnValueContainer {
+export interface ReturnValueContainer {
   value: any;
   _isRejectedPromise?: boolean;
   valuesPerCalls?: WrappedValueConfigPerCall[];
@@ -58,7 +63,7 @@ export function createFunctionAutoSpy<ReturnType, LibSpecificType>(
     argsToValuesMap: new Map(),
   };
 
-  const valueContainer: FunctionSpyReturnValueContainer = {
+  const valueContainer: ReturnValueContainer = {
     value: undefined,
   };
 
@@ -120,33 +125,48 @@ function addMethodsToCalledWith<LibSpecificType>(
 function returnTheCorrectFakeValue(
   calledWithObject: CalledWithObject,
   mustBeCalledWithObject: CalledWithObject,
-  valueContainer: FunctionSpyReturnValueContainer,
+  valueContainer: ReturnValueContainer,
   actualArgs: any[],
   functionName: string
 ) {
   if (calledWithObject.wasConfigured) {
     for (const storedCalledWithArgs of calledWithObject.argsToValuesMap.keys()) {
       if (deepEqual(storedCalledWithArgs, actualArgs)) {
-        const expectedReturnValue = calledWithObject.argsToValuesMap.get(
+        const expectedReturnValueContainer = calledWithObject.argsToValuesMap.get(
           storedCalledWithArgs
         );
-        if (expectedReturnValue && expectedReturnValue._isRejectedPromise) {
-          return Promise.reject(expectedReturnValue.value);
+
+        /* istanbul ignore else */
+        if (expectedReturnValueContainer) {
+          if (expectedReturnValueContainer._isRejectedPromise) {
+            return Promise.reject(expectedReturnValueContainer.value);
+          }
+          if (expectedReturnValueContainer.valuesPerCalls?.length) {
+            return getNextCallValue(expectedReturnValueContainer);
+          }
+
+          return expectedReturnValueContainer.value;
         }
-        return expectedReturnValue;
       }
     }
   }
   if (mustBeCalledWithObject.wasConfigured) {
     for (const storedCalledWithArgs of mustBeCalledWithObject.argsToValuesMap.keys()) {
       if (deepEqual(storedCalledWithArgs, actualArgs)) {
-        const expectedReturnValue = mustBeCalledWithObject.argsToValuesMap.get(
+        const expectedReturnValueContainer = mustBeCalledWithObject.argsToValuesMap.get(
           storedCalledWithArgs
         );
-        if (expectedReturnValue._isRejectedPromise) {
-          return Promise.reject(expectedReturnValue.value);
+        /* istanbul ignore else */
+        if (expectedReturnValueContainer) {
+          if (expectedReturnValueContainer._isRejectedPromise) {
+            return Promise.reject(expectedReturnValueContainer.value);
+          }
+          if (expectedReturnValueContainer.valuesPerCalls?.length) {
+            return getNextCallValue(expectedReturnValueContainer);
+          }
+
+          return expectedReturnValueContainer.value;
         }
-        return expectedReturnValue;
       }
     }
     errorHandler.throwArgumentsError(actualArgs, functionName);
@@ -156,6 +176,15 @@ function returnTheCorrectFakeValue(
     return Promise.reject(valueContainer.value);
   }
 
+  if (valueContainer.valuesPerCalls?.length) {
+    return getNextCallValue(valueContainer);
+  }
+
+  return valueContainer.value;
+}
+
+function getNextCallValue(valueContainer: ReturnValueContainer): any {
+  /* istanbul ignore next */
   if (valueContainer.valuesPerCalls?.length) {
     const wrappedValueConfigForNextCall = valueContainer.valuesPerCalls.shift();
     /* istanbul ignore next */
@@ -175,6 +204,4 @@ function returnTheCorrectFakeValue(
     }
     return returnedValue;
   }
-
-  return valueContainer.value;
 }

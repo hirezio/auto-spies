@@ -155,6 +155,20 @@ describe('createSpyFromClass - Observables', () => {
         });
       });
 
+      describe('GIVEN nextWithValues is configured with complete set to false', () => {
+        Given(() => {
+          fakeClassSpy.getObservable.and.nextWithValues([
+            { value: 'FAKE_VALUE1' },
+            { complete: false },
+          ]);
+        });
+
+        Then('emit the correct value and do not complete', () => {
+          expect(observerSpy.getValues()).toEqual(['FAKE_VALUE1']);
+          expect(observerSpy.receivedComplete()).toBeFalsy();
+        });
+      });
+
       describe('GIVEN nextWithValues is configured to throw', () => {
         Given(() => {
           errorIsExpected = true;
@@ -192,6 +206,33 @@ describe('createSpyFromClass - Observables', () => {
           expect(observerSpy.getError()).toEqual('FAKE_ERROR');
         });
       });
+
+      describe(`GIVEN nextWithValues is configured with values
+                WHEN nextWith is called and then complete`, () => {
+        Given(() => {
+          fakeClassSpy.getObservable.and.nextWithValues([
+            { value: 'FAKE_VALUE1' },
+            { value: 'FAKE_VALUE2' },
+            { value: 'FAKE_VALUE3' },
+          ]);
+        });
+
+        When(() => {
+          fakeClassSpy.getObservable.and.nextWith('FAKE_VALUE4');
+          fakeClassSpy.getObservable.and.complete();
+        });
+
+        Then('should be able to continue emitting after the default values', async () => {
+          await observerSpy.onComplete();
+
+          expect(observerSpy.getValues()).toEqual([
+            'FAKE_VALUE1',
+            'FAKE_VALUE2',
+            'FAKE_VALUE3',
+            'FAKE_VALUE4',
+          ]);
+        });
+      });
     });
 
     describe('nextWithPerCall', () => {
@@ -220,7 +261,7 @@ describe('createSpyFromClass - Observables', () => {
 
       describe(`GIVEN nextWithPerCall is configured not to complete
                 WHEN subscribing and manually emitting via the returned subject`, () => {
-        let returnedSubject: ReplaySubject<any>;
+        let returnedSubject: Subject<any>;
         Given(() => {
           const returnedSubjects = fakeClassSpy.getObservable.and.nextWithPerCall([
             { value: FAKE_VALUE, doNotComplete: true },
@@ -554,6 +595,52 @@ describe('createSpyFromClass - Observables', () => {
         });
       });
     });
+
+    describe(`GIVEN calledWith is configured to return different value per call
+                AND configured with the right params`, () => {
+      Given(() => {
+        fakeClassSpy.getObservable
+          .calledWith(...fakeArgs)
+          .nextWithPerCall([{ value: FAKE_VALUE }, { value: `FAKE_VALUE2` }]);
+      });
+
+      When(async () => {
+        const firstCall = fakeClassSpy.getObservable(...fakeArgs);
+        const secondCall = fakeClassSpy.getObservable(...fakeArgs);
+        const mergedObservables = merge(firstCall, secondCall).pipe(take(2));
+        observerSpy = subscribeSpyTo(mergedObservables);
+
+        await observerSpy.onComplete();
+      });
+
+      Then('emit the correct values', () => {
+        expect(observerSpy.getValues()).toEqual([FAKE_VALUE, 'FAKE_VALUE2']);
+      });
+    });
+
+    describe(`GIVEN mustBeCalledWith is configured to return different value per call
+                AND configured with the right params`, () => {
+      Given(() => {
+        fakeClassSpy.getObservable
+          .mustBeCalledWith(...fakeArgs)
+          .nextWithPerCall([{ value: FAKE_VALUE }, { value: `FAKE_VALUE2` }]);
+      });
+
+      When(async () => {
+        const firstCall = fakeClassSpy.getObservable(...fakeArgs);
+        const secondCall = fakeClassSpy.getObservable(...fakeArgs);
+        const mergedObservables = merge(firstCall, secondCall).pipe(take(2));
+        observerSpy = subscribeSpyTo(mergedObservables);
+
+        await observerSpy.onComplete();
+      });
+
+      Then('emit the correct values', () => {
+        expect(observerSpy.getValues()).toEqual([FAKE_VALUE, 'FAKE_VALUE2']);
+      });
+    });
+
+    //
   });
 
   describe('GIVEN a fake child Class', () => {
