@@ -69,6 +69,7 @@ Easy and type safe way to write spies for jasmine tests, for both sync and async
   - [▶ Create accessors spies (getters and setters)](#-create-accessors-spies-getters-and-setters)
   - [▶ Spying on a function](#-spying-on-a-function)
   - [▶ Spying on abstract classes](#-spying-on-abstract-classes)
+  - [▶ `createObservableWithValues()` - Create a pre-configured standalone observable](##-createobservablewithvalues---create-a-pre-configured-standalone-observable)
 
 - [Contributing](#contributing)
 - [Code Of Conduct](#code-of-conduct)
@@ -662,7 +663,7 @@ describe('...', () => {
 
 <br/>
 
-### ▶ `createObservableWithValues` - Create a pre-configured standalone observable
+### ▶ `createObservableWithValues()` - Create a pre-configured standalone observable
 
 **MOTIVATION:** You can use this in order to create fake observable inputs with delayed values (instead of using marbles).
 
@@ -707,7 +708,28 @@ it('should emit the correct values', () => {
 
 <br/>
 
----
+### ▶ `provideAutoSpy()` - Small Utility for Angular Tests
+
+This will save you the need to type `{ provide: MyService, createCl
+
+**INTERFACE**: `provideAutoSpy(Class, configuration?)`
+
+**USAGE EXAMPLE:**
+
+```ts
+TestBed.configureTestingModule({
+
+  providers: [
+    MyComponent,
+    provideAutoSpy(MyService)
+  ];
+})
+
+myServiceSpy = TestBed.inject<any>(MyService);
+
+```
+
+## <br/>
 
 <br/>
 
