@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.6.0](https://github.com/hirezio/auto-spies/compare/jest-auto-spies@1.5.0...jest-auto-spies@1.6.0) (2020-12-22)
+
+
+### Features
+
+* **global:** add `provideAutoSpy` util for Angular tests ([c0680f7](https://github.com/hirezio/auto-spies/commit/c0680f79af1e62a35ff65d96a6ffdb4d127abb7c)), closes [#26](https://github.com/hirezio/auto-spies/issues/26)
+
+
+
+
+
 # [1.5.0](https://github.com/hirezio/auto-spies/compare/jest-auto-spies@1.4.0...jest-auto-spies@1.5.0) (2020-12-20)
 
 

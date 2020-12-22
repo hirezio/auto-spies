@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [6.9.0](https://github.com/hirezio/auto-spies/compare/jasmine-auto-spies@6.8.0...jasmine-auto-spies@6.9.0) (2020-12-22)
+
+
+### Features
+
+* **global:** add `provideAutoSpy` util for Angular tests ([c0680f7](https://github.com/hirezio/auto-spies/commit/c0680f79af1e62a35ff65d96a6ffdb4d127abb7c)), closes [#26](https://github.com/hirezio/auto-spies/issues/26)
+
+
+
+
+
 # [6.8.0](https://github.com/hirezio/auto-spies/compare/jasmine-auto-spies@6.7.0...jasmine-auto-spies@6.8.0) (2020-12-20)
 
 
