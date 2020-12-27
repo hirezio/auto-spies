@@ -710,9 +710,11 @@ it('should emit the correct values', () => {
 
 ### ▶ `provideAutoSpy()` - Small Utility for Angular Tests
 
-This will save you the need to type `{ provide: MyService, createCl
+This will save you the need to type:
 
-**INTERFACE**: `provideAutoSpy(Class, configuration?)`
+`{ provide: MyService, useValue: createSpyFromClass(MyService, config?) }`
+
+**INTERFACE**: `provideAutoSpy(Class, config?)`
 
 **USAGE EXAMPLE:**
 
