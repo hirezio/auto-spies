@@ -8,13 +8,13 @@ import {
   ValueConfigPerCall,
   ValueConfig,
 } from '.';
-import deepEqual from 'deep-equal';
 import { errorHandler } from './errors/error-handler';
 import { Subject } from 'rxjs';
+import { ArgsMap } from './args-map';
 
 export interface CalledWithObject {
   wasConfigured: boolean;
-  argsToValuesMap: Map<any, any>;
+  argsToValuesMap: ArgsMap;
   resolveWith?: (value?: any) => void;
   resolveWithPerCall?<T = any>(valuesPerCall?: ValueConfigPerCall<T>[]): void;
   rejectWith?: (value?: any) => void;
@@ -55,12 +55,12 @@ export function createFunctionAutoSpy<ReturnType, LibSpecificType>(
 ): ReturnType {
   const calledWithObject: CalledWithObject = {
     wasConfigured: false,
-    argsToValuesMap: new Map(),
+    argsToValuesMap: new ArgsMap(),
   };
 
   const mustBeCalledWithObject: CalledWithObject = {
     wasConfigured: false,
-    argsToValuesMap: new Map(),
+    argsToValuesMap: new ArgsMap(),
   };
 
   const valueContainer: ReturnValueContainer = {
@@ -130,44 +130,35 @@ function returnTheCorrectFakeValue(
   functionName: string
 ) {
   if (calledWithObject.wasConfigured) {
-    for (const storedCalledWithArgs of calledWithObject.argsToValuesMap.keys()) {
-      if (deepEqual(storedCalledWithArgs, actualArgs)) {
-        const expectedReturnValueContainer = calledWithObject.argsToValuesMap.get(
-          storedCalledWithArgs
-        );
+    const expectedReturnValueContainer = calledWithObject.argsToValuesMap.get(actualArgs);
 
-        /* istanbul ignore else */
-        if (expectedReturnValueContainer) {
-          if (expectedReturnValueContainer._isRejectedPromise) {
-            return Promise.reject(expectedReturnValueContainer.value);
-          }
-          if (expectedReturnValueContainer.valuesPerCalls?.length) {
-            return getNextCallValue(expectedReturnValueContainer);
-          }
-
-          return expectedReturnValueContainer.value;
-        }
+    /* istanbul ignore else */
+    if (expectedReturnValueContainer) {
+      if (expectedReturnValueContainer._isRejectedPromise) {
+        return Promise.reject(expectedReturnValueContainer.value);
       }
+      if (expectedReturnValueContainer.valuesPerCalls?.length) {
+        return getNextCallValue(expectedReturnValueContainer);
+      }
+
+      return expectedReturnValueContainer.value;
     }
   }
-  if (mustBeCalledWithObject.wasConfigured) {
-    for (const storedCalledWithArgs of mustBeCalledWithObject.argsToValuesMap.keys()) {
-      if (deepEqual(storedCalledWithArgs, actualArgs)) {
-        const expectedReturnValueContainer = mustBeCalledWithObject.argsToValuesMap.get(
-          storedCalledWithArgs
-        );
-        /* istanbul ignore else */
-        if (expectedReturnValueContainer) {
-          if (expectedReturnValueContainer._isRejectedPromise) {
-            return Promise.reject(expectedReturnValueContainer.value);
-          }
-          if (expectedReturnValueContainer.valuesPerCalls?.length) {
-            return getNextCallValue(expectedReturnValueContainer);
-          }
 
-          return expectedReturnValueContainer.value;
-        }
+  if (mustBeCalledWithObject.wasConfigured) {
+    const expectedReturnValueContainer = mustBeCalledWithObject.argsToValuesMap.get(
+      actualArgs
+    );
+    /* istanbul ignore else */
+    if (expectedReturnValueContainer) {
+      if (expectedReturnValueContainer._isRejectedPromise) {
+        return Promise.reject(expectedReturnValueContainer.value);
       }
+      if (expectedReturnValueContainer.valuesPerCalls?.length) {
+        return getNextCallValue(expectedReturnValueContainer);
+      }
+
+      return expectedReturnValueContainer.value;
     }
     errorHandler.throwArgumentsError(actualArgs, functionName);
   }

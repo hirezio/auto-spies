@@ -35,6 +35,7 @@ export function getWebpackConfig(forTest: boolean = false): webpack.Configuratio
             /fake-classes-to-test.ts/,
             /angular-provider-helper.ts/,
             /error-handler.ts/,
+            /args-map.ts/,
             /create-observable-with-values.ts/,
           ],
         },

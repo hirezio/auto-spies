@@ -99,6 +99,21 @@ describe('createSpyFromClass', () => {
       });
     });
 
+    describe(`GIVEN it is configured differently for the same input arguments 
+              WHEN it is called with the expected parameters`, () => {
+      Given(() => {
+        fakeClassSpy.getSyncValue.calledWith(...fakeArgs).returnValue('FAKE VALUE 2');
+      });
+
+      When(() => {
+        actualResult = fakeClassSpy.getSyncValue(...fakeArgs);
+      });
+
+      Then('return the correct value', () => {
+        expect(actualResult).toBe('FAKE VALUE 2');
+      });
+    });
+
     describe('WHEN it is called with the wrong parameters', () => {
       When(() => {
         actualResult = fakeClassSpy.getSyncValue(WRONG_VALUE);
