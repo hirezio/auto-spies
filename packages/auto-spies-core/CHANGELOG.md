@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.6.1](https://github.com/hirezio/auto-spies/compare/@hirez_io/auto-spies-core@1.6.0...@hirez_io/auto-spies-core@1.6.1) (2021-01-18)
+
+
+### Bug Fixes
+
+* **global:** fix multi calledWith bug ([777fc59](https://github.com/hirezio/auto-spies/commit/777fc59a3fc2cff80787bed37c385d1f2e664704)), closes [#39](https://github.com/hirezio/auto-spies/issues/39)
+
+
+
+
+
 # [1.6.0](https://github.com/hirezio/auto-spies/compare/@hirez_io/auto-spies-core@1.5.0...@hirez_io/auto-spies-core@1.6.0) (2020-12-20)
 
 

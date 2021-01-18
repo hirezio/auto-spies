@@ -1,6 +1,6 @@
 {
   "name": "jest-auto-spies",
-  "version": "1.6.1",
+  "version": "1.6.2",
   "author": {
     "name": "Shai Reznik",
     "company": "HiRez.io"
@@ -41,7 +41,7 @@
     "typescript": "^3.9.7"
   },
   "dependencies": {
-    "@hirez_io/auto-spies-core": "1.6.0"
+    "@hirez_io/auto-spies-core": "1.6.1"
   },
   "peerDependencies": {
     "jest": "< 27.x",
