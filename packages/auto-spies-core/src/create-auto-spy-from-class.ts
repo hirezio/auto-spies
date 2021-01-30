@@ -85,16 +85,20 @@ function getAllMethodNames(obj: any): string[] {
     const parentObj = Object.getPrototypeOf(obj);
     // we don't want to spy on Function.prototype methods
     if (parentObj) {
-      methods = methods.concat(Object.getOwnPropertyNames(obj));
+      methods = methods.concat(extractMethodsFromObject(obj));
     }
     obj = parentObj;
   }
-
-  const constructorIndex = methods.indexOf('constructor');
-
-  /* istanbul ignore else */
-  if (constructorIndex >= 0) {
-    methods.splice(constructorIndex, 1);
-  }
   return methods;
+}
+
+function extractMethodsFromObject(obj: any) {
+  const propertyDescriptors = Object.getOwnPropertyDescriptors(obj);
+  return Object.keys(propertyDescriptors).reduce((names, name) => {
+    const descriptor = propertyDescriptors[name];
+    if (name !== 'constructor' && !descriptor.get) {
+      names.push(name);
+    }
+    return names;
+  }, [] as string[]);
 }

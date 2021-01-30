@@ -1,5 +1,5 @@
 import { errorHandler } from '@hirez_io/auto-spies-core';
-import { Subject, merge, ReplaySubject } from 'rxjs';
+import { Subject, merge } from 'rxjs';
 import { SubscriberSpy, subscribeSpyTo } from '@hirez_io/observer-spy';
 import { Spy } from '../jasmine-auto-spies.types';
 import { FakeClass, FakeChildClass } from './fake-classes-to-test';
@@ -593,6 +593,26 @@ describe('createSpyFromClass - Observables', () => {
         Then('return value should be the fake value', () => {
           expect(observerSpy.getLastValue()).toBe(FAKE_VALUE);
         });
+      });
+    });
+
+    describe(`GIVEN class spy with a getter returning an observable
+             WHEN calling nextWith with fake value and subscribing`, () => {
+      Given(() => {
+        fakeClassSpy = createSpyFromClass(FakeClass, {
+          observablePropsToSpyOn: ['observablePropAsGetter'],
+        });
+        fakeClassSpy.observablePropAsGetter.nextWith(FAKE_VALUE);
+      });
+
+      When(() => {
+        observerSpy = subscribeSpyTo(fakeClassSpy.observablePropAsGetter, {
+          expectErrors: errorIsExpected,
+        });
+      });
+
+      Then('return value should be the fake value', () => {
+        expect(observerSpy.getLastValue()).toBe(FAKE_VALUE);
       });
     });
 

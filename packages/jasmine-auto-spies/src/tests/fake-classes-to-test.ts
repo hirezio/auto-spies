@@ -5,6 +5,10 @@ export class FakeClass {
   public someProp: number = 1;
   public observableProp: Observable<any> = new Observable();
 
+  public get observablePropAsGetter() {
+    return this.observableProp;
+  }
+
   public getSyncValue(): string {
     return '';
   }
