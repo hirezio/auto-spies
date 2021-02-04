@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.6.3](https://github.com/hirezio/auto-spies/compare/jest-auto-spies@1.6.2...jest-auto-spies@1.6.3) (2021-02-04)
+
+
+### Bug Fixes
+
+* **auto-spies-core:** don't add getters to method names when creating spies from class ([41e43c7](https://github.com/hirezio/auto-spies/commit/41e43c76d4b494ec7e57cdc075ef0339c69435db)), closes [#40](https://github.com/hirezio/auto-spies/issues/40)
+
+
+
+
+
 ## [1.6.2](https://github.com/hirezio/auto-spies/compare/jest-auto-spies@1.6.1...jest-auto-spies@1.6.2) (2021-01-18)
 
 
