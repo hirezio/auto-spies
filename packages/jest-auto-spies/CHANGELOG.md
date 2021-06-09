@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.6.5](https://github.com/hirezio/auto-spies/compare/jest-auto-spies@1.6.4...jest-auto-spies@1.6.5) (2021-06-09)
+
+
+### Bug Fixes
+
+* **global:** fix observable props nextWithValues not working ([6fddf74](https://github.com/hirezio/auto-spies/commit/6fddf74a1cb3ffc182e8353b3ce113e0022d1bb4)), closes [#49](https://github.com/hirezio/auto-spies/issues/49)
+
+
+
+
+
 ## [1.6.4](https://github.com/hirezio/auto-spies/compare/jest-auto-spies@1.6.3...jest-auto-spies@1.6.4) (2021-06-09)
 
 **Note:** Version bump only for package jest-auto-spies
