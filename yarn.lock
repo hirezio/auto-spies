@@ -3377,14 +3377,6 @@ code-point-at@^1.0.0:
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/code-point-at/-/code-point-at-1.1.0.tgz#0d070b4d043a5bea33a2f1a40e2edb3d9a4ccf77"
 
-code-stringify@2.0.3:
-  version "2.0.3"
-  resolved "https://registry.yarnpkg.com/code-stringify/-/code-stringify-2.0.3.tgz#28e8a4302bfb4c6cb56622e1c239de22e7841d63"
-  integrity sha512-1MRdC7+58TZYRCDwBUKm829mlILvfvJiBRmPhO7gxbB+wFQ56IMPuqXRrL+/xYXBWMVdyvvfxbFy/g87Uoc1Lg==
-  dependencies:
-    core-util-is "^1.0.2"
-    err-object "^4.3.1"
-
 collapse-white-space@^1.0.2:
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/collapse-white-space/-/collapse-white-space-1.0.6.tgz#e63629c0016665792060dbbeb79c42239d2c5287"
@@ -3782,7 +3774,7 @@ core-js@^3.6.1:
   resolved "https://registry.yarnpkg.com/core-js/-/core-js-3.6.5.tgz#7395dc273af37fb2e50e9bd3d9fe841285231d1a"
   integrity sha512-vZVEEwZoIsI+vPEuoF9Iqf5H7/M3eeQqWlQnYa8FSKKePuYTf5MWnxb5SDAzCa60b3JBRS5g9b+Dq7b1y/RCrA==
 
-core-util-is@^1.0.2, core-util-is@~1.0.0:
+core-util-is@~1.0.0:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/core-util-is/-/core-util-is-1.0.2.tgz#b5fd54220aa2bc5ab57aab7140c940754503c1a7"
 
@@ -4519,11 +4511,6 @@ err-code@^1.0.0:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/err-code/-/err-code-1.1.2.tgz#06e0116d3028f6aef4806849eb0ea6a748ae6960"
   integrity sha1-BuARbTAo9q70gGhJ6w6mp0iuaWA=
-
-err-object@^4.3.1:
-  version "4.5.0"
-  resolved "https://registry.yarnpkg.com/err-object/-/err-object-4.5.0.tgz#6775c9947480ba079474a1367012db64cb6deed3"
-  integrity sha512-b8TWtwNev/MEqXoKO65Em21nOEzVS78cl/vF0IVKfaCoGKT0JuRAE8yQlbMHPDAdKp402eEtz7sDe5QtjrFcIw==
 
 errno@^0.1.3:
   version "0.1.4"

@@ -639,7 +639,7 @@ abstract class MyAbstractClass {
 
 describe(() => {
   //                                                    👇
-  abstractClassSpy = createSpyFromClass(MyAbstractClass as any);
+  abstractClassSpy = createSpyFromClass<MyAbstractClass>(MyAbstractClass as any);
   abstractClassSpy.getName.and.returnValue('Evil Baboon');
 });
 ```
@@ -654,7 +654,9 @@ abstract class MyAbstractClass {
 
 describe('...', () => {
   //                                                                     👇
-  abstractClassSpy = createSpyFromClass(MyAbstractClass as any, ['getAnimalName']);
+  abstractClassSpy = createSpyFromClass<MyAbstractClass>(MyAbstractClass as any, [
+    'getAnimalName',
+  ]);
   // OR
 
   abstractClassSpy.getAnimalName.and.returnValue('Evil Badger');

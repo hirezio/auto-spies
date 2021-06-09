@@ -634,7 +634,7 @@ abstract class MyAbstractClass {
 
 describe(() => {
   //                                                    👇
-  abstractClassSpy = createSpyFromClass(MyAbstractClass as any);
+  abstractClassSpy = createSpyFromClass<MyAbstractClass>(MyAbstractClass as any);
   abstractClassSpy.getName.mockReturnValue('Evil Baboon');
 });
 ```
@@ -649,7 +649,9 @@ abstract class MyAbstractClass {
 
 describe(() => {
   //                                                                     👇
-  abstractClassSpy = createSpyFromClass(MyAbstractClass as any, ['getAnimalName']);
+  abstractClassSpy = createSpyFromClass<MyAbstractClass>(MyAbstractClass as any, [
+    'getAnimalName',
+  ]);
   // OR
 
   abstractClassSpy.getAnimalName.mockReturnValue('Evil Badger');
