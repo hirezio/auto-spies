@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.6.3](https://github.com/hirezio/auto-spies/compare/@hirez_io/auto-spies-core@1.6.2...@hirez_io/auto-spies-core@1.6.3) (2021-06-09)
+
+
+### Bug Fixes
+
+* **global:** replace `code-stringify` with `serialize-javascript` ([2e2f6a7](https://github.com/hirezio/auto-spies/commit/2e2f6a74c60996f621229f562a79c42d94be096e)), closes [#50](https://github.com/hirezio/auto-spies/issues/50)
+
+
+
+
+
 ## [1.6.2](https://github.com/hirezio/auto-spies/compare/@hirez_io/auto-spies-core@1.6.1...@hirez_io/auto-spies-core@1.6.2) (2021-02-04)
 
 
