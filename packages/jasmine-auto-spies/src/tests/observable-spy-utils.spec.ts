@@ -594,6 +594,26 @@ describe('createSpyFromClass - Observables', () => {
           expect(observerSpy.getLastValue()).toBe(FAKE_VALUE);
         });
       });
+
+      describe(`GIVEN observable spy is configured to emit multiple values`, () => {
+        Given(() => {
+          fakeClassSpy.observableProp.nextWithValues([
+            { value: FAKE_VALUE + '1' },
+            { value: FAKE_VALUE + '2' },
+            { value: FAKE_VALUE + '3' },
+            { complete: true },
+          ]);
+        });
+
+        Then('return value should be the fake values', async () => {
+          await observerSpy.onComplete();
+          expect(observerSpy.getValues()).toEqual([
+            FAKE_VALUE + '1',
+            FAKE_VALUE + '2',
+            FAKE_VALUE + '3',
+          ]);
+        });
+      });
     });
 
     describe(`GIVEN class spy with a getter returning an observable
@@ -607,6 +627,26 @@ describe('createSpyFromClass - Observables', () => {
 
       When(() => {
         observerSpy = subscribeSpyTo(fakeClassSpy.observablePropAsGetter, {
+          expectErrors: errorIsExpected,
+        });
+      });
+
+      Then('return value should be the fake value', () => {
+        expect(observerSpy.getLastValue()).toBe(FAKE_VALUE);
+      });
+    });
+
+    describe(`GIVEN class spy with a subject property
+             WHEN calling nextWith with fake value and subscribing`, () => {
+      Given(() => {
+        fakeClassSpy = createSpyFromClass(FakeClass, {
+          observablePropsToSpyOn: ['subjectProp'],
+        });
+        fakeClassSpy.subjectProp.nextWith(FAKE_VALUE);
+      });
+
+      When(() => {
+        observerSpy = subscribeSpyTo(fakeClassSpy.subjectProp, {
           expectErrors: errorIsExpected,
         });
       });

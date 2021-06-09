@@ -4,6 +4,7 @@ import { Observable, of, Subject } from 'rxjs';
 export class FakeClass {
   public someProp: number = 1;
   public observableProp: Observable<any> = new Observable();
+  public subjectProp: Subject<any> = new Subject();
 
   public get observablePropAsGetter() {
     return this.observableProp;

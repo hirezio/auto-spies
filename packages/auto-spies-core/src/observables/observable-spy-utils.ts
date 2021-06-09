@@ -1,4 +1,4 @@
-import { Observable, ReplaySubject } from 'rxjs';
+import { defer, Observable, ReplaySubject } from 'rxjs';
 import { delay, take } from 'rxjs/operators';
 import {
   ReturnValueContainer,
@@ -51,11 +51,13 @@ export function addObservableHelpersToCalledWithObject(
 }
 
 export function createObservablePropSpy<T>(): T & AddObservableSpyMethods<T> {
-  const subject = createReplaySubject();
+  let subject = createReplaySubject();
 
-  const observableSpy: any = subject.asObservable();
+  const observableSpy: any = defer(() => subject);
 
-  addObservableHelpers(observableSpy, subject);
+  addObservableHelpers(observableSpy, subject, (configuredSubject) => {
+    subject = configuredSubject;
+  });
 
   return observableSpy;
 }
