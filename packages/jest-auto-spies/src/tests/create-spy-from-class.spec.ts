@@ -34,7 +34,7 @@ describe('createSpyFromClass', () => {
 
     throwArgumentsErrorSpyFunction = jest
       .spyOn(errorHandler, 'throwArgumentsError')
-      .mockImplementation(() => {});
+      .mockImplementation();
     fakeClassSpy = createSpyFromClass(FakeClass);
   });
 

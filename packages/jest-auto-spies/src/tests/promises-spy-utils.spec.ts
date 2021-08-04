@@ -9,7 +9,7 @@ let actualResult: any;
 let actualError: any;
 let fakeArgs: any[];
 const WRONG_VALUE = 'WRONG VALUE';
-let throwArgumentsErrorSpyFunction: jasmine.Spy;
+let throwArgumentsErrorSpyFunction: jest.SpyInstance;
 let errorIsExpected: boolean;
 
 function verifyArgumentsErrorWasThrown({
@@ -33,7 +33,9 @@ describe('createSpyFromClass - promises', () => {
     fakeArgs = [];
     errorIsExpected = false;
 
-    throwArgumentsErrorSpyFunction = spyOn(errorHandler, 'throwArgumentsError');
+    throwArgumentsErrorSpyFunction = jest
+      .spyOn(errorHandler, 'throwArgumentsError')
+      .mockImplementation();
 
     fakeClassSpy = createSpyFromClass(FakeClass);
   });

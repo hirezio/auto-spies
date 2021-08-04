@@ -12,7 +12,7 @@ const WRONG_VALUE = 'WRONG VALUE';
 let fakeArgs: any[];
 let errorIsExpected: boolean;
 let observerSpy: SubscriberSpy<any>;
-let throwArgumentsErrorSpyFunction: jasmine.Spy;
+let throwArgumentsErrorSpyFunction: jest.SpyInstance<any>;
 
 function verifyArgumentsErrorWasThrown({
   actualArgs,
@@ -32,7 +32,9 @@ describe('createSpyFromClass - Observables', () => {
     fakeArgs = [];
     errorIsExpected = false;
 
-    throwArgumentsErrorSpyFunction = spyOn(errorHandler, 'throwArgumentsError');
+    throwArgumentsErrorSpyFunction = jest
+      .spyOn(errorHandler, 'throwArgumentsError')
+      .mockImplementation();
   });
 
   describe('GIVEN a fake Class is auto spied on', () => {
