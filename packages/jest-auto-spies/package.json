@@ -33,18 +33,18 @@
     "test:watch": "jest --watchAll"
   },
   "devDependencies": {
-    "@types/jest": "26.0.13",
+    "@types/jest": "26.0.24",
     "@types/node": "14.6.4",
-    "jest": "26.4.2",
+    "jest": "27.0.6",
     "rxjs": "^6.0.0",
-    "ts-jest": "26.3.0",
+    "ts-jest": "27.0.4",
     "typescript": "^3.9.7"
   },
   "dependencies": {
     "@hirez_io/auto-spies-core": "1.6.4"
   },
   "peerDependencies": {
-    "jest": "< 27.x",
+    "jest": "< 28.x",
     "rxjs": "^6.0.0",
     "typescript": ">=2.8.1"
   }
