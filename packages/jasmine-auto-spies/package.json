@@ -46,7 +46,7 @@
   },
   "peerDependencies": {
     "jasmine-core": ">=2.6.0 < 4",
-    "rxjs": "^6.0.0",
+    "rxjs": ">=6.0.0 < 8",
     "typescript": ">=2.8.1"
   }
 }

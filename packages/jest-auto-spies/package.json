@@ -45,7 +45,7 @@
   },
   "peerDependencies": {
     "jest": "< 28.x",
-    "rxjs": "^6.0.0",
+    "rxjs": ">=6.0.0 < 8",
     "typescript": ">=2.8.1"
   }
 }
