@@ -105,6 +105,15 @@
       "contributions": [
         "doc"
       ]
+    },
+    {
+      "login": "rainerhahnekamp",
+      "name": "Rainer Hahnekamp",
+      "avatar_url": "https://avatars.githubusercontent.com/u/5721205?v=4",
+      "profile": "https://www.rainerhahnekamp.com",
+      "contributions": [
+        "maintenance"
+      ]
     }
   ],
   "contributorsPerLine": 7

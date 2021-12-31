@@ -773,6 +773,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
   <tr>
   <td align="center"><a href="https://github.com/GuilleEneas"><img src="https://avatars0.githubusercontent.com/u/5407478?v=4" width="100px;" alt=""/><br /><sub><b>Guille Eneas Timón Grau</b></sub></a><br /><a href="https://github.com/hirezio/auto-spies/commits?author=GuilleEneas" title="Code">💻</a> <a href="https://github.com/hirezio/auto-spies/commits?author=GuilleEneas" title="Tests">⚠️</a></td>
     <td align="center"><a href="https://www.coding-academy.ca/"><img src="https://avatars0.githubusercontent.com/u/2942116?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Laurent Duveau </b></sub></a><br /><a href="https://github.com/hirezio/auto-spies/commits?author=ldex" title="Documentation">📖</a></td>
+    <td align="center"><a href="https://www.rainerhahnekamp.com"><img src="https://avatars.githubusercontent.com/u/5721205?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Rainer Hahnekamp</b></sub></a><br /><a href="#maintenance-rainerhahnekamp" title="Maintenance">🚧</a></td>
   </tr>
 </table>
 
