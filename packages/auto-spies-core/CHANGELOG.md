@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.6.5](https://github.com/hirezio/auto-spies/compare/@hirez_io/auto-spies-core@1.6.4...@hirez_io/auto-spies-core@1.6.5) (2021-12-31)
+
+**Note:** Version bump only for package @hirez_io/auto-spies-core
+
+
+
+
+
 ## [1.6.4](https://github.com/hirezio/auto-spies/compare/@hirez_io/auto-spies-core@1.6.3...@hirez_io/auto-spies-core@1.6.4) (2021-06-09)
 
 
