@@ -8,9 +8,6 @@ export function getWebpackConfig(forTest: boolean = false): webpack.Configuratio
     resolve: {
       extensions: ['.ts', '.js'],
       plugins: [new TsconfigPathsPlugin({ configFile: '../../tsconfig.json' })],
-      fallback: {
-        buffer: require.resolve('buffer/'),
-      },
     },
     module: {
       rules: [

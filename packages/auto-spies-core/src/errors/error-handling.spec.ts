@@ -51,7 +51,20 @@ describe('throwArgumentsError', () => {
 
       Then('throw error with arguments', () => {
         expect(actualError).toContain("The function 'fakeFunction' was configured with");
-        expect(actualError).toContain('But the actual arguments were: {"yep":1}');
+        expect(actualError).toContain('But the actual arguments were: {yep:1}');
+      });
+    });
+
+    describe('GIVEN actual args of type object do not match', () => {
+      Given(() => {
+        fakeActualArgs = [{ doSomething: function () {} }];
+      });
+
+      Then('throw error with arguments', () => {
+        expect(actualError).toContain("The function 'fakeFunction' was configured with");
+        expect(actualError).toContain(
+          'But the actual arguments were: {doSomething:function () { }}'
+        );
       });
     });
   });

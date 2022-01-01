@@ -49,7 +49,7 @@
     "typescript": "^4.5.4"
   },
   "dependencies": {
-    "serialize-javascript": "6.0.0"
+    "javascript-stringify": "2.1.0"
   },
   "peerDependencies": {
     "rxjs": ">=6.0.0 < 8",

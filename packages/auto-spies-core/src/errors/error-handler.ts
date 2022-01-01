@@ -1,5 +1,4 @@
-// eslint-disable-next-line @typescript-eslint/no-var-requires
-const stringify = require('serialize-javascript');
+import { stringify } from 'javascript-stringify';
 
 export const errorHandler = {
   throwArgumentsError(actualArgs: any[], functionName: string): void {
@@ -14,7 +13,8 @@ export const errorHandler = {
               `;
     } else {
       let formattedArgs = stringify(actualArgs);
-      formattedArgs = formattedArgs.substring(1, formattedArgs.length - 1);
+      /* istanbul ignore next */
+      formattedArgs = formattedArgs?.substring(1, formattedArgs.length - 1);
 
       errorMessage += `
               But the actual arguments were: ${formattedArgs}
