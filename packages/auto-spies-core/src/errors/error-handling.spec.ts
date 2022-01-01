@@ -15,7 +15,7 @@ describe('throwArgumentsError', () => {
     When(() => {
       try {
         errorHandler.throwArgumentsError(fakeActualArgs, fakeFunctionName);
-      } catch (error) {
+      } catch (error: any) {
         actualError = error.message;
       }
     });

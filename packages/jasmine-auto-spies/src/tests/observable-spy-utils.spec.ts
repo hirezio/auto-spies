@@ -326,7 +326,7 @@ describe('createSpyFromClass - Observables', () => {
         }
         let fakeArgs2: any[];
         let FAKE_VALUE2: FakeType;
-        let observerSpy2: SubscriberSpy<FakeType>;
+        let observerSpy2: SubscriberSpy<any>;
 
         Given(() => {
           FAKE_VALUE2 = { name: 'FAKE VALUE 2' };

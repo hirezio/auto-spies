@@ -65,8 +65,7 @@ export function createObservablePropSpy<T>(): T & AddObservableSpyMethods<T> {
 function addObservableHelpers<T>(
   objectToDecorate: any,
   providedSubject: ReplaySubject<T>,
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  onSubjectConfiguredCallback: (subject: ReplaySubject<T>) => void = function noop() {}
+  onSubjectConfiguredCallback: (subject: ReplaySubject<T>) => void
 ) {
   objectToDecorate.nextWith = function nextWith(value: T) {
     providedSubject.next(value);

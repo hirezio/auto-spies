@@ -16,7 +16,7 @@ module.exports = {
   setupFilesAfterEnv: ['../../node_modules/@hirez_io/jest-given/dist/jest-given.js'],
   globals: {
     'ts-jest': {
-      tsConfig: '<rootDir>/tsconfig.spec.json',
+      tsconfig: '<rootDir>/tsconfig.spec.json',
     },
   },
 };

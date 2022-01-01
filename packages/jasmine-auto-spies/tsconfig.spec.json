@@ -4,6 +4,7 @@
     "rootDir": "./",
     "target": "es2015",
     "composite": true,
+    "declarationDir": "./dist",
     "types": ["jasmine", "@hirez_io/jasmine-given", "node"]
   },
   "references": [

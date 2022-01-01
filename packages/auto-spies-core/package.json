@@ -37,19 +37,19 @@
   "devDependencies": {
     "@hirez_io/jest-given": "1.0.3",
     "@types/deep-equal": "1.0.1",
-    "@types/jest": "26.0.13",
-    "@types/node": "14.14.21",
-    "jest": "26.4.2",
+    "@types/jest": "27.4.0",
+    "@types/node": "17.0.5",
+    "jest": "27.4.5",
     "npm-run-all": "4.1.5",
-    "prettier": "2.1.0",
+    "prettier": "2.5.1",
     "rimraf": "3.0.2",
-    "rxjs": "^6.0.0",
-    "ts-jest": "26.3.0",
-    "ts-node": "^3.0.6",
-    "typescript": "^3.9.7"
+    "rxjs": "^7.5.1",
+    "ts-jest": "27.1.2",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.5.4"
   },
   "dependencies": {
-    "serialize-javascript": "5.0.1"
+    "serialize-javascript": "6.0.0"
   },
   "peerDependencies": {
     "rxjs": ">=6.0.0 < 8",
