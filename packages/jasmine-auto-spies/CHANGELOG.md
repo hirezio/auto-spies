@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.9.8](https://github.com/hirezio/auto-spies/compare/jasmine-auto-spies@6.9.7...jasmine-auto-spies@6.9.8) (2022-01-01)
+
+
+### Bug Fixes
+
+* **core:** change serialize-javascript to javascript-stringify ([6d02a4a](https://github.com/hirezio/auto-spies/commit/6d02a4aa9f0621db700f1ad2e2b49d8b433a4c19)), closes [#55](https://github.com/hirezio/auto-spies/issues/55)
+
+
+
+
+
 ## [6.9.7](https://github.com/hirezio/auto-spies/compare/jasmine-auto-spies@6.9.6...jasmine-auto-spies@6.9.7) (2022-01-01)
 
 **Note:** Version bump only for package jasmine-auto-spies
