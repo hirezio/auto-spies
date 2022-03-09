@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.9.9](https://github.com/hirezio/auto-spies/compare/jasmine-auto-spies@6.9.8...jasmine-auto-spies@6.9.9) (2022-03-09)
+
+**Note:** Version bump only for package jasmine-auto-spies
+
+
+
+
+
 ## [6.9.8](https://github.com/hirezio/auto-spies/compare/jasmine-auto-spies@6.9.7...jasmine-auto-spies@6.9.8) (2022-01-01)
 
 
