@@ -114,6 +114,17 @@
       "contributions": [
         "maintenance"
       ]
+    },
+    {
+      "login": "WynieCronje",
+      "name": "WynieCronje",
+      "avatar_url": "https://avatars.githubusercontent.com/u/4537265?v=4",
+      "profile": "https://github.com/WynieCronje",
+      "contributions": [
+        "code",
+        "bug",
+        "maintenance"
+      ]
     }
   ],
   "contributorsPerLine": 7
