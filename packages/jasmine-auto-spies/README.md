@@ -15,7 +15,7 @@ Easy and type safe way to write spies for jasmine tests, for both sync and async
 <br/>
 
 <div align="center">
-  <a href="https://learn.hirez.io/?utm_source=github&utm_medium=link&utm_campaign=jasmine+auto+spies">
+  <a href="https://hirez.io?utm_medium=Open_Source&utm_source=Github&utm_campaign=Lead_Generation&utm_content=jasmine_auto_spies_readme_banner">
     <img src="../../for-readme/test-angular.jpg"
       alt="TestAngular.com - Free Angular Testing Workshop - The Roadmap to Angular Testing Mastery"
       width="600"
