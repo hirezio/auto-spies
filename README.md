@@ -1,7 +1,7 @@
 # auto-spies monorepo
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-10-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-11-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 Easy and type safe way to write spies for tests, for both sync and async (promises, Observables) returning methods.
@@ -66,6 +66,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
     <td align="center"><a href="https://github.com/GuilleEneas"><img src="https://avatars0.githubusercontent.com/u/5407478?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Guille Eneas Timón Grau</b></sub></a><br /><a href="https://github.com/hirezio/auto-spies/commits?author=GuilleEneas" title="Code">💻</a> <a href="https://github.com/hirezio/auto-spies/commits?author=GuilleEneas" title="Tests">⚠️</a></td>
     <td align="center"><a href="https://www.rainerhahnekamp.com"><img src="https://avatars.githubusercontent.com/u/5721205?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Rainer Hahnekamp</b></sub></a><br /><a href="#maintenance-rainerhahnekamp" title="Maintenance">🚧</a></td>
     <td align="center"><a href="https://github.com/WynieCronje"><img src="https://avatars.githubusercontent.com/u/4537265?v=4?s=100" width="100px;" alt=""/><br /><sub><b>WynieCronje</b></sub></a><br /><a href="https://github.com/hirezio/auto-spies/commits?author=WynieCronje" title="Code">💻</a> <a href="https://github.com/hirezio/auto-spies/issues?q=author%3AWynieCronje" title="Bug reports">🐛</a> <a href="#maintenance-WynieCronje" title="Maintenance">🚧</a></td>
+    <td align="center"><a href="https://github.com/gestj"><img src="https://avatars.githubusercontent.com/u/6358771?v=4?s=100" width="100px;" alt=""/><br /><sub><b>Johannes Gest</b></sub></a><br /><a href="#maintenance-gestj" title="Maintenance">🚧</a></td>
   </tr>
 </table>
 
