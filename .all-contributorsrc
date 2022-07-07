@@ -111,6 +111,15 @@
         "bug",
         "maintenance"
       ]
+    },
+    {
+      "login": "gestj",
+      "name": "Johannes Gest",
+      "avatar_url": "https://avatars.githubusercontent.com/u/6358771?v=4",
+      "profile": "https://github.com/gestj",
+      "contributions": [
+        "maintenance"
+      ]
     }
   ],
   "contributorsPerLine": 7,
