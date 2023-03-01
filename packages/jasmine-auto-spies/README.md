@@ -83,7 +83,7 @@ Easy and type safe way to write spies for jasmine tests, for both sync and async
 ## Installation
 
 ```console
-yarn add -D jasmine-auto-spies
+pnpm add -D jasmine-auto-spies
 ```
 
 or
