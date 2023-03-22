@@ -54,7 +54,7 @@ git checkout -b my-fix-branch master
 
 ### ✅ 4. Make sure you add / modify tests
 
-Run `yarn test:full` to make sure there aren't any errors
+Run `pnpm test:full` to make sure there aren't any errors
 
 .
 
@@ -63,7 +63,7 @@ Run `yarn test:full` to make sure there aren't any errors
 Instead of `git commit` use the following command:
 
 ```shell
-yarn commit
+pnpm commit
 ```
 
 It will then ask you a bunch of questions.

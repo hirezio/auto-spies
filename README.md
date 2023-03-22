@@ -1,7 +1,9 @@
 # auto-spies monorepo
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
+
 [![All Contributors](https://img.shields.io/badge/all_contributors-12-orange.svg?style=flat-square)](#contributors-)
+
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 Easy and type safe way to write spies for tests, for both sync and async (promises, Observables) returning methods.

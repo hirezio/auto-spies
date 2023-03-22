@@ -63,7 +63,7 @@ Easy and type safe way to write spies for jest tests, for both sync and async (p
 ## Installation
 
 ```console
-yarn add -D jest-auto-spies
+pnpm add -D jest-auto-spies
 ```
 
 or
@@ -608,9 +608,8 @@ function getResultsObservable(): Observable<number> {
 // TEST:
 
 it('should ...', () => {
-  const functionSpy = createFunctionSpy<typeof getResultsObservable>(
-    'getResultsObservable'
-  );
+  const functionSpy =
+    createFunctionSpy<typeof getResultsObservable>('getResultsObservable');
 
   functionSpy.nextWith(4);
 

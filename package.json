@@ -1,5 +1,4 @@
 {
-  "name": "auto-spies",
   "private": true,
   "version": "0.0.0-development",
   "description": "Auto spies monorepo",
@@ -20,7 +19,8 @@
     "lint:commitmsg": "commitlint -E HUSKY_GIT_PARAMS",
     "test": "lerna run test",
     "test:full": "run-s lint:fix test",
-    "postinstall": "lerna bootstrap"
+    "postinstall": "lerna bootstrap",
+    "prepare": "husky install"
   },
   "workspaces": [
     "packages/*"
@@ -32,8 +32,8 @@
   },
   "husky": {
     "hooks": {
-      "pre-commit": "yarn format:fix",
-      "commit-msg": "yarn lint:commitmsg"
+      "pre-commit": "pnpm format:fix",
+      "commit-msg": "pnpm lint:commitmsg"
     }
   },
   "keywords": [
@@ -56,12 +56,12 @@
     "@typescript-eslint/eslint-plugin": "^5.8.1",
     "@typescript-eslint/parser": "^5.8.1",
     "all-contributors-cli": "6.19.0",
-    "commitizen": "4.2.0",
-    "cz-conventional-changelog": "3.2.1",
+    "commitizen": "4.3.0",
+    "cz-conventional-changelog": "3.3.0",
     "doctoc": "1.4.0",
     "eslint": "^8.5.0",
     "eslint-config-prettier": "^8.3.0",
-    "husky": "4.2.5",
+    "husky": "8.0.3",
     "karma": "^6.3.9",
     "karma-chrome-launcher": "3.1.0",
     "karma-coverage-istanbul-reporter": "3.0.3",
