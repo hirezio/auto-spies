@@ -7,8 +7,6 @@ import {
   ClassType,
 } from '@hirez_io/auto-spies-core';
 
-export { ClassSpyConfiguration } from '@hirez_io/auto-spies-core';
-
 export function createSpyFromClass<T>(
   ObjectClass: ClassType<T>,
   methodsToSpyOnOrConfig?: OnlyMethodKeysOf<T>[] | ClassSpyConfiguration<T>
