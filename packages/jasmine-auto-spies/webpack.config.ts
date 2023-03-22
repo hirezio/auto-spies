@@ -25,9 +25,17 @@ export function getWebpackConfig(forTest: boolean = false): webpack.Configuratio
         },
         {
           test: /\.(js|ts)$/,
-          loader: 'istanbul-instrumenter-loader',
-          options: { esModules: true },
-          enforce: 'post',
+          use: [
+            '@ephesoft/webpack.istanbul.loader',
+            {
+              loader: 'ts-loader',
+              options: {
+                configFile: forTest ? 'tsconfig.spec.json' : 'tsconfig.json',
+                projectReferences: true,
+                transpileOnly: true,
+              },
+            },
+          ],
           exclude: [
             /\.(e2e|spec)\.ts$/,
             /node_modules/,
