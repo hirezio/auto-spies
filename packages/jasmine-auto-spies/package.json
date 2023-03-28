@@ -1,6 +1,6 @@
 {
   "name": "jasmine-auto-spies",
-  "version": "6.9.9",
+  "version": "7.0.0",
   "author": {
     "name": "Shai Reznik",
     "company": "HiRez.io"
@@ -42,7 +42,7 @@
     "typescript": "^4.6.4"
   },
   "dependencies": {
-    "@hirez_io/auto-spies-core": "1.6.7"
+    "@hirez_io/auto-spies-core": "2.0.0"
   },
   "peerDependencies": {
     "jasmine-core": ">=2.6.0 < 5",

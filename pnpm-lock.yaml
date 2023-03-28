@@ -104,7 +104,7 @@ importers:
 
   packages/jasmine-auto-spies:
     specifiers:
-      '@hirez_io/auto-spies-core': 1.6.7
+      '@hirez_io/auto-spies-core': 2.0.0
       '@types/jasmine': ^3.10.2
       '@types/node': 18.15.5
       jasmine-core: 4.6.0
@@ -123,7 +123,7 @@ importers:
 
   packages/jest-auto-spies:
     specifiers:
-      '@hirez_io/auto-spies-core': 1.6.7
+      '@hirez_io/auto-spies-core': 2.0.0
       '@types/jest': 29.5.0
       '@types/node': 18.15.5
       jest: 29.5.0
