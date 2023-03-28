@@ -21,9 +21,6 @@
     "test:full": "run-s lint:fix test",
     "prepare": "husky install"
   },
-  "workspaces": [
-    "packages/*"
-  ],
   "config": {
     "commitizen": {
       "path": "./node_modules/cz-conventional-changelog"
