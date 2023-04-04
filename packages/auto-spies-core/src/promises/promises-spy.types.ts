@@ -1,17 +1,26 @@
-import { ValueConfigPerCall } from '../auto-spies-core.types';
+import { Func, ValueConfigPerCall } from '../auto-spies-core.types';
 
 export type CreatePromiseAutoSpy<
   LibSpecificFunctionSpy,
   LibSpecificFunctionSpyWithPromisesMethods,
-  PromiseReturnType
+  Method extends Func
 > = LibSpecificFunctionSpy &
   LibSpecificFunctionSpyWithPromisesMethods &
-  AddCalledWithToPromiseFunctionSpy<PromiseReturnType>;
+  AddCalledWithToPromiseFunctionSpy<Method>;
 
-export type AddCalledWithToPromiseFunctionSpy<PromiseReturnType> = {
-  calledWith(...args: any[]): AddPromiseSpyMethods<PromiseReturnType>;
-  mustBeCalledWith(...args: any[]): AddPromiseSpyMethods<PromiseReturnType>;
-};
+export type AddCalledWithToPromiseFunctionSpy<Method extends Func> = Method &
+  (Method extends (...args: any[]) => infer ReturnType
+    ? ReturnType extends Promise<infer PromiseReturnType>
+      ? {
+          calledWith(
+            ...args: Parameters<Method>
+          ): AddPromiseSpyMethods<PromiseReturnType>;
+          mustBeCalledWith(
+            ...args: Parameters<Method>
+          ): AddPromiseSpyMethods<PromiseReturnType>;
+        }
+      : never
+    : never);
 
 export interface AddPromiseSpyMethods<T> {
   resolveWith(value?: T): void;

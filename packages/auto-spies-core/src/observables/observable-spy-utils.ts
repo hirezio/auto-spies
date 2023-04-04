@@ -106,7 +106,7 @@ function createReplaySubject<T>(): ReplaySubject<T> {
   return new ReplaySubject(1);
 }
 
-function addNextWithPerCall<T>(
+function addNextWithPerCall(
   objectToDecorate: any,
   returnValueContainer: ReturnValueContainer,
   onValuesPerCallConfigured: (

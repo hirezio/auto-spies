@@ -163,11 +163,11 @@ describe('createSpyFromClass', () => {
             WHEN called with the matching parameters`, () => {
     Given(() => {
       fakeArgs = [1, { a: 2 }];
-      fakeClassSpy.getSyncValue.calledWith(...fakeArgs).returnValue(null);
+      fakeClassSpy.getNullableSyncValue.calledWith(...fakeArgs).returnValue(null);
     });
 
     When(() => {
-      actualResult = fakeClassSpy.getSyncValue(...fakeArgs);
+      actualResult = fakeClassSpy.getNullableSyncValue(...fakeArgs);
     });
 
     Then('return null', () => {

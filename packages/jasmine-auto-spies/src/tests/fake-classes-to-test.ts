@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-empty-function */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Observable, of, Subject } from 'rxjs';
 
 export class FakeClass {
@@ -10,15 +11,19 @@ export class FakeClass {
     return this.observableProp;
   }
 
-  public getSyncValue(): string {
+  public getSyncValue(..._args: any[]): string {
     return '';
   }
 
-  public getPromise(): Promise<any> {
+  public getNullableSyncValue(..._args: any[]): string | null {
+    return '';
+  }
+
+  public getPromise(..._args: any[]): Promise<any> {
     return Promise.resolve();
   }
 
-  public getObservable(): Observable<any> {
+  public getObservable(..._args: any[]): Observable<any> {
     return of();
   }
 
@@ -26,7 +31,7 @@ export class FakeClass {
     return new Subject();
   }
 
-  public arrowMethod: () => void = () => {};
+  public arrowMethod: () => string = () => '';
 }
 
 export class FakeChildClass extends FakeClass {
