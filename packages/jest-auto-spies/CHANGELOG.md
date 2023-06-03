@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.0.0](https://github.com/hirezio/auto-spies/compare/jest-auto-spies@2.0.0...jest-auto-spies@3.0.0) (2023-06-03)
+
+### Bug Fixes
+
+- **types:** typesafety for mocked objects/functions ([d1ffbac](https://github.com/hirezio/auto-spies/commit/d1ffbac0df82f9c54081e8ef5acc3b4bf0b288c5)), closes [#51](https://github.com/hirezio/auto-spies/issues/51)
+
+### BREAKING CHANGES
+
+- **types:** "mockReturnValue" for a function that returns a number no longer accepts something
+  that's not a number
+
 # [2.0.0](https://github.com/hirezio/auto-spies/compare/jest-auto-spies@1.6.11...jest-auto-spies@2.0.0) (2023-03-28)
 
 ### chore
