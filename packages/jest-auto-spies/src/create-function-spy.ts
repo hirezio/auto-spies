@@ -5,7 +5,7 @@ type JestCalledWithObject = { mockReturnValue: (...args: any[]) => void };
 
 export function createFunctionSpy<FunctionType extends Func>(
   name: string
-): AddSpyMethodsByReturnTypes<FunctionType, jasmine.Spy> {
+): AddSpyMethodsByReturnTypes<FunctionType> {
   return createFunctionAutoSpy(
     name,
     addJestSyncMethodsToCalledWithObject,

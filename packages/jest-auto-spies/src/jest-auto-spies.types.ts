@@ -9,13 +9,13 @@ import {
   CreatePromiseAutoSpy,
 } from '@hirez_io/auto-spies-core';
 
-export type Spy<ClassToSpyOn> = AddAutoSpies<ClassToSpyOn, jest.Mock> &
+export type Spy<ClassToSpyOn> = AddJestAutoSpies<ClassToSpyOn> &
   AddAccessorsSpies<ClassToSpyOn, jest.Mock>;
 
-type AddAutoSpies<ClassToSpyOn, LibSpecificFunctionSpy> = {
+type AddJestAutoSpies<ClassToSpyOn> = {
   [Key in keyof ClassToSpyOn /* 
   if it's a method */]: ClassToSpyOn[Key] extends Func
-    ? AddSpyMethodsByReturnTypes<ClassToSpyOn[Key], LibSpecificFunctionSpy>
+    ? AddSpyMethodsByReturnTypes<ClassToSpyOn[Key]>
     : // if it's a property of type Observable
     ClassToSpyOn[Key] extends Observable<infer ObservableReturnType>
     ? ClassToSpyOn[Key] & AddObservableSpyMethods<ObservableReturnType>
@@ -24,38 +24,35 @@ type AddAutoSpies<ClassToSpyOn, LibSpecificFunctionSpy> = {
 };
 
 // Wrap the return type of the given function type with the appropriate spy methods
-export type AddSpyMethodsByReturnTypes<
-  Method extends Func,
-  LibSpecificFunctionSpy
-> = Method &
+export type AddSpyMethodsByReturnTypes<Method extends Func> = Method &
   (Method extends (...args: any[]) => infer ReturnType
     ? // returns a Promise
       ReturnType extends Promise<infer PromiseReturnType>
       ? CreatePromiseAutoSpy<
-          LibSpecificFunctionSpy,
+          jest.MockedFunction<Method>,
           AddPromiseSpyMethods<PromiseReturnType>,
-          PromiseReturnType
+          Method
         >
       : // returns an Observable
       ReturnType extends Observable<infer ObservableReturnType>
       ? CreateObservableAutoSpy<
-          LibSpecificFunctionSpy,
+          jest.MockedFunction<Method>,
           AddObservableSpyMethods<ObservableReturnType>,
-          ObservableReturnType
+          Method
         >
       : // for any other type
-        CreateSyncAutoSpy<Method, LibSpecificFunctionSpy, AddCalledWithToJestFunctionSpy>
+        CreateSyncAutoSpy<
+          Method,
+          jest.MockedFunction<Method>,
+          AddCalledWithToJestFunctionSpy<Method>
+        >
     : never);
 
-export interface AddCalledWithToJestFunctionSpy {
-  calledWith(
-    ...args: any[]
-  ): {
-    mockReturnValue: (value: any) => void;
+export interface AddCalledWithToJestFunctionSpy<Method extends Func> {
+  calledWith(...args: Parameters<Method>): {
+    mockReturnValue: (value: ReturnType<Method>) => void;
   };
-  mustBeCalledWith(
-    ...args: any[]
-  ): {
-    mockReturnValue: (value: any) => void;
+  mustBeCalledWith(...args: Parameters<Method>): {
+    mockReturnValue: (value: ReturnType<Method>) => void;
   };
 }

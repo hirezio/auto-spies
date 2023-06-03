@@ -1,18 +1,27 @@
-import { Subject } from 'rxjs';
-import { ValueConfigPerCall } from '../auto-spies-core.types';
+import { Observable, Subject } from 'rxjs';
+import { Func, ValueConfigPerCall } from '../auto-spies-core.types';
 
 export type CreateObservableAutoSpy<
   LibSpecificFunctionSpy,
   LibSpecificFunctionSpyWithObservableMethods,
-  ObservableReturnType
+  Method extends Func
 > = LibSpecificFunctionSpy &
   LibSpecificFunctionSpyWithObservableMethods &
-  AddCalledWithToObservableFunctionSpy<ObservableReturnType>;
+  AddCalledWithToObservableFunctionSpy<Method>;
 
-export type AddCalledWithToObservableFunctionSpy<ObservableReturnType> = {
-  calledWith(...args: any[]): AddObservableSpyMethods<ObservableReturnType>;
-  mustBeCalledWith(...args: any[]): AddObservableSpyMethods<ObservableReturnType>;
-};
+export type AddCalledWithToObservableFunctionSpy<Method extends Func> = Method &
+  (Method extends (...args: any[]) => infer ReturnType
+    ? ReturnType extends Observable<infer ObservableReturnType>
+      ? {
+          calledWith(
+            ...args: Parameters<Method>
+          ): AddObservableSpyMethods<ObservableReturnType>;
+          mustBeCalledWith(
+            ...args: Parameters<Method>
+          ): AddObservableSpyMethods<ObservableReturnType>;
+        }
+      : never
+    : never);
 
 export interface AddObservableSpyMethods<T> {
   nextWith(value?: T): void;
