@@ -131,6 +131,15 @@
       ]
     },
     {
+      "login": "strawberry-choco",
+      "name": "strawberry-choco",
+      "avatar_url": "https://avatars.githubusercontent.com/u/20382692?v=4",
+      "profile": "https://gitlab.com/strawberry-choco",
+      "contributions": [
+        "maintenance"
+      ]
+    },
+    {
       "login": "jpgoelz",
       "name": "Jan Philipp Gölz",
       "avatar_url": "https://avatars.githubusercontent.com/u/32487587?v=4",
