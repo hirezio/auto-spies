@@ -70,6 +70,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/gestj"><img src="https://avatars.githubusercontent.com/u/6358771?v=4?s=100" width="100px;" alt="Johannes Gest"/><br /><sub><b>Johannes Gest</b></sub></a><br /><a href="#maintenance-gestj" title="Maintenance">🚧</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/mopinsk"><img src="https://avatars.githubusercontent.com/u/29751071?v=4?s=100" width="100px;" alt="mopinsk"/><br /><sub><b>mopinsk</b></sub></a><br /><a href="#maintenance-mopinsk" title="Maintenance">🚧</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://gitlab.com/strawberry-choco"><img src="https://avatars.githubusercontent.com/u/20382692?v=4?s=100" width="100px;" alt="strawberry-choco"/><br /><sub><b>strawberry-choco</b></sub></a><br /><a href="#maintenance-strawberry-choco" title="Maintenance">🚧</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/jpgoelz"><img src="https://avatars.githubusercontent.com/u/32487587?v=4?s=100" width="100px;" alt="Jan Philipp Gölz"/><br /><sub><b>Jan Philipp Gölz</b></sub></a><br /><a href="#maintenance-jpgoelz" title="Maintenance">🚧</a></td>
     </tr>
   </tbody>
 </table>
