@@ -1,9 +1,7 @@
 # auto-spies monorepo
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-
-[![All Contributors](https://img.shields.io/badge/all_contributors-12-orange.svg?style=flat-square)](#contributors-)
-
+[![All Contributors](https://img.shields.io/badge/all_contributors-13-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 Easy and type safe way to write spies for tests, for both sync and async (promises, Observables) returning methods.
@@ -71,6 +69,7 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/WynieCronje"><img src="https://avatars.githubusercontent.com/u/4537265?v=4?s=100" width="100px;" alt="WynieCronje"/><br /><sub><b>WynieCronje</b></sub></a><br /><a href="https://github.com/hirezio/auto-spies/commits?author=WynieCronje" title="Code">💻</a> <a href="https://github.com/hirezio/auto-spies/issues?q=author%3AWynieCronje" title="Bug reports">🐛</a> <a href="#maintenance-WynieCronje" title="Maintenance">🚧</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/gestj"><img src="https://avatars.githubusercontent.com/u/6358771?v=4?s=100" width="100px;" alt="Johannes Gest"/><br /><sub><b>Johannes Gest</b></sub></a><br /><a href="#maintenance-gestj" title="Maintenance">🚧</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/mopinsk"><img src="https://avatars.githubusercontent.com/u/29751071?v=4?s=100" width="100px;" alt="mopinsk"/><br /><sub><b>mopinsk</b></sub></a><br /><a href="#maintenance-mopinsk" title="Maintenance">🚧</a></td>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/jpgoelz"><img src="https://avatars.githubusercontent.com/u/32487587?v=4?s=100" width="100px;" alt="Jan Philipp Gölz"/><br /><sub><b>Jan Philipp Gölz</b></sub></a><br /><a href="#maintenance-jpgoelz" title="Maintenance">🚧</a></td>
     </tr>
   </tbody>
 </table>

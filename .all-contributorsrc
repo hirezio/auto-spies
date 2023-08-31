@@ -129,6 +129,15 @@
       "contributions": [
         "maintenance"
       ]
+    },
+    {
+      "login": "jpgoelz",
+      "name": "Jan Philipp Gölz",
+      "avatar_url": "https://avatars.githubusercontent.com/u/32487587?v=4",
+      "profile": "https://github.com/jpgoelz",
+      "contributions": [
+        "maintenance"
+      ]
     }
   ],
   "contributorsPerLine": 7,
@@ -136,5 +145,6 @@
   "projectOwner": "hirezio",
   "repoType": "github",
   "repoHost": "https://github.com",
-  "skipCi": true
+  "skipCi": true,
+  "commitType": "docs"
 }
