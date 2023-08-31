@@ -129,6 +129,15 @@
       "contributions": [
         "maintenance"
       ]
+    },
+    {
+      "login": "strawberry-choco",
+      "name": "strawberry-choco",
+      "avatar_url": "https://avatars.githubusercontent.com/u/20382692?v=4",
+      "profile": "https://gitlab.com/strawberry-choco",
+      "contributions": [
+        "maintenance"
+      ]
     }
   ],
   "contributorsPerLine": 7,
@@ -136,5 +145,6 @@
   "projectOwner": "hirezio",
   "repoType": "github",
   "repoHost": "https://github.com",
-  "skipCi": true
+  "skipCi": true,
+  "commitType": "docs"
 }
