@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.1](https://github.com/hirezio/auto-spies/compare/jest-auto-spies@3.0.0...jest-auto-spies@3.0.1) (2025-09-22)
+
+**Note:** Version bump only for package jest-auto-spies
+
 # [3.0.0](https://github.com/hirezio/auto-spies/compare/jest-auto-spies@2.0.0...jest-auto-spies@3.0.0) (2023-06-03)
 
 ### Bug Fixes
