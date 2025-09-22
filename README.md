@@ -1,7 +1,7 @@
 # auto-spies monorepo
 
 <!-- ALL-CONTRIBUTORS-BADGE:START - Do not remove or modify this section -->
-[![All Contributors](https://img.shields.io/badge/all_contributors-13-orange.svg?style=flat-square)](#contributors-)
+[![All Contributors](https://img.shields.io/badge/all_contributors-15-orange.svg?style=flat-square)](#contributors-)
 <!-- ALL-CONTRIBUTORS-BADGE:END -->
 
 Easy and type safe way to write spies for tests, for both sync and async (promises, Observables) returning methods.
@@ -71,6 +71,9 @@ Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/d
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/mopinsk"><img src="https://avatars.githubusercontent.com/u/29751071?v=4?s=100" width="100px;" alt="mopinsk"/><br /><sub><b>mopinsk</b></sub></a><br /><a href="#maintenance-mopinsk" title="Maintenance">🚧</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://gitlab.com/strawberry-choco"><img src="https://avatars.githubusercontent.com/u/20382692?v=4?s=100" width="100px;" alt="strawberry-choco"/><br /><sub><b>strawberry-choco</b></sub></a><br /><a href="#maintenance-strawberry-choco" title="Maintenance">🚧</a></td>
       <td align="center" valign="top" width="14.28%"><a href="https://github.com/jpgoelz"><img src="https://avatars.githubusercontent.com/u/32487587?v=4?s=100" width="100px;" alt="Jan Philipp Gölz"/><br /><sub><b>Jan Philipp Gölz</b></sub></a><br /><a href="#maintenance-jpgoelz" title="Maintenance">🚧</a></td>
+    </tr>
+    <tr>
+      <td align="center" valign="top" width="14.28%"><a href="https://github.com/Sam-Watson-LeanIX"><img src="https://avatars.githubusercontent.com/u/60933998?v=4?s=100" width="100px;" alt="Sam-Watson-LeanIX"/><br /><sub><b>Sam-Watson-LeanIX</b></sub></a><br /><a href="#maintenance-Sam-Watson-LeanIX" title="Maintenance">🚧</a></td>
     </tr>
   </tbody>
 </table>
